@@ -1,0 +1,29 @@
+{
+  "name": "fi-group-lei-do-bem-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.5.1",
+    "antd": "^5.20.6",
+    "axios": "^1.7.7",
+    "next": "14.2.12",
+    "oidc-client": "^1.11.5",
+    "oidc-react": "^1.5.1",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.12",
+    "typescript": "^5"
+  }
+}
