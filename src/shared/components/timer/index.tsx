@@ -1,4 +1,4 @@
-import { TimeoutContext } from "@/app/hooks/timeout";
+import { TimeoutContext } from "@/hooks/timeout";
 import { ClockCircleOutlined } from "@ant-design/icons"
 import { Typography } from "antd"
 import { useContext } from "react";

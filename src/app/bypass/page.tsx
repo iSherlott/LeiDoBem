@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { AutoComplete, AutoCompleteProps, Input, Table, TableColumnsType, TableProps, Typography } from 'antd';
 import { useParams } from 'next/navigation';
-import CardTitleCustom from '@/app/shared/components/card/title';
+import CardTitleCustom from '@/shared/components/card/title';
 
 interface DataType {
     name: string;
@@ -42,12 +42,6 @@ export default function ByPass () {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    useEffect(() => {
-        getCompaniesAvailable(1)
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ searchText ])
-
     const onChange: TableProps<DataType>[ 'onChange' ] = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
     };
@@ -65,7 +59,7 @@ export default function ByPass () {
     }
 
     const goToCompany = async (id: string) => {
-        return
+
     }
 
     return (

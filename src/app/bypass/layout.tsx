@@ -4,7 +4,7 @@
 import localFont from "next/font/local";
 import { Button, Layout, Menu, MenuProps, Tooltip, Typography } from 'antd';
 import Sider from 'antd/es/layout/Sider';
-import React, { CSSProperties, ReactNode, useEffect, useState } from 'react';
+import React, { CSSProperties, ReactNode, useState } from 'react';
 import {
   ApartmentOutlined,
   ArrowLeftOutlined,
@@ -25,12 +25,8 @@ import {
   TeamOutlined
 } from '@ant-design/icons';
 import Link from "next/link";
-import AppBar from "@/app/shared/components/navigation/appbar";
 import { redirect } from "next/navigation";
-
-import '../../styles/variables.css';
-import '../../styles/animations.css';
-import '../../styles/globals.css';
+import AppBar from "@/shared/components/navigation/appbar";
 
 type MenuItem = Required<MenuProps>[ 'items' ][ number ];
 
@@ -57,18 +53,6 @@ const siderStyle: CSSProperties = {
   scrollbarWidth: 'thin',
   scrollbarColor: 'unset',
 };
-
-const geistSans = localFont({
-  src: "../../shared/fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-
-const geistMono = localFont({
-  src: "../../shared/fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
 
 export default function RootLayout ({ hideNavigation, hideHeader, hideNavBar, children }: Readonly<{ hideHeader?: boolean, hideNavigation?: boolean, hideNavBar?: boolean, children: React.ReactNode }>) {
   const [ collapsed, setCollapsed ] = useState(true);
@@ -271,39 +255,35 @@ export default function RootLayout ({ hideNavigation, hideHeader, hideNavBar, ch
   }
 
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ minHeight: '100vh' }}>
 
-          {
-            hideNavigation
-              ? <></>
-              : <Sider style={siderStyle} width={'290px'} trigger={null} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-                {collapsed ? <ShrunkMenu /> : <ExpandedMenu />}
-              </Sider>
-          }
+      {
+        hideNavigation
+          ? <></>
+          : <Sider style={siderStyle} width={'290px'} trigger={null} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+            {collapsed ? <ShrunkMenu /> : <ExpandedMenu />}
+          </Sider>
+      }
 
-          <Layout>
-            {
-              hideNavBar
-                ? <></>
-                : <Layout.Header style={{ padding: '0px', background: '#0000A4', position: 'sticky', top: '0', left: '0', zIndex: '999', height: '45px' }}>
-                  <AppBar hideNavigation={hideNavigation} />
-                </Layout.Header>
-            }
+      <Layout>
+        {
+          hideNavBar
+            ? <></>
+            : <Layout.Header style={{ padding: '0px', background: '#0000A4', position: 'sticky', top: '0', left: '0', zIndex: '999', height: '45px' }}>
+              <AppBar hideNavigation={hideNavigation} />
+            </Layout.Header>
+        }
 
-            <Layout.Content style={{ margin: '0 16px' }}>
-              {children}
-            </Layout.Content>
+        <Layout.Content style={{ margin: '0 16px' }}>
+          {children}
+        </Layout.Content>
 
-            <Layout.Footer style={{ textAlign: 'end', padding: '8px 40px', width: '100%', position: 'sticky', left: '0', bottom: '0', zIndex: '999' }}>
-              <Typography style={{ color: 'white' }}>Copyright {new Date().getFullYear()} FI Group all rights reserved. - Term of Use - Privacy - Cookie Policy - Compliance FI Group</Typography>
-            </Layout.Footer>
+        <Layout.Footer style={{ textAlign: 'end', padding: '8px 40px', width: '100%', position: 'sticky', left: '0', bottom: '0', zIndex: '999' }}>
+          <Typography style={{ color: 'white' }}>Copyright {new Date().getFullYear()} FI Group all rights reserved. - Term of Use - Privacy - Cookie Policy - Compliance FI Group</Typography>
+        </Layout.Footer>
 
-          </Layout>
+      </Layout>
 
-        </Layout>
-      </body>
-    </html>
+    </Layout>
   );
 }

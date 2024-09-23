@@ -2,9 +2,8 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { useAuth } from "oidc-react";
-import ModalTimeout from '../shared/components/dialog/timeout';
 import { GetTimeoutSession } from '../utils/localStorage';
+import ModalTimeout from '@/shared/components/dialog/timeout';
 
 interface ITimeoutProps {
     updateTimeout: () => void,
@@ -19,8 +18,6 @@ export const useTimeout = () => {
 }
 
 const TimeoutContextProvider = ({ children }: { children: React.ReactNode }) => {
-    const auth = useAuth();
-    const userData = useAuth()?.userData;
 
     const [ open, setOpen ] = useState<boolean>(false);
 
@@ -42,7 +39,7 @@ const TimeoutContextProvider = ({ children }: { children: React.ReactNode }) => 
             }
             if (seconds === 0) {
                 if (minutes === 0) {
-                    auth.signOut();
+
                 } else {
                     setMinutes(minutes - 1);
                     setSeconds(59);
@@ -76,16 +73,14 @@ const TimeoutContextProvider = ({ children }: { children: React.ReactNode }) => 
             <ModalTimeout
                 minutes={minutes}
                 seconds={seconds}
-                auth={auth}
+                auth={''}
                 updateTimeout={updateTimeout}
                 show={open}
                 toggleShow={() => setOpen(!open)}
             />
-            {auth && userData &&
-                <TimeoutContext.Provider value={{ updateTimeout, minutes, seconds }}>
-                    {children}
-                </TimeoutContext.Provider>
-            }
+            <TimeoutContext.Provider value={{ updateTimeout, minutes, seconds }}>
+                {children}
+            </TimeoutContext.Provider>
         </>
     )
 }

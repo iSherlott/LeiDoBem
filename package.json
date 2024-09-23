@@ -10,11 +10,12 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
+    "@ant-design/nextjs-registry": "^1.0.1",
     "antd": "^5.20.6",
     "axios": "^1.7.7",
+    "fi-group-lei-do-bem-frontend": "file:",
     "next": "14.2.12",
-    "oidc-client": "^1.11.5",
-    "oidc-react": "^1.5.1",
+    "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18"
   },

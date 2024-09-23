@@ -1,27 +1,20 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import Toast from "./hooks/toast";
-import CustomAuthProvider from "./hooks/auth";
+import Toast from "../hooks/toast";
+import { App } from "../hooks/app";
+import Auth from "../hooks/auth";
+import { geistMonoFont, geistSansFont } from "@/shared/shared";
+import { Metadata } from "next";
+import manifest from "./manifest";
+import { AntdRegistry } from '@ant-design/nextjs-registry';
 
-import "./styles/reset.css";
-import "./styles/variables.css";
-import "./styles/animations.css";
-import "./styles/globals.css";
-
-const geistSans = localFont({
-  src: "./shared/fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./shared/fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import "@styles/reset.css";
+import "@styles/variables.css";
+import "@styles/animations.css";
+import "@styles/globals.css";
 
 export const metadata: Metadata = {
-  title: "Lei Do Bem 2.0",
-  description: "aplicação base",
+  title: manifest().name,
+  description: manifest().description,
+  icons: manifest().application_icon
 };
 
 export default function RootLayout ({
@@ -31,12 +24,16 @@ export default function RootLayout ({
 }>) {
   return (
     <html lang="ptBR">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <CustomAuthProvider>
-          <Toast>
-            {children}
-          </Toast>
-        </CustomAuthProvider>
+      <body className={`${geistSansFont.variable} ${geistMonoFont.variable}`}>
+        <Auth>
+          <AntdRegistry>
+            <App>
+              <Toast>
+                {children}
+              </Toast>
+            </App>
+          </AntdRegistry>
+        </Auth>
       </body>
     </html>
   );
