@@ -57,7 +57,7 @@ const ToastContext = createContext<TToastContext>({
     success: () => null
 })
 
-export const useToast = () => {
+export const useAppToast = (): TToastContext => {
     return useContext(ToastContext)
 }
 

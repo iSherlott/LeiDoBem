@@ -4,19 +4,24 @@ import { useEffect, useRef, useState } from "react";
 import TimeoutAuth from "../timer";
 import ModalConfidentialTerm from "../termsOfService";
 import Link from "next/link";
+import { useAppAuth } from "@/hooks/auth";
+import { useApp } from "@/hooks/app";
+import manifest from "@/app/manifest";
 
-export default function AppBar ({ hideNavigation }: { hideNavigation?: boolean }) {
+export default function AppBar () {
+
+    const user = useAppAuth()
+    const { sider } = useApp()
 
     const [ viewProfile, setViewProfile ] = useState(false)
     const [ viewTerms, setViewTerms ] = useState(false)
-
-    const cardRef = useRef<never>(null);
-    const finalName = "Não Identificado"
-
     const [ notificatios, setNotifications ] = useState([ '', [] ])
 
+    const cardRef = useRef<never>(null);
+    const finalName = user ? user.name : "Não Identificado"
+
     const Logout = () => {
-        return
+        user.signOut()
     }
 
     const redirectHelpDesk = () => {
@@ -28,10 +33,12 @@ export default function AppBar ({ hideNavigation }: { hideNavigation?: boolean }
     }
 
     const redirectControlPanel = () => {
+        // FIXME - ADD NEW ROUTE
         return
     }
 
     const getNotifications = () => {
+        // FIXME - NOT IMPLEMENTED
         try {
             throw { error: 'error' }
         } catch (err) {
@@ -105,11 +112,11 @@ export default function AppBar ({ hideNavigation }: { hideNavigation?: boolean }
         <div>
             <ModalConfidentialTerm show={viewTerms} toggleShow={() => setViewTerms(!viewTerms)} />
 
-            <div style={{ height: '45px', width: '100%' }}>
+            <div style={{ height: '45px', width: '100%', minWidth: '800px', background: sider ? manifest().theme_color : 'white' }}>
 
                 {CreateCardUser()}
 
-                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', height: '100%', borderRadius: hideNavigation ? '0px' : '25px 0px 0px 0px', background: 'white' }}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', height: '100%', borderRadius: '25px 0px 0px 0px', background: 'white' }}>
 
                     <TimeoutAuth />
 

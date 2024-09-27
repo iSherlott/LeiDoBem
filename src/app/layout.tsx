@@ -1,10 +1,8 @@
-import Toast from "../hooks/toast";
-import { App } from "../hooks/app";
-import Auth from "../hooks/auth";
 import { geistMonoFont, geistSansFont } from "@/shared/shared";
 import { Metadata } from "next";
 import manifest from "./manifest";
-import { AntdRegistry } from '@ant-design/nextjs-registry';
+import React from 'react';
+import { App } from "@/hooks/app";
 
 import "@styles/reset.css";
 import "@styles/variables.css";
@@ -25,15 +23,9 @@ export default function RootLayout ({
   return (
     <html lang="ptBR">
       <body className={`${geistSansFont.variable} ${geistMonoFont.variable}`}>
-        <Auth>
-          <AntdRegistry>
-            <App>
-              <Toast>
-                {children}
-              </Toast>
-            </App>
-          </AntdRegistry>
-        </Auth>
+        <App>
+          {children}
+        </App>
       </body>
     </html>
   );

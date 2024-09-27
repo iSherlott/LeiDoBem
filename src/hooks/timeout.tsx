@@ -1,26 +1,25 @@
-
-'use client'
-
 import { createContext, useContext, useEffect, useState } from 'react';
-import { GetTimeoutSession } from '../utils/localStorage';
+import { useAuth } from "oidc-react";
+import { GetTimeoutSession } from '@/utils/localStorage';
 import ModalTimeout from '@/shared/components/dialog/timeout';
+import { useAppAuth } from './auth';
 
-interface ITimeoutProps {
+type TTimeoutContext = {
     updateTimeout: () => void,
     minutes: number,
     seconds: number
 }
 
-export const TimeoutContext = createContext({} as ITimeoutProps);
+const TimeoutContext = createContext<any>({});
 
-export const useTimeout = () => {
+export const useTimeout = (): TTimeoutContext => {
     return useContext(TimeoutContext)
 }
 
-const TimeoutContextProvider = ({ children }: { children: React.ReactNode }) => {
+export default function Timeout ({ children }: { children: React.ReactNode }) {
+    const auth = useAppAuth();
 
-    const [ open, setOpen ] = useState<boolean>(false);
-
+    const [ showModal, toggleShowModal ] = useState<boolean>(false);
     const [ minutes, setMinutes ] = useState<number>(20);
     const [ seconds, setSeconds ] = useState<number>(0);
 
@@ -30,16 +29,16 @@ const TimeoutContextProvider = ({ children }: { children: React.ReactNode }) => 
     }
 
     useEffect(() => {
-        const myInterval = setInterval(() => {
+        let myInterval = setInterval(() => {
             if (seconds > 0) {
                 setSeconds(seconds - 1);
             }
             if (minutes === 0 && seconds > 58) {
-                setOpen(true)
+                toggleShowModal(!showModal);
             }
             if (seconds === 0) {
                 if (minutes === 0) {
-
+                    auth.signOut();
                 } else {
                     setMinutes(minutes - 1);
                     setSeconds(59);
@@ -70,19 +69,13 @@ const TimeoutContextProvider = ({ children }: { children: React.ReactNode }) => 
 
     return (
         <>
-            <ModalTimeout
-                minutes={minutes}
-                seconds={seconds}
-                auth={''}
-                updateTimeout={updateTimeout}
-                show={open}
-                toggleShow={() => setOpen(!open)}
-            />
-            <TimeoutContext.Provider value={{ updateTimeout, minutes, seconds }}>
-                {children}
-            </TimeoutContext.Provider>
+            <ModalTimeout />
+            {auth &&
+                <TimeoutContext.Provider value={{ updateTimeout, minutes, seconds }}>
+                    {children}
+                </TimeoutContext.Provider>
+            }
         </>
     )
 }
 
-export default TimeoutContextProvider;

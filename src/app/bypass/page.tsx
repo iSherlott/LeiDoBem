@@ -5,6 +5,8 @@ import React, { useEffect, useState } from 'react';
 import { AutoComplete, AutoCompleteProps, Input, Table, TableColumnsType, TableProps, Typography } from 'antd';
 import { useParams } from 'next/navigation';
 import CardTitleCustom from '@/shared/components/card/title';
+import EmptyResultWithRetry from '@/shared/components/empty/empty';
+import { useApp } from '@/hooks/app';
 
 interface DataType {
     name: string;
@@ -16,7 +18,7 @@ const columns: TableColumnsType<DataType> = [
         title: 'Nome da empresa',
         dataIndex: 'name',
         showSorterTooltip: { target: 'full-header' },
-        width: '90%'
+        width: '90%',
     },
     {
         title: 'Entrar',
@@ -29,6 +31,8 @@ const columns: TableColumnsType<DataType> = [
 export default function ByPass () {
 
     const { isChange } = useParams();
+
+    const app = useApp();
 
     const [ options, setOptions ] = useState<AutoCompleteProps[ 'options' ]>([]);
     const [ loadingSearch, setLoadingSearch ] = useState<boolean>(false);
@@ -62,10 +66,20 @@ export default function ByPass () {
 
     }
 
+    useEffect(() => {
+        app.update({
+            sider: false,
+            header: false,
+            navbar: true,
+            footer: true
+        })
+    }, [])
+
     return (
-        <div style={{ height: '70vh' }}>
-            <div style={{ margin: '16px 0px', width: '100%', display: 'grid', gridTemplateRows: '0.6fr 5fr', rowGap: '16px' }}>
-                {CardTitleCustom({ text: 'Bem Vindo a Seleção de Empresas do Financiamento' })}
+        <div style={{ display: 'flex', width: '100%', height: '100%' }}>
+            <div style={{ display: 'grid', gridTemplateRows: '0.6fr 5fr', rowGap: '16px' }}>
+                {CardTitleCustom({ text: 'Bem Vindo a Seleção de Empresas do Lei do Bem' })}
+
                 <div style={{ background: 'white', borderRadius: '16px', display: 'grid', gridTemplateRows: '0.7fr 6fr', padding: '30px', rowGap: '16px' }}>
 
                     <div style={{ display: 'grid', gridTemplate: '"a b" auto / 1fr 1fr', alignContent: 'center' }}>
@@ -81,20 +95,26 @@ export default function ByPass () {
                         </AutoComplete>
                     </div>
 
-                    <Table
-                        columns={columns}
-                        dataSource={tenants}
-                        loading={loadingSearch}
-                        pagination={{
-                            total: totalPages, onChange (page) {
-                                getCompaniesAvailable(page)
-                            },
-                            showSizeChanger: false
-                        }}
-                        scroll={{ y: '40vh' }}
-                        onChange={onChange}
-                        showSorterTooltip={{ target: 'sorter-icon' }}
-                    />
+                    <div style={{ width: '99%' }}>
+                        <Table
+                            columns={columns}
+                            dataSource={tenants}
+                            loading={loadingSearch}
+
+                            pagination={{
+                                total: totalPages, onChange (page) {
+                                    getCompaniesAvailable(page)
+                                },
+                                showSizeChanger: false
+                            }}
+                            locale={{
+                                emptyText: <EmptyResultWithRetry refresh={() => { }} />
+                            }}
+                            scroll={{ y: '40vh' }}
+                            onChange={onChange}
+                            showSorterTooltip={{ target: 'sorter-icon' }}
+                        />
+                    </div>
 
                 </div>
             </div>

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 44425 --experimental-https",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -15,7 +15,8 @@
     "axios": "^1.7.7",
     "fi-group-lei-do-bem-frontend": "file:",
     "next": "14.2.12",
-    "next-auth": "^4.24.7",
+    "oidc-client": "^1.11.5",
+    "oidc-react": "^1.5.1",
     "react": "^18",
     "react-dom": "^18"
   },

@@ -13,7 +13,7 @@ export default function manifest(): MManifest {
     application_icon: 'https://connect.fi-group.com/favicon.ico',
     display: 'standalone',
     background_color: '#ffffff',
-    theme_color: '#232ec5',
+    theme_color: '#0000a4',
     icons: [],
   }
 }

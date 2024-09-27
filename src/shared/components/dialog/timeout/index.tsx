@@ -1,32 +1,29 @@
 import { AuthContextProps } from 'oidc-react';
-import React from 'react';
+import React, { useState } from 'react';
 import AntDialog from '../dialog';
 import { Button, Typography } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
+import { useAppAuth } from '@/hooks/auth';
+import { useTimeout } from '@/hooks/timeout';
 
-interface ShowModalTimeoutProps {
-    show: boolean,
-    toggleShow: () => void,
-    minutes: number,
-    seconds: number,
-    updateTimeout: (situation: boolean) => void,
-    auth: AuthContextProps
-}
+export default function ModalTimeout () {
 
-const ModalTimeout = ({ show, toggleShow, minutes, seconds, updateTimeout, auth }: ShowModalTimeoutProps) => {
+    const [ visible, setVisible ] = useState<boolean>(false);
+    const auth = useAppAuth();
+    const { seconds, minutes, updateTimeout } = useTimeout()
+
     const handleClose = () => {
-        updateTimeout(true);
-        toggleShow();
+        updateTimeout();
+        setVisible(!visible);
     }
 
     const loginHandleClose = () => {
-        auth.signOutRedirect();
-        window.location.href = process.env.REACT_APP_PROVIDER ?? "";
-        toggleShow();
+        auth.signOut();
+        setVisible(!visible);
     }
 
     return (
-        <AntDialog open={show} setOpen={toggleShow}>
+        <AntDialog open={visible} setOpen={setVisible}>
             <AntDialog.Header>
                 <Typography>Timeout</Typography>
             </AntDialog.Header>
@@ -56,5 +53,3 @@ const ModalTimeout = ({ show, toggleShow, minutes, seconds, updateTimeout, auth 
         </AntDialog>
     )
 }
-
-export default ModalTimeout;

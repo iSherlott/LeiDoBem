@@ -1,11 +1,10 @@
-import { TimeoutContext } from "@/hooks/timeout";
+import { useTimeout } from "@/hooks/timeout";
 import { ClockCircleOutlined } from "@ant-design/icons"
 import { Typography } from "antd"
-import { useContext } from "react";
 
 export default function TimeoutAuth () {
 
-    const { minutes, seconds } = useContext(TimeoutContext);
+    const { minutes, seconds } = useTimeout();
 
     return (
         <div style={{ background: '#E5E5FF', margin: '0px 5px', padding: '7px 10px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '6px' }}>
