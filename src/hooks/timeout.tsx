@@ -4,12 +4,6 @@ import { GetTimeoutSession } from '@/utils/localStorage';
 import ModalTimeout from '@/shared/components/dialog/timeout';
 import { useAppAuth } from './auth';
 
-type TTimeoutContext = {
-    updateTimeout: () => void,
-    minutes: number,
-    seconds: number
-}
-
 const TimeoutContext = createContext<any>({});
 
 export const useTimeout = (): TTimeoutContext => {
@@ -17,15 +11,16 @@ export const useTimeout = (): TTimeoutContext => {
 }
 
 export default function Timeout ({ children }: { children: React.ReactNode }) {
+
     const auth = useAppAuth();
 
     const [ showModal, toggleShowModal ] = useState<boolean>(false);
-    const [ minutes, setMinutes ] = useState<number>(20);
-    const [ seconds, setSeconds ] = useState<number>(0);
+    const [ minutes, setMinutes ] = useState<number>(Math.floor(auth.expires_in / 60));
+    const [ seconds, setSeconds ] = useState<number>(Math.floor(auth.expires_in % 60));
 
     const updateTimeout = () => {
-        setMinutes(20);
-        setSeconds(0);
+        setMinutes(Math.floor(auth.expires_in / 60));
+        setSeconds(Math.floor(auth.expires_in % 60));
     }
 
     useEffect(() => {

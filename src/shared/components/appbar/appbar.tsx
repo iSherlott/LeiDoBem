@@ -1,9 +1,7 @@
-import { AppstoreAddOutlined, BellOutlined, QuestionCircleOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons"
-import { Button, Divider, Typography } from "antd"
-import { useEffect, useRef, useState } from "react";
+import { AppstoreAddOutlined, BellOutlined, CaretRightOutlined, QuestionCircleOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons"
+import { Button, Typography } from "antd"
+import { useEffect, useState } from "react";
 import TimeoutAuth from "../timer";
-import ModalConfidentialTerm from "../termsOfService";
-import Link from "next/link";
 import { useAppAuth } from "@/hooks/auth";
 import { useApp } from "@/hooks/app";
 import manifest from "@/app/manifest";
@@ -13,16 +11,9 @@ export default function AppBar () {
     const user = useAppAuth()
     const { sider } = useApp()
 
-    const [ viewProfile, setViewProfile ] = useState(false)
-    const [ viewTerms, setViewTerms ] = useState(false)
     const [ notificatios, setNotifications ] = useState([ '', [] ])
 
-    const cardRef = useRef<never>(null);
-    const finalName = user ? user.name : "Não Identificado"
-
-    const Logout = () => {
-        user.signOut()
-    }
+    const finalName = user ? user.name.split(' ').map((e) => e[ 0 ].toUpperCase() + e.slice(1).toLowerCase()).join(' ') : "Não Identificado"
 
     const redirectHelpDesk = () => {
         window.location.href = `https://br-helpdesk.fi-group.com/`
@@ -81,42 +72,12 @@ export default function AppBar () {
         )
     }
 
-    const CreateCardUser = () => {
-        return (
-            <div className={viewProfile ? 'visible-profile' : 'invisible-profile'} ref={cardRef} style={{
-                margin: '15px',
-                display: 'flex',
-                position: 'absolute',
-                flexDirection: 'column',
-                alignItems: 'center',
-                background: 'white',
-                borderRadius: '15px',
-                width: '240px',
-                inset: `${viewProfile ? '37px' : '-999px'} 0px auto auto`,
-                transition: 'opacity 200ms ease-in-out'
-            }}>
-                <Link onClick={() => setViewProfile(false)} href={`/`} style={{ display: 'flex', justifyContent: 'center', width: '100%', flexDirection: 'column', alignItems: 'center' }}>
-                    <img style={{ objectFit: 'fill', height: '150px', borderRadius: '150px', margin: '15px', width: '150px', border: '1px solid rgba(5, 5, 5, 0.06)' }} src={'thirdparty/avatar.png'} alt="logo" />
-                    <Typography style={{ fontWeight: 'bolder', margin: '0px 0px 10px 0px' }}>{finalName}</Typography>
-                </Link>
-                <Divider style={{ margin: '0px 0px' }} />
-                <Typography onClick={() => { setViewTerms(!viewTerms); setViewProfile(false) }} style={{ margin: '5px 0px', cursor: 'pointer' }}>Termos e Condições de Uso</Typography>
-                <div style={{ width: '100%', height: '100%', textAlign: 'center', borderRadius: '0px 0px 15px 15px', backgroundColor: '#ff4d4f' }}>
-                    <Typography onClick={() => Logout()} style={{ margin: '5px 0px 5px 0px', fontWeight: 'bolder', color: 'white', cursor: 'pointer' }}>Sair</Typography>
-                </div>
-            </div>
-        )
-    }
-
     return (
         <div>
-            <ModalConfidentialTerm show={viewTerms} toggleShow={() => setViewTerms(!viewTerms)} />
 
             <div style={{ height: '45px', width: '100%', minWidth: '800px', background: sider ? manifest().theme_color : 'white' }}>
 
-                {CreateCardUser()}
-
-                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', height: '100%', borderRadius: '25px 0px 0px 0px', background: 'white' }}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', height: '100%', borderRadius: '25px 0px 0px 0px', background: 'white', gap: '15px' }}>
 
                     <TimeoutAuth />
 
@@ -132,11 +93,16 @@ export default function AppBar () {
                         Painel de Controle
                     </Button>
 
-                    {/* <CreateBell /> */}
+                    <CreateBell />
 
-                    <Button onClick={(e) => { e.preventDefault(); setViewProfile(!viewProfile) }} icon={<UserOutlined />} style={{ marginRight: '15px' }} type="text" iconPosition={'start'}>
+                    <Button icon={<UserOutlined />} type="text" iconPosition={'start'}>
                         {finalName}
                     </Button>
+
+                    <div onClick={() => user.signOut()} style={{ padding: '0px 0px 0px 10px', width: '65px', background: 'red', height: '100%', borderRadius: '15px 0px 0px 15px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', position: 'relative' }}>
+                        <Typography style={{ fontWeight: 'bold', color: 'white' }}>Sair</Typography>
+                        <CaretRightOutlined style={{ color: 'white', fontSize: '16px' }} />
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import { CSSProperties, useContext } from 'react';
 import AntDialog from '../dialog/dialog';
-import { Typography } from 'antd';
+import { Divider, Typography } from 'antd';
 
 interface ShowModalConfidentialTermProps {
     show: boolean,
@@ -19,10 +19,10 @@ export default function ModalConfidentialTerm ({ show, toggleShow }: ShowModalCo
     return (
         <AntDialog modalProps={{ style: { minWidth: '76vw' } }} open={show} setOpen={toggleShow}>
             <AntDialog.Header>
-                <Typography style={{ fontWeight: 'bolder' }}>TERMOS E CONDIÇÕES DE USO</Typography>
+                <Divider style={{ borderColor: 'grey' }}>TERMOS E CONDIÇÕES DE USO</Divider>
             </AntDialog.Header>
             <AntDialog.Body>
-                <div style={{ overflowX: 'scroll', height: '58vh' }}>
+                <div style={{ overflowX: 'hidden', height: '58vh' }}>
                     <Typography>
                         Este termo de uso de plataforma de gestão integrada para Financiamentos da Inovação (“Termo de Uso”) regulamenta a
                         utilização da plataforma digital para gestão do(s) serviço(s) executado(s) pela F. INICIATIVAS CONSULTORIA E ASSESSORIA

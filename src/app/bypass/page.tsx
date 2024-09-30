@@ -3,10 +3,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { AutoComplete, AutoCompleteProps, Input, Table, TableColumnsType, TableProps, Typography } from 'antd';
-import { useParams } from 'next/navigation';
 import CardTitleCustom from '@/shared/components/card/title';
 import EmptyResultWithRetry from '@/shared/components/empty/empty';
 import { useApp } from '@/hooks/app';
+import { mockBypassCompanies } from './mock.model';
+import { useAppToast } from '@/hooks/toast';
 
 interface DataType {
     name: string;
@@ -30,9 +31,8 @@ const columns: TableColumnsType<DataType> = [
 
 export default function ByPass () {
 
-    const { isChange } = useParams();
-
     const app = useApp();
+    const toast = useAppToast();
 
     const [ options, setOptions ] = useState<AutoCompleteProps[ 'options' ]>([]);
     const [ loadingSearch, setLoadingSearch ] = useState<boolean>(false);
@@ -55,11 +55,31 @@ export default function ByPass () {
     };
 
     const getCompaniesAvailable = async (page: number) => {
-        return
-    }
+        setLoadingSearch(true)
 
-    const setUser = async (tenantId: string) => {
-        return
+        try {
+            const { data }: IResponseProps = mockBypassCompanies
+
+            const mappedTenants = data.items.map((d: TenantModel) => {
+                return {
+                    name: d.name,
+                    action: <div onClick={() => goToCompany(d.id)} style={{ width: '100%', height: '100%', cursor: 'pointer', textAlign: 'center' }}>
+                        <img src='/figroup/arrow_right_fi.png' style={{ width: '15px' }} alt='arrow'></img>
+                    </div>
+                }
+            })
+
+            setTenants(mappedTenants);
+            var total = data.totalItems;
+            const pages = total / 10;
+            const ceilPages = Math.ceil(pages);
+            setTotalPages(ceilPages);
+        } catch (err: any) {
+            // TOAST NOT WORKING
+            toast.error(err);
+        }
+
+        setLoadingSearch(false)
     }
 
     const goToCompany = async (id: string) => {

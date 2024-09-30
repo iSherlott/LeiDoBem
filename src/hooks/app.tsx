@@ -8,21 +8,8 @@ import { AuthProvider, AuthProviderProps } from "oidc-react"
 import Timeout from "./timeout"
 import { createContext, useContext, useState } from "react"
 import AppLayout from "@/layouts/app"
-
-type TAppContextUpdate = {
-    header?: boolean
-    sider?: boolean
-    footer?: boolean
-    navbar?: boolean
-}
-
-type TAppContext = {
-    header: boolean
-    sider: boolean
-    footer: boolean
-    navbar: boolean
-    update: (data: TAppContextUpdate) => void
-}
+import { redirect } from "next/navigation"
+import LoadingScreen from "./loading"
 
 const appContext = createContext<any>({})
 
@@ -42,7 +29,7 @@ export function App ({ children }: { children: React.ReactNode }) {
 
     const oidcConfig: AuthProviderProps = {
         onSignIn: () => {
-            window.location.hash = '';
+            window.location.href = '/bypass'
         },
         authority: process.env.NEXT_PUBLIC_OAUTH2_ROUTE,
         clientId: process.env.NEXT_PUBLIC_OAUTH2_CLIENTID,
@@ -54,17 +41,19 @@ export function App ({ children }: { children: React.ReactNode }) {
     return (
         <AntdRegistry>
             <Toast>
-                <AuthProvider {...oidcConfig}>
-                    <Auth>
-                        <Timeout>
-                            <appContext.Provider value={app}>
-                                <AppLayout>
-                                    {children}
-                                </AppLayout>
-                            </appContext.Provider>
-                        </Timeout>
-                    </Auth>
-                </AuthProvider>
+                <LoadingScreen>
+                    <AuthProvider {...oidcConfig}>
+                        <Auth>
+                            <Timeout>
+                                <appContext.Provider value={app}>
+                                    <AppLayout>
+                                        {children}
+                                    </AppLayout>
+                                </appContext.Provider>
+                            </Timeout>
+                        </Auth>
+                    </AuthProvider>
+                </LoadingScreen>
             </Toast>
         </AntdRegistry>
     )

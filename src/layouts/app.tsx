@@ -26,15 +26,14 @@ import {
 } from '@ant-design/icons';
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import AppBar from "@/shared/components/navigation/appbar";
+import AppBar from "@/shared/components/appbar/appbar";
+import manifest from "@/app/manifest";
 
 import "@styles/reset.css";
 import "@styles/variables.css";
 import "@styles/animations.css";
 import "@styles/globals.css";
-import manifest from "@/app/manifest";
-
-type MenuItem = Required<MenuProps>[ 'items' ][ number ];
+import FooterCustom from "@/shared/components/footer/footer";
 
 const sharedButtonStyleExpanded: CSSProperties = {
     background: '#0000A4',
@@ -279,7 +278,7 @@ export default function AppLayout ({
 
             <Layout>
                 {
-                    navbar && <Layout.Header style={{ padding: '0px', background: '#0000A4', position: 'sticky', top: '0', left: '0', zIndex: '999', height: '45px' }}>
+                    navbar && <Layout.Header style={{ padding: '0px', background: '#0000A4', position: 'sticky', top: '0', left: '0', zIndex: '800', height: '45px' }}>
                         <AppBar />
                     </Layout.Header>
                 }
@@ -289,8 +288,8 @@ export default function AppLayout ({
                 </div>
 
                 {
-                    footer && <Layout.Footer style={{ textAlign: 'end', padding: '8px 40px', width: '100%', position: 'sticky', left: '0', bottom: '0', zIndex: '999', background: manifest().theme_color, minWidth: '800px' }}>
-                        <Typography style={{ color: 'white' }}>Copyright {new Date().getFullYear()} FI Group all rights reserved. - Term of Use - Privacy - Cookie Policy - Compliance FI Group</Typography>
+                    footer && <Layout.Footer style={{ textAlign: 'end', padding: '8px 40px', width: '100%', position: 'sticky', left: '0', bottom: '0', zIndex: '800', background: manifest().theme_color, minWidth: '800px' }}>
+                        <FooterCustom />
                     </Layout.Footer>
                 }
 
