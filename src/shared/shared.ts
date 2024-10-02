@@ -11,3 +11,6 @@ export const geistMonoFont = localFont({
     variable: "--font-geist-mono",
     weight: "100 900",
 });
+
+export const konamiCode = [ 'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a' ].reverse()
+export const konamiCodeAlt = [ 'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'B', 'A' ].reverse()

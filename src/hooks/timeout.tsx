@@ -33,7 +33,7 @@ export default function Timeout ({ children }: { children: React.ReactNode }) {
             }
             if (seconds === 0) {
                 if (minutes === 0) {
-                    auth.signOut();
+                    // auth.signOut();
                 } else {
                     setMinutes(minutes - 1);
                     setSeconds(59);

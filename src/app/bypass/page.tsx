@@ -2,12 +2,14 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import { AutoComplete, AutoCompleteProps, Input, Table, TableColumnsType, TableProps, Typography } from 'antd';
+import { AutoComplete, Input, Table, TableColumnsType, TableProps, Typography } from 'antd';
 import CardTitleCustom from '@/shared/components/card/title';
 import EmptyResultWithRetry from '@/shared/components/empty/empty';
 import { useApp } from '@/hooks/app';
-import { mockBypassCompanies } from './mock.model';
+import { mockBypassCompanies } from './page.mock';
 import { useAppToast } from '@/hooks/toast';
+import { useRouter } from 'next/navigation';
+import { useAppLoading } from '@/hooks/loading';
 
 interface DataType {
     name: string;
@@ -33,12 +35,12 @@ export default function ByPass () {
 
     const app = useApp();
     const toast = useAppToast();
+    const router = useRouter()
+    const { setLoading } = useAppLoading();
 
-    const [ options, setOptions ] = useState<AutoCompleteProps[ 'options' ]>([]);
     const [ loadingSearch, setLoadingSearch ] = useState<boolean>(false);
     const [ searchText, setSearchText ] = useState<string>("all");
     const [ tenants, setTenants ] = useState<DataType[]>([]);
-    const [ token, setToken ] = useState<string>("");
     const [ totalPages, setTotalPages ] = useState<number>(0);
 
     useEffect(() => {
@@ -83,7 +85,8 @@ export default function ByPass () {
     }
 
     const goToCompany = async (id: string) => {
-
+        setLoading(true)
+        router.push(`/company/${id}/home`)
     }
 
     useEffect(() => {
@@ -93,6 +96,8 @@ export default function ByPass () {
             navbar: true,
             footer: true
         })
+
+        setLoading(false)
     }, [])
 
     return (
@@ -107,7 +112,6 @@ export default function ByPass () {
                         <AutoComplete
                             popupMatchSelectWidth={true}
                             style={{ width: '100%', paddingRight: '0px' }}
-                            options={options}
                             onSelect={onSelect}
                             onSearch={(val) => { setSearchText(val === '' ? 'all' : val) }}
                         >

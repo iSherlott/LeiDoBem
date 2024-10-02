@@ -5,27 +5,28 @@ import TimeoutAuth from "../timer";
 import { useAppAuth } from "@/hooks/auth";
 import { useApp } from "@/hooks/app";
 import manifest from "@/app/manifest";
+import { useRouter } from "next/navigation";
 
 export default function AppBar () {
 
     const user = useAppAuth()
     const { sider } = useApp()
+    const router = useRouter()
 
     const [ notificatios, setNotifications ] = useState([ '', [] ])
 
     const finalName = user ? user.name.split(' ').map((e) => e[ 0 ].toUpperCase() + e.slice(1).toLowerCase()).join(' ') : "Não Identificado"
 
     const redirectHelpDesk = () => {
-        window.location.href = `https://br-helpdesk.fi-group.com/`
+        router.push(`https://br-helpdesk.fi-group.com/`)
     }
 
     const redirectFiConnect = () => {
-        window.location.href = `https://connect.fi-group.com/identity/`
+        router.push(`https://connect.fi-group.com/identity/`)
     }
 
     const redirectControlPanel = () => {
-        // FIXME - ADD NEW ROUTE
-        return
+        router.push(`/panel`)
     }
 
     const getNotifications = () => {
@@ -37,18 +38,8 @@ export default function AppBar () {
         }
     }
 
-    const handleEventClickOutside = (event: MouseEvent) => {
-        return
-    }
-
     useEffect(() => {
         getNotifications()
-
-        document.addEventListener('click', handleEventClickOutside, true);
-
-        return () => {
-            document.removeEventListener('click', handleEventClickOutside, true);
-        };
     }, [])
 
     const CreateBell = () => {
@@ -99,7 +90,7 @@ export default function AppBar () {
                         {finalName}
                     </Button>
 
-                    <div onClick={() => user.signOut()} style={{ padding: '0px 0px 0px 10px', width: '65px', background: 'red', height: '100%', borderRadius: '15px 0px 0px 15px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', position: 'relative' }}>
+                    <div onClick={() => user.signOut()} style={{ padding: '0px 0px 0px 10px', width: '65px', background: 'red', height: '55px', borderRadius: '15px 0px 0px 15px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', position: 'relative' }}>
                         <Typography style={{ fontWeight: 'bold', color: 'white' }}>Sair</Typography>
                         <CaretRightOutlined style={{ color: 'white', fontSize: '16px' }} />
                     </div>

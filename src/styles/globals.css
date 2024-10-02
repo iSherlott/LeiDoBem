@@ -1,42 +1,5 @@
 /* SET ONLY CLASS DEFINITIONS OR ID DEFINITIONS ON THIS FILE */
 
-.ant-notification-notice-message {
-  margin-inline-start: 0px !important;
-}
-
-.ant-notification-notice {
-  padding: 12px 16px 12px 16px !important;
-}
-
-.ant-notification-notice-progress {
-  inline-size: 100% !important;
-  left: 0px !important;
-  height: 4px !important;
-}
-
-.ant-notification-notice-success > progress::-webkit-progress-value {
-  background: #52C41A !important;
-}
-
-.ant-notification-notice-warning > progress::-webkit-progress-value {
-  background: #FAAD14 !important;
-}
-
-.ant-notification-notice-error > progress::-webkit-progress-value {
-  background: #FF4D4F !important;
-}
-
-.ant-notification-notice-info > progress::-webkit-progress-value {
-  background: #00AEFF !important;
-}
-
-.ant-notification-notice-wrapper {
-  overflow: hidden !important;
-}
-
-.ant-notification-notice-progress::-webkit-progress-value {
-  border-radius: 0px 0px 8px 8px;
-}
 
 .ant-layout-sider-trigger {
   width: 268px;
@@ -106,28 +69,50 @@
   background: transparent;
 }
 
-.dropdown-menu-user {
-  min-width: 245px;
-}
-
-.remove-hover:hover {
-  background-color: transparent;
-}
-
-.visible-profile{
-  opacity: 1;
-}
-
-.invisible-profile {
-  opacity: 0;
-  width: 0px;
-  height: 0px;
-}
-
 .ant-layout-sider {
   overflow: hidden !important;
 }
 
-.ant-notification-topRight.ant-notification-stack>.ant-notification-notice-wrapper {
-  top: 35px;
+/* ______________________________________________ ANTD NOTIFICATION ______________________________________________ */
+
+.ant-notification-topRight {
+  top: 60px !important;
+}
+
+.ant-notification-notice-message {
+  margin-inline-start: 0px !important;
+}
+
+.ant-notification-notice {
+  padding: 12px 16px 12px 16px !important;
+}
+
+.ant-notification-notice-progress {
+  inline-size: 100% !important;
+  left: 0px !important;
+  height: 4px !important;
+}
+
+.ant-notification-notice-success > progress::-webkit-progress-value {
+  background: #52C41A !important;
+}
+
+.ant-notification-notice-warning > progress::-webkit-progress-value {
+  background: #FAAD14 !important;
+}
+
+.ant-notification-notice-error > progress::-webkit-progress-value {
+  background: #FF4D4F !important;
+}
+
+.ant-notification-notice-info > progress::-webkit-progress-value {
+  background: #00AEFF !important;
+}
+
+.ant-notification-notice-wrapper {
+  overflow: hidden !important;
+}
+
+.ant-notification-notice-progress::-webkit-progress-value {
+  border-radius: 0px 0px 8px 8px;
 }

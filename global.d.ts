@@ -1,5 +1,4 @@
 
-
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
@@ -67,6 +66,13 @@ declare global {
         updateTimeout: () => void,
         minutes: number,
         seconds: number
+    }
+
+    type TToastContext = {
+        error: ({ message, title }: { message: string, title?: string, err?: unknown }) => void
+        warn: ({ message, title }: { message: string, title?: string, err?: unknown }) => void
+        info: ({ message, title }: { message: string, title?: string }) => void
+        success: ({ message, title }: { message: string, title?: string }) => void
     }
 
 }

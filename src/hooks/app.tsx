@@ -6,10 +6,11 @@ import Toast from "./toast"
 import Auth from "./auth"
 import { AuthProvider, AuthProviderProps } from "oidc-react"
 import Timeout from "./timeout"
-import { createContext, useContext, useState } from "react"
+import React, { createContext, useContext, useEffect, useState } from "react"
 import AppLayout from "@/layouts/app"
-import { redirect } from "next/navigation"
 import LoadingScreen from "./loading"
+import { konamiCode, konamiCodeAlt } from "@/shared/shared"
+import Ldm from "@/shared/components/ldm/ldm"
 
 const appContext = createContext<any>({})
 

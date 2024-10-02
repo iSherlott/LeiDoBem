@@ -1,8 +1,11 @@
 import { useState } from "react";
 import ModalConfidentialTerm from "../termsOfService";
 import { Divider, Typography } from "antd";
+import { useAppAuth } from "@/hooks/auth";
 
 export default function FooterCustom () {
+
+    const user = useAppAuth()
 
     const [ viewTerms, setViewTerms ] = useState<boolean>(false)
 
@@ -14,7 +17,7 @@ export default function FooterCustom () {
         <>
             <ModalConfidentialTerm show={viewTerms} toggleShow={() => setViewTerms(!viewTerms)} />
             <div style={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
-                <Typography style={{ color: 'white', display: 'flex' }}>Copyright {new Date().getFullYear()}, FI Group™ todos os direitos reservados. {divider}{termsOfUseButton}{divider}Política de Privacidade{divider}Política de Cookies{divider}Compliance FI Group</Typography>
+                <Typography style={{ color: 'white', display: 'flex' }}>Copyright {new Date().getFullYear()}, FI Group™ todos os direitos reservados. {divider}{termsOfUseButton}{divider}Política de Privacidade{divider}Política de Cookies{divider}{user.email}</Typography>
             </div>
         </>
     )

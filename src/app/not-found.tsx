@@ -1,8 +1,25 @@
 
+'use client'
+
+import { useApp } from '@/hooks/app'
 import { Button } from 'antd'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export default function NotFound () {
+
+    const app = useApp()
+    const router = useRouter()
+
+    useEffect(() => {
+        app.update({
+            footer: false,
+            header: false,
+            navbar: false,
+            sider: false
+        })
+    }, [])
+
     return (
         <div style={{ display: 'flex', width: '100vw', height: '100vh' }}>
 
@@ -12,9 +29,7 @@ export default function NotFound () {
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'end', height: '100%' }}>
                     <h1 style={{ fontFamily: 'system-ui', fontSize: '60px', right: '-241.4px', position: 'relative' }}>404 - Not Found</h1>
                     <p style={{ right: '-240px', position: 'relative', fontFamily: 'monospace' }}>Não conseguimos encontrar os recursos que você esta procurando</p>
-                    <Link href="/bypass">
-                        <Button style={{ right: '-80px', position: 'relative', top: '15px' }}>Voltar para o Ínicio</Button>
-                    </Link>
+                    <Button onClick={() => router.push('/bypass')} style={{ right: '-80px', position: 'relative', top: '15px' }}>Voltar para o Ínicio</Button>
                 </div>
             </div>
         </div>

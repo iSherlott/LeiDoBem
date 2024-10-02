@@ -2,38 +2,34 @@
 'use client'
 
 import { useApp } from "../hooks/app";
-import { Button, Layout, Menu, MenuProps, Tooltip, Typography } from 'antd';
+import { Button, Layout, Menu, Tooltip, Typography } from 'antd';
 import Sider from 'antd/es/layout/Sider';
-import React, { CSSProperties, ReactNode, useState } from 'react';
+import React, { CSSProperties, ReactNode, useEffect, useRef, useState } from 'react';
 import {
-    ApartmentOutlined,
     ArrowLeftOutlined,
     ArrowRightOutlined,
-    BuildOutlined,
     CalendarOutlined,
     CodeOutlined,
     FileSearchOutlined,
     FolderOutlined,
     FundProjectionScreenOutlined,
-    FundViewOutlined,
-    GroupOutlined,
     ImportOutlined,
-    InfoCircleOutlined,
-    MoneyCollectOutlined,
     ProfileOutlined,
-    RadarChartOutlined,
     TeamOutlined
 } from '@ant-design/icons';
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import AppBar from "@/shared/components/appbar/appbar";
 import manifest from "@/app/manifest";
+import FooterCustom from "@/shared/components/footer/footer";
 
 import "@styles/reset.css";
 import "@styles/variables.css";
 import "@styles/animations.css";
 import "@styles/globals.css";
-import FooterCustom from "@/shared/components/footer/footer";
+import { appMenusMock } from "./app.mock";
+import { konamiCode, konamiCodeAlt } from "@/shared/shared";
+import Ldm from "@/shared/components/ldm/ldm";
+import { useAppToast } from "@/hooks/toast";
 
 const sharedButtonStyleExpanded: CSSProperties = {
     background: '#0000A4',
@@ -59,15 +55,22 @@ const siderStyle: CSSProperties = {
     background: manifest().theme_color
 };
 
-
 export default function AppLayout ({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
 
-    const [ collapsed, setCollapsed ] = useState(true);
+    let inputList: any[] = [];
+
     const { header, footer, sider, navbar } = useApp()
+    const toast = useAppToast()
+
+    const [ collapsed, setCollapsed ] = useState<boolean>(true);
+    const [ autoCollapse, setAutoCollapse ] = useState<boolean>(true);
+    const [ easter, setEaster ] = useState<boolean>(false)
+
+    const navRef = useRef<HTMLElement>(null);
 
     const redirectRoute = () => {
         redirect(`/`)
@@ -81,91 +84,44 @@ export default function AppLayout ({
         redirect(`/fileManager/${'none'}`)
     }
 
-    const items: MenuItem[] = [
-        {
-            key: 'menu1',
-            label: <Link href={`/financialAnalysis/${'none'}`}>Análise Financeira</Link>,
-            icon: <FileSearchOutlined />,
-        },
-        {
-            key: 'menu2',
-            label: 'Mapeamento',
-            icon: <FundProjectionScreenOutlined />,
-            children: [
-                {
-                    key: 'menu21',
-                    label: <Link href={`/grantsSearcher/${'none'}`}>Buscador de Linhas</Link>,
-                    icon: <BuildOutlined />
-                },
-                {
-                    key: 'menu22',
-                    label: <Link href={`/projectInformation/${'none'}`}>Identificação de Projeto</Link>,
-                    icon: <InfoCircleOutlined />
-                },
-                {
-                    key: 'menu23',
-                    label: <Link href={`/projectGrouping/${'none'}`}>Agrupamento de Projetos</Link>,
-                    icon: <GroupOutlined />
-                },
-                {
-                    key: 'menu24',
-                    label: <Link href={`/recommendations/${'none'}`}>Recomendação (Match)</Link>,
-                    icon: <ApartmentOutlined />
-                },
-                {
-                    key: 'menu25',
-                    label: <Link href={`/opportunitiesPanels/${'none'}`}>Painel de Oportunidades</Link>,
-                    icon: <FundViewOutlined />,
-                },
-            ],
-        },
-        {
-            key: 'menu3',
-            label: 'Pleito de Solicitação',
-            icon: <ImportOutlined />,
-            children: [
-                {
-                    key: 'menu31',
-                    label: <Link href={`/plea/financial/list/${'none'}`}>Pleito técnico e Financeiro</Link>,
-                    icon: <FileSearchOutlined />
-                },
-            ],
-        },
-        {
-            key: 'menu4',
-            label: 'Contratação',
-            icon: <TeamOutlined />,
-            children: [
-                {
-                    key: 'menu41',
-                    label: 'Prestação de Contas',
-                    disabled: true,
-                    icon: <MoneyCollectOutlined />
-                },
-            ],
-        },
-        {
-            key: 'menu5',
-            label: 'Dossiês',
-            icon: <CodeOutlined />,
-            children: [
-                {
-                    key: 'menu51',
-                    label: 'Dossiê Digital',
-                    disabled: true,
-                    icon: <RadarChartOutlined />
-                },
-            ],
-        },
-    ];
+    const handleAsideOut = () => {
+        if (autoCollapse) {
+            setCollapsed(true)
+        }
+    }
+
+    useEffect(() => {
+        navRef.current?.addEventListener('mouseleave', handleAsideOut)
+
+        return () => {
+            navRef.current?.removeEventListener('mouseleave', handleAsideOut)
+        }
+    }, [ autoCollapse, sider ])
+
+    const handleKeyDown = (keyEvent: KeyboardEvent) => {
+        inputList.unshift(keyEvent.key)
+        inputList = inputList.slice(0, 10)
+
+        if (inputList.join(' ') === konamiCode.join(' ') || inputList.join(' ') === konamiCodeAlt.join(' ')) {
+            toast.info({ title: 'Ainda não está pronto.', message: 'hehehe, no futuro...' })
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        }
+    }, [])
 
     const ExpandedMenu = () => {
         return (
             <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
 
                 <div onClick={() => redirectHome()} style={{ height: '75px', justifyContent: 'center', alignItems: 'center', display: 'flex', cursor: 'pointer' }}>
-                    <img alt='logo_fi' src='figroup/logos_small.png' />
-                    <Typography style={{ color: 'white', marginLeft: '10px' }}>Helping Ideas Grow</Typography>
+                    <img alt='logo_fi' src='/figroup/logo_small.png' />
+                    <Typography style={{ color: 'white', marginLeft: '10px', minWidth: '121px' }}>Helping Ideas Grow</Typography>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', margin: '9px' }}>
@@ -181,7 +137,7 @@ export default function AppLayout ({
                         defaultSelectedKeys={[ '1' ]}
                         defaultOpenKeys={[ 'sub1' ]}
                         mode="inline"
-                        items={items}
+                        items={appMenusMock}
                     />
                 </div>
 
@@ -202,7 +158,7 @@ export default function AppLayout ({
                         alignItems: 'center',
                         color: 'white',
                         cursor: 'pointer'
-                    }} onClick={() => setCollapsed(!collapsed)}><ArrowLeftOutlined />&nbsp;Collapse</Typography>
+                    }} onClick={() => { setCollapsed(true); setAutoCollapse(true) }}><ArrowLeftOutlined />&nbsp;Collapse</Typography>
                 </div>
             </div>
         )
@@ -223,7 +179,7 @@ export default function AppLayout ({
             <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
 
                 <div onClick={() => redirectHome()} style={{ height: '75px', justifyContent: 'center', alignItems: 'center', display: 'flex', cursor: 'pointer' }}>
-                    <img alt='logo_fi' src='figroup/logos_small.png' />
+                    <img alt='logo_fi' src='/figroup/logo_small.png' />
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', margin: '5px', alignItems: 'center' }}>
@@ -260,7 +216,7 @@ export default function AppLayout ({
                         width: '100%',
                         margin: '0px 5px',
                         cursor: 'pointer'
-                    }} onClick={() => setCollapsed(!collapsed)} />
+                    }} onClick={() => { setCollapsed(false); setAutoCollapse(false) }} />
                 </div>
             </div>
         )
@@ -271,7 +227,7 @@ export default function AppLayout ({
         <Layout style={{ height: '100vh', width: '100vw', overflow: 'hidden' }}>
 
             {
-                sider && <Sider style={siderStyle} width={'290px'} trigger={null} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+                sider && <Sider ref={navRef as any} style={siderStyle} width={'290px'} trigger={null} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
                     {collapsed ? <ShrunkMenu /> : <ExpandedMenu />}
                 </Sider>
             }
@@ -283,8 +239,8 @@ export default function AppLayout ({
                     </Layout.Header>
                 }
 
-                <div style={{ height: '100%', width: 'calc(100% - 32px)', margin: '16px' }}>
-                    {children}
+                <div style={{ height: '100%', width: '100%', padding: header || footer || sider || navbar ? '16px' : '0px', background: '#ebebeb' }}>
+                    {easter ? <Ldm /> : children}
                 </div>
 
                 {
