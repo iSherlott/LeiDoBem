@@ -23,9 +23,37 @@ declare global {
         token: string,
         expires_in: number,
         signOut: () => Promise<void>
+        singOutSilent: () => Promise<void>
     }
 
-    type TAppContextUpdate = {
+    type TCompanyContextUpdate = {
+        id?: string
+        name?: string
+        nickname?: string
+        cnpj?: string
+        photoUrl?: string
+        sectors?: string[]
+        tenantId?: string
+    }
+
+    type TCompanyContext = {
+        id: string
+        name: string
+        nickname: string
+        cnpj: string
+        photoUrl: string
+        sectors: string[]
+        tenantId: string
+    }
+
+    type TLayoutContext = {
+        header: boolean
+        sider: boolean
+        footer: boolean
+        navbar: boolean
+    }
+
+    type TLayoutContextUpdate = {
         header?: boolean
         sider?: boolean
         footer?: boolean
@@ -33,11 +61,14 @@ declare global {
     }
     
     type TAppContext = {
-        header: boolean
-        sider: boolean
-        footer: boolean
-        navbar: boolean
-        update: (data: TAppContextUpdate) => void
+        layout: TLayoutContext
+        company: TCompanyContext
+        loading: boolean
+        updateLayout: (data: TLayoutContextUpdate) => void
+        updateCompany: (data: TCompanyContextUpdate) => void
+        clearCompany: () => void
+        setLoading: (value: boolean) => void
+        setLoadingPercent: (value: number) => void
     }
 
     type IResponseProps = {

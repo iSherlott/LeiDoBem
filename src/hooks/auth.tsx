@@ -1,6 +1,6 @@
 import { useAuth, User } from 'oidc-react';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useAppLoading } from './loading';
+import { useApp } from './app';
 
 const AuthContext = createContext<any>({});
 
@@ -11,7 +11,7 @@ export const useAppAuth = (): TAuthContext => {
 export default function Auth ({ children }: { children: React.ReactNode }) {
 
     const authData = useAuth();
-    const { loading, setLoading } = useAppLoading();
+    const { setLoading } = useApp()
 
     const [ user, setUser ] = useState<User | null>(null)
     const [ context, setContext ] = useState<TAuthContext>({
@@ -24,6 +24,9 @@ export default function Auth ({ children }: { children: React.ReactNode }) {
         token: '',
         expires_in: 0,
         signOut: function (): Promise<void> {
+            throw new Error('Function not implemented.');
+        },
+        singOutSilent: function (): Promise<void> {
             throw new Error('Function not implemented.');
         }
     })
@@ -63,6 +66,7 @@ export default function Auth ({ children }: { children: React.ReactNode }) {
                 token: user.id_token,
                 expires_in: user.expires_in,
                 signOut: authData.signOutRedirect,
+                singOutSilent: authData.signOut
             })
         }
     }, [ user ])

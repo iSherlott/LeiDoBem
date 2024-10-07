@@ -116,3 +116,23 @@
 .ant-notification-notice-progress::-webkit-progress-value {
   border-radius: 0px 0px 8px 8px;
 }
+
+/* ______________________________________________ CARD COMPANY ______________________________________________ */
+
+.show-card {
+  transform: translate3d(0px, 0px, 0px);
+}
+
+.hide-card {
+  transform: translate3d(0px, -80px, 0px);
+}
+
+.hide-width {
+  min-width: 0px !important;
+  max-width: 0px !important;
+}
+
+.hide-header {
+  transform: translate3d(0px, -80px, 0px);
+  max-height: 0px !important;
+}

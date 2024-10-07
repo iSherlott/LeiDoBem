@@ -22,7 +22,7 @@ export default function RootLayout ({
 }>) {
   return (
     <html lang="ptBR">
-      <body className={`${geistSansFont.variable} ${geistMonoFont.variable}`}>
+      <body className={`${geistSansFont.variable} ${geistMonoFont.variable}`} style={{ overflow: 'auto hidden' }}>
         <App>
           {children}
         </App>

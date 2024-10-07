@@ -9,11 +9,11 @@ import { useApp } from '@/hooks/app';
 import { mockBypassCompanies } from './page.mock';
 import { useAppToast } from '@/hooks/toast';
 import { useRouter } from 'next/navigation';
-import { useAppLoading } from '@/hooks/loading';
 
 interface DataType {
     name: string;
-    action: React.ReactNode
+    key: number;
+    action: React.ReactNode;
 }
 
 const columns: TableColumnsType<DataType> = [
@@ -33,20 +33,14 @@ const columns: TableColumnsType<DataType> = [
 
 export default function ByPass () {
 
-    const app = useApp();
+    const { setLoading, updateCompany, clearCompany, updateLayout } = useApp();
     const toast = useAppToast();
     const router = useRouter()
-    const { setLoading } = useAppLoading();
 
     const [ loadingSearch, setLoadingSearch ] = useState<boolean>(false);
     const [ searchText, setSearchText ] = useState<string>("all");
     const [ tenants, setTenants ] = useState<DataType[]>([]);
     const [ totalPages, setTotalPages ] = useState<number>(0);
-
-    useEffect(() => {
-        getCompaniesAvailable(1);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     const onChange: TableProps<DataType>[ 'onChange' ] = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
@@ -56,15 +50,16 @@ export default function ByPass () {
         console.log('onSelect', value);
     };
 
-    const getCompaniesAvailable = async (page: number) => {
+    const getCompaniesAvailable = async () => {
         setLoadingSearch(true)
 
         try {
             const { data }: IResponseProps = mockBypassCompanies
 
-            const mappedTenants = data.items.map((d: TenantModel) => {
+            const mappedTenants = data.items.map((d: TenantModel, i: number) => {
                 return {
                     name: d.name,
+                    key: i,
                     action: <div onClick={() => goToCompany(d.id)} style={{ width: '100%', height: '100%', cursor: 'pointer', textAlign: 'center' }}>
                         <img src='/figroup/arrow_right_fi.png' style={{ width: '15px' }} alt='arrow'></img>
                     </div>
@@ -77,7 +72,6 @@ export default function ByPass () {
             const ceilPages = Math.ceil(pages);
             setTotalPages(ceilPages);
         } catch (err: any) {
-            // TOAST NOT WORKING
             toast.error(err);
         }
 
@@ -86,16 +80,31 @@ export default function ByPass () {
 
     const goToCompany = async (id: string) => {
         setLoading(true)
+
+        updateCompany({
+            id: '6b634130-7ad5-4469-8a71-11d5282d79bb',
+            cnpj: '12.345.678/0001-00',
+            name: '2024',
+            nickname: 'DHL EXPRESS TARRAGON',
+            photoUrl: 'https://d2r9epyceweg5n.cloudfront.net/apps/2423-pt_BR-2423-es_AR-small-DHL.png',
+            sectors: [ 'hey', 'hello' ],
+            tenantId: 'tenantiddousuario'
+        })
+
         router.push(`/company/${id}/home`)
     }
 
     useEffect(() => {
-        app.update({
+        getCompaniesAvailable();
+
+        updateLayout({
             sider: false,
             header: false,
             navbar: true,
             footer: true
         })
+
+        clearCompany()
 
         setLoading(false)
     }, [])
@@ -124,10 +133,9 @@ export default function ByPass () {
                             columns={columns}
                             dataSource={tenants}
                             loading={loadingSearch}
-
                             pagination={{
                                 total: totalPages, onChange (page) {
-                                    getCompaniesAvailable(page)
+                                    getCompaniesAvailable()
                                 },
                                 showSizeChanger: false
                             }}

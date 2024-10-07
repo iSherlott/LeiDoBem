@@ -1,14 +1,13 @@
 import { AuthContextProps } from 'oidc-react';
 import React, { useState } from 'react';
 import AntDialog from '../dialog';
-import { Button, Typography } from 'antd';
+import { Button, Divider, Typography } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
 import { useAppAuth } from '@/hooks/auth';
 import { useTimeout } from '@/hooks/timeout';
 
-export default function ModalTimeout () {
+export default function ModalTimeout ({ visible, setVisible }: { visible: boolean, setVisible: (value: boolean) => void }) {
 
-    const [ visible, setVisible ] = useState<boolean>(false);
     const auth = useAppAuth();
     const { seconds, minutes, updateTimeout } = useTimeout()
 
@@ -22,33 +21,30 @@ export default function ModalTimeout () {
         setVisible(!visible);
     }
 
+    const expirado = (seconds === 0 && minutes === 0);
+
     return (
-        <AntDialog open={visible} setOpen={setVisible}>
+        <AntDialog open={visible} setOpen={setVisible as any}>
             <AntDialog.Header>
-                <Typography>Timeout</Typography>
+                <Divider style={{ borderColor: expirado ? 'red' : '#007cff' }}>{expirado ? 'Token Expirado' : 'Token Vencendo'}</Divider>
             </AntDialog.Header>
             <AntDialog.Body>
-                {seconds == 0 && minutes == 0 ?
-                    <span>Você foi deslogado! por favor, faça seu login novamente!</span>
-                    :
-                    <span>Eiii!! Tem alguém aí?! O tempo está acabando! se não fizer alguma ação, será deslogado!</span>
+                {
+                    expirado
+                        ? <Typography style={{ textAlign: 'center' }}><Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Você foi deslogado!</Typography><br />por favor, faça seu login novamente!</Typography>
+                        : <Typography style={{ textAlign: 'center' }}><Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Eiii! Tem alguém aí?!</Typography><br />Você está a muito tempo sem interagir, sem nenhuma ação em breve você será deslogado.</Typography>
                 }
-                <div className='mt-3 d-flex align-items-center justify-content-center countdown-time-red'>
+
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '16px 0px 0px 0px' }}>
+                    <Typography>{minutes}:</Typography>
+                    <Typography>{seconds < 10 ? '0' + seconds : seconds}&nbsp;</Typography>
                     <ClockCircleOutlined size={30} className='me-1' />
-                    <span id="minute">{minutes < 10 ? "0" + minutes : minutes}:</span>
-                    <span id="second">{seconds < 10 ? "0" + seconds : seconds}</span>
                 </div>
             </AntDialog.Body>
             <AntDialog.Footer>
-                {seconds == 0 && minutes == 0 ?
-                    <Button className='btn btn-primary w-100' onClick={loginHandleClose}>
-                        Fazer Login
-                    </Button>
-                    :
-                    <Button className='btn btn-primary w-100' onClick={handleClose}>
-                        Estou Aqui!
-                    </Button>
-                }
+                <Button className='btn btn-primary w-100' onClick={handleClose} style={{ width: '100%', background: expirado ? 'red' : '#007cff', color: 'white' }}>
+                    {expirado ? 'Realizar Login!' : 'Estou Aqui!'}
+                </Button>
             </AntDialog.Footer>
         </AntDialog>
     )

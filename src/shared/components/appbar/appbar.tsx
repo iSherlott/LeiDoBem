@@ -1,5 +1,5 @@
-import { AppstoreAddOutlined, BellOutlined, CaretRightOutlined, QuestionCircleOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons"
-import { Button, Typography } from "antd"
+import { AppstoreAddOutlined, ArrowDownOutlined, BellOutlined, CaretRightOutlined, DownOutlined, QuestionCircleOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons"
+import { Button, Divider, Typography } from "antd"
 import { useEffect, useState } from "react";
 import TimeoutAuth from "../timer";
 import { useAppAuth } from "@/hooks/auth";
@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 export default function AppBar () {
 
     const user = useAppAuth()
-    const { sider } = useApp()
+    const { layout, company } = useApp()
     const router = useRouter()
 
     const [ notificatios, setNotifications ] = useState([ '', [] ])
@@ -65,8 +65,7 @@ export default function AppBar () {
 
     return (
         <div>
-
-            <div style={{ height: '45px', width: '100%', minWidth: '800px', background: sider ? manifest().theme_color : 'white' }}>
+            <div style={{ height: '45px', width: '100%', background: layout.sider ? manifest().theme_color : 'white' }}>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', height: '100%', borderRadius: '25px 0px 0px 0px', background: 'white', gap: '15px' }}>
 
@@ -96,6 +95,30 @@ export default function AppBar () {
                     </div>
                 </div>
             </div>
+
+            <div className={company.id ? 'show-card' : 'hide-card'} style={{
+                background: 'white',
+                height: '70px',
+                width: '500px',
+                position: 'relative',
+                top: '-50px',
+                left: '120px',
+                borderRadius: '0px 0px 15px 15px',
+                display: 'flex',
+                alignItems: 'center',
+                transition: 'transform 500ms ease-in-out',
+                boxShadow: '0px 10px 17px -10px rgba(0,0,0,0.55)'
+            }}>
+                <img src={company.photoUrl !== '' ? company.photoUrl : '/company/logo_placeholder.png'} style={{ width: '40px', height: '40px', margin: '0px 0px 0px 25px', borderRadius: '5px' }} />
+                <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '15px' }}>
+                    <div style={{ display: 'flex' }}><Typography style={{ fontSize: '11px', fontWeight: 'bold' }}>Ano:&nbsp;</Typography><Typography style={{ fontSize: '11px' }}>{company.name}</Typography></div>
+                    <div style={{ display: 'flex' }}><Typography style={{ fontSize: '11px', fontWeight: 'bold' }}>CNPJ:&nbsp;</Typography><Typography style={{ fontSize: '11px' }}>{company.cnpj}</Typography></div>
+                    <div style={{ display: 'flex' }}><Typography style={{ fontSize: '11px', fontWeight: 'bold' }}>Nome:&nbsp;</Typography><Typography style={{ fontSize: '11px' }}>{company.nickname}</Typography></div>
+                </div>
+                <Divider style={{ marginLeft: '15px' }} type="vertical" />
+                <Button style={{ marginLeft: '5px' }} icon={<DownOutlined style={{ fontSize: '12px' }} />}></Button>
+            </div>
         </div>
+
     )
 }

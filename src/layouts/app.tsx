@@ -17,7 +17,7 @@ import {
     ProfileOutlined,
     TeamOutlined
 } from '@ant-design/icons';
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import AppBar from "@/shared/components/appbar/appbar";
 import manifest from "@/app/manifest";
 import FooterCustom from "@/shared/components/footer/footer";
@@ -50,8 +50,10 @@ const siderStyle: CSSProperties = {
     insetInlineStart: 0,
     top: 0,
     left: 0,
+    zIndex: 800,
     scrollbarWidth: 'thin',
     scrollbarColor: 'unset',
+    overflow: 'hidden',
     background: manifest().theme_color
 };
 
@@ -63,8 +65,9 @@ export default function AppLayout ({
 
     let inputList: any[] = [];
 
-    const { header, footer, sider, navbar } = useApp()
+    const { layout } = useApp()
     const toast = useAppToast()
+    const router = useRouter()
 
     const [ collapsed, setCollapsed ] = useState<boolean>(true);
     const [ autoCollapse, setAutoCollapse ] = useState<boolean>(true);
@@ -72,16 +75,12 @@ export default function AppLayout ({
 
     const navRef = useRef<HTMLElement>(null);
 
-    const redirectRoute = () => {
-        redirect(`/`)
-    }
-
-    const redirectHome = () => {
-        redirect(`/home/${'none'}`)
+    const redirectBypass = () => {
+        router.push(`/bypass`)
     }
 
     const redirectToFileManager = () => {
-        redirect(`/fileManager/${'none'}`)
+        router.push(`/fileManager/${'none'}`)
     }
 
     const handleAsideOut = () => {
@@ -96,7 +95,7 @@ export default function AppLayout ({
         return () => {
             navRef.current?.removeEventListener('mouseleave', handleAsideOut)
         }
-    }, [ autoCollapse, sider ])
+    }, [ autoCollapse, layout.sider ])
 
     const handleKeyDown = (keyEvent: KeyboardEvent) => {
         inputList.unshift(keyEvent.key)
@@ -119,13 +118,13 @@ export default function AppLayout ({
         return (
             <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
 
-                <div onClick={() => redirectHome()} style={{ height: '75px', justifyContent: 'center', alignItems: 'center', display: 'flex', cursor: 'pointer' }}>
+                <div style={{ height: '75px', justifyContent: 'center', alignItems: 'center', display: 'flex', cursor: 'pointer' }}>
                     <img alt='logo_fi' src='/figroup/logo_small.png' />
                     <Typography style={{ color: 'white', marginLeft: '10px', minWidth: '121px' }}>Helping Ideas Grow</Typography>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', margin: '9px' }}>
-                    <Button onClick={() => redirectRoute()} style={sharedButtonStyleExpanded} icon={<ProfileOutlined />}>Seleção de Empresas</Button>
+                    <Button onClick={redirectBypass} style={sharedButtonStyleExpanded} icon={<ProfileOutlined />}>Seleção de Empresas</Button>
                     <Button onClick={() => redirectToFileManager()} style={sharedButtonStyleExpanded} icon={<FolderOutlined />}>Gerenciamento de Documentos</Button>
                     <Button style={sharedButtonStyleExpanded} icon={<CalendarOutlined />}>Cronograma</Button>
                 </div>
@@ -178,13 +177,13 @@ export default function AppLayout ({
         return (
             <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
 
-                <div onClick={() => redirectHome()} style={{ height: '75px', justifyContent: 'center', alignItems: 'center', display: 'flex', cursor: 'pointer' }}>
+                <div style={{ height: '75px', justifyContent: 'center', alignItems: 'center', display: 'flex', cursor: 'pointer' }}>
                     <img alt='logo_fi' src='/figroup/logo_small.png' />
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', margin: '5px', alignItems: 'center' }}>
                     <Tooltip title={'Seleção de Empresas'} placement='right'>
-                        <Button onClick={() => redirectRoute()} style={sharedButtonStyleShrunk} icon={<ProfileOutlined />}></Button>
+                        <Button onClick={redirectBypass} style={sharedButtonStyleShrunk} icon={<ProfileOutlined />}></Button>
                     </Tooltip>
                     <Tooltip title={'Gerenciamento de Documentos'} placement='right'>
                         <Button onClick={() => redirectToFileManager()} style={sharedButtonStyleShrunk} icon={<FolderOutlined />}></Button>
@@ -224,30 +223,27 @@ export default function AppLayout ({
 
 
     return (
-        <Layout style={{ height: '100vh', width: '100vw', overflow: 'hidden' }}>
+        <Layout style={{ height: '100vh', width: '100vw' }}>
 
-            {
-                sider && <Sider ref={navRef as any} style={siderStyle} width={'290px'} trigger={null} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-                    {collapsed ? <ShrunkMenu /> : <ExpandedMenu />}
-                </Sider>
-            }
+            <Sider ref={navRef as any} className={layout.sider ? '' : 'hide-width'} style={siderStyle} width={'290px'} trigger={null} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+                {collapsed ? <ShrunkMenu /> : <ExpandedMenu />}
+            </Sider>
 
-            <Layout>
-                {
-                    navbar && <Layout.Header style={{ padding: '0px', background: '#0000A4', position: 'sticky', top: '0', left: '0', zIndex: '800', height: '45px' }}>
-                        <AppBar />
-                    </Layout.Header>
-                }
+            <Layout style={{ minWidth: '1570px', overflowX: 'auto', overflowY: 'hidden' }}>
 
-                <div style={{ height: '100%', width: '100%', padding: header || footer || sider || navbar ? '16px' : '0px', background: '#ebebeb' }}>
-                    {easter ? <Ldm /> : children}
-                </div>
+                <Layout.Header className={layout.navbar ? '' : 'hide-header'} style={{ padding: '0px', background: '#0000A4', position: 'sticky', top: '0', left: '0', height: '45px', transition: 'transform 500ms ease-in-out' }}>
+                    <AppBar />
+                </Layout.Header>
 
-                {
-                    footer && <Layout.Footer style={{ textAlign: 'end', padding: '8px 40px', width: '100%', position: 'sticky', left: '0', bottom: '0', zIndex: '800', background: manifest().theme_color, minWidth: '800px' }}>
-                        <FooterCustom />
-                    </Layout.Footer>
-                }
+                <Layout.Content>
+                    <div style={{ height: '100%', width: '100%', padding: layout.header || layout.footer || layout.sider || layout.navbar ? '16px' : '0px', background: '#F5F5F5' }}>
+                        {easter ? <Ldm /> : children}
+                    </div>
+                </Layout.Content>
+
+                <Layout.Footer style={{ textAlign: 'end', padding: '8px 40px', background: manifest().theme_color }}>
+                    <FooterCustom />
+                </Layout.Footer>
 
             </Layout>
 

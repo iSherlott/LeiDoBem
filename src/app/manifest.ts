@@ -14,6 +14,6 @@ export default function manifest(): MManifest {
     display: 'standalone',
     background_color: '#ffffff',
     theme_color: '#0000a4',
-    icons: [],
+    icons: []
   }
 }

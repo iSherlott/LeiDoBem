@@ -2,8 +2,7 @@
 'use client'
 
 import { useApp } from "@/hooks/app";
-import { useAppLoading } from "@/hooks/loading";
-import { FileAddOutlined, QuestionOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { UnorderedListOutlined } from "@ant-design/icons";
 import { Card, Typography } from "antd";
 import { useRouter } from "next/navigation";
 import { CSSProperties, useEffect } from "react";
@@ -44,8 +43,7 @@ const sharedSubtitles: CSSProperties = {
 export default function ControlPanel () {
 
     const router = useRouter()
-    const app = useApp()
-    const { setLoading } = useAppLoading()
+    const { setLoading, updateLayout } = useApp()
 
     const redirectBypass = () => {
         setLoading(true)
@@ -57,7 +55,7 @@ export default function ControlPanel () {
     }
 
     useEffect(() => {
-        app.update({
+        updateLayout({
             sider: false,
             footer: true,
             header: false,

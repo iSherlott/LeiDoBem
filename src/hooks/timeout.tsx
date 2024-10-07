@@ -1,6 +1,4 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { useAuth } from "oidc-react";
-import { GetTimeoutSession } from '@/utils/localStorage';
 import ModalTimeout from '@/shared/components/dialog/timeout';
 import { useAppAuth } from './auth';
 
@@ -23,50 +21,38 @@ export default function Timeout ({ children }: { children: React.ReactNode }) {
         setSeconds(Math.floor(auth.expires_in % 60));
     }
 
+    const checkTimeout = async () => {
+        if (seconds > 0) {
+            setSeconds(seconds - 1);
+        }
+        if (minutes === 0 && seconds > 58) {
+            toggleShowModal(!showModal);
+        }
+        if (seconds === 0) {
+            if (minutes === 0) {
+                await auth.singOutSilent()
+            } else {
+                setMinutes(minutes - 1);
+                setSeconds(59);
+            }
+        }
+    }
+
     useEffect(() => {
-        let myInterval = setInterval(() => {
-            if (seconds > 0) {
-                setSeconds(seconds - 1);
-            }
-            if (minutes === 0 && seconds > 58) {
-                toggleShowModal(!showModal);
-            }
-            if (seconds === 0) {
-                if (minutes === 0) {
-                    // auth.signOut();
-                } else {
-                    setMinutes(minutes - 1);
-                    setSeconds(59);
-                }
-            }
+        let timeoutInterval = setInterval(() => {
+            checkTimeout()
         }, 1000);
 
         return () => {
-            clearInterval(myInterval);
+            clearInterval(timeoutInterval);
         };
-    });
-
-    useEffect(() => {
-        function checkTimeout () {
-            const timeoutSession = GetTimeoutSession();
-
-            if (timeoutSession !== "") {
-                updateTimeout();
-            }
-        }
-
-        window.addEventListener("storage", checkTimeout);
-
-        return () => {
-            window.removeEventListener("storage", checkTimeout);
-        };
-    }, []);
+    }, [ seconds, minutes ]);
 
     return (
         <>
-            <ModalTimeout />
             {auth &&
                 <TimeoutContext.Provider value={{ updateTimeout, minutes, seconds }}>
+                    <ModalTimeout visible={showModal} setVisible={toggleShowModal} />
                     {children}
                 </TimeoutContext.Provider>
             }

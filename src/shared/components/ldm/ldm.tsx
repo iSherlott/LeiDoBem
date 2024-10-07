@@ -7,7 +7,7 @@ export default function Ldm () {
     const app = useApp()
 
     useEffect(() => {
-        app.update({
+        app.updateLayout({
             footer: false,
             header: false,
             navbar: true,
