@@ -14,6 +14,7 @@ import {
     FolderOutlined,
     FundProjectionScreenOutlined,
     ImportOutlined,
+    MenuFoldOutlined,
     ProfileOutlined,
     TeamOutlined
 } from '@ant-design/icons';
@@ -30,16 +31,24 @@ import { appMenusMock } from "./app.mock";
 import { konamiCode, konamiCodeAlt } from "@/shared/shared";
 import Ldm from "@/shared/components/ldm/ldm";
 import { useAppToast } from "@/hooks/toast";
+import CompanyCard from "@/shared/components/company/card/companyCard";
 
-const sharedButtonStyleExpanded: CSSProperties = {
-    background: '#0000A4',
-    color: 'white',
+const sharedFixedButtonsExpandedStyle: CSSProperties = {
+    background: '#FFFFFF',
+    color: 'black',
     marginBottom: '6px'
 }
 
 const sharedButtonStyleShrunk: CSSProperties = {
     background: '#0000A4',
     color: 'white',
+    width: '100%',
+    marginBottom: '6px'
+}
+
+const sharedFixedButtonsStyle: CSSProperties = {
+    background: '#FFFFFF',
+    color: 'black',
     width: '100%',
     marginBottom: '6px'
 }
@@ -123,12 +132,6 @@ export default function AppLayout ({
                     <Typography style={{ color: 'white', marginLeft: '10px', minWidth: '121px' }}>Helping Ideas Grow</Typography>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', margin: '9px' }}>
-                    <Button onClick={redirectBypass} style={sharedButtonStyleExpanded} icon={<ProfileOutlined />}>Seleção de Empresas</Button>
-                    <Button onClick={() => redirectToFileManager()} style={sharedButtonStyleExpanded} icon={<FolderOutlined />}>Gerenciamento de Documentos</Button>
-                    <Button style={sharedButtonStyleExpanded} icon={<CalendarOutlined />}>Cronograma</Button>
-                </div>
-
                 <div style={{ display: 'flex', alignItems: 'flex-start', marginTop: '25px', flexDirection: 'column', height: '66vh' }}>
                     <Menu
                         style={{ background: '#0000a4', height: '66vh', overflowX: 'hidden' }}
@@ -140,25 +143,34 @@ export default function AppLayout ({
                     />
                 </div>
 
+                <div style={{ display: 'flex', flexDirection: 'column', margin: '9px' }}>
+                    <Button onClick={redirectBypass} style={sharedFixedButtonsExpandedStyle} icon={<ProfileOutlined />}>Seleção de Empresas</Button>
+                    <Button onClick={() => redirectToFileManager()} style={sharedFixedButtonsExpandedStyle} icon={<FolderOutlined />}>Gerenciamento de Documentos</Button>
+                    <Button style={sharedFixedButtonsExpandedStyle} icon={<CalendarOutlined />}>Cronograma</Button>
+                </div>
+
                 <div style={{
                     width: '100%',
                     color: 'white',
-                    margin: 'auto 0px 38px 0px',
-                    height: '35px',
+                    margin: 'auto 0px 0px 0px',
+                    height: '42px',
                     display: 'flex',
                 }}>
                     <Typography style={{
-                        borderRadius: '5px',
-                        border: '1px solid',
-                        justifyContent: 'center',
                         width: '100%',
-                        margin: '0px 5px',
+                        borderTop: '1px solid',
+                        padding: '0px 20px',
+                        gap: '5px',
+                        fontWeight: 'bold',
                         display: 'flex',
                         alignItems: 'center',
+                        height: '41px',
+                        textWrap: 'nowrap',
                         color: 'white',
                         cursor: 'pointer'
-                    }} onClick={() => { setCollapsed(true); setAutoCollapse(true) }}><ArrowLeftOutlined />&nbsp;Collapse</Typography>
+                    }} onClick={() => { setCollapsed(true); setAutoCollapse(true) }}><MenuFoldOutlined />&nbsp;Ocultar</Typography>
                 </div>
+
             </div>
         )
     }
@@ -181,18 +193,6 @@ export default function AppLayout ({
                     <img alt='logo_fi' src='/figroup/logo_small.png' />
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', margin: '5px', alignItems: 'center' }}>
-                    <Tooltip title={'Seleção de Empresas'} placement='right'>
-                        <Button onClick={redirectBypass} style={sharedButtonStyleShrunk} icon={<ProfileOutlined />}></Button>
-                    </Tooltip>
-                    <Tooltip title={'Gerenciamento de Documentos'} placement='right'>
-                        <Button onClick={() => redirectToFileManager()} style={sharedButtonStyleShrunk} icon={<FolderOutlined />}></Button>
-                    </Tooltip>
-                    <Tooltip title={'Cronograma'} placement='right'>
-                        <Button style={sharedButtonStyleShrunk} icon={<CalendarOutlined />}></Button>
-                    </Tooltip>
-                </div>
-
                 <div style={{ display: 'flex', alignItems: 'center', marginTop: '25px', flexDirection: 'column', height: '66vh' }}>
                     {SharedButtonShrunk({ name: 'Análise Financeira', IconNode: <FileSearchOutlined /> })}
                     {SharedButtonShrunk({ name: 'Mapeamento', IconNode: <FundProjectionScreenOutlined /> })}
@@ -201,19 +201,30 @@ export default function AppLayout ({
                     {SharedButtonShrunk({ name: 'Dossiês', IconNode: <CodeOutlined /> })}
                 </div>
 
+                <div style={{ display: 'flex', flexDirection: 'column', margin: '5px', alignItems: 'center' }}>
+                    <Tooltip title={'Seleção de Empresas'} placement='right'>
+                        <Button onClick={redirectBypass} style={sharedFixedButtonsStyle} icon={<ProfileOutlined />}></Button>
+                    </Tooltip>
+                    <Tooltip title={'Gerenciamento de Documentos'} placement='right'>
+                        <Button onClick={() => redirectToFileManager()} style={sharedFixedButtonsStyle} icon={<FolderOutlined />}></Button>
+                    </Tooltip>
+                    <Tooltip title={'Cronograma'} placement='right'>
+                        <Button style={sharedFixedButtonsStyle} icon={<CalendarOutlined />}></Button>
+                    </Tooltip>
+                </div>
+
                 <div style={{
                     width: '100%',
                     color: 'white',
-                    margin: 'auto 0px 38px 0px',
-                    height: '35px',
+                    margin: 'auto 0px 0px 0px',
+                    height: '42px',
                     display: 'flex',
                 }}>
-                    <ArrowRightOutlined style={{
-                        borderRadius: '5px',
-                        border: '1px solid',
+                    <MenuFoldOutlined style={{
                         justifyContent: 'center',
                         width: '100%',
-                        margin: '0px 5px',
+                        height: '41px',
+                        borderTop: '1px solid',
                         cursor: 'pointer'
                     }} onClick={() => { setCollapsed(false); setAutoCollapse(false) }} />
                 </div>
@@ -237,11 +248,12 @@ export default function AppLayout ({
 
                 <Layout.Content>
                     <div style={{ height: '100%', width: '100%', padding: layout.header || layout.footer || layout.sider || layout.navbar ? '16px' : '0px', background: '#F5F5F5' }}>
+                        <CompanyCard />
                         {easter ? <Ldm /> : children}
                     </div>
                 </Layout.Content>
 
-                <Layout.Footer style={{ textAlign: 'end', padding: '8px 40px', background: manifest().theme_color }}>
+                <Layout.Footer style={{ textAlign: 'end', padding: '8px 20px', background: manifest().theme_color }}>
                     <FooterCustom />
                 </Layout.Footer>
 

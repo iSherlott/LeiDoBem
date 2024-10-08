@@ -112,7 +112,9 @@ export default function ByPass () {
     return (
         <div style={{ display: 'flex', width: '100%', height: '100%' }}>
             <div style={{ display: 'grid', gridTemplateRows: '0.6fr 5fr', rowGap: '16px' }}>
-                {CardTitleCustom({ text: 'Bem Vindo a Seleção de Empresas do Lei do Bem' })}
+                <div style={{ position: 'relative', zIndex: '1', width: '100%' }}>
+                    {CardTitleCustom({ text: 'Bem Vindo a Seleção de Empresas do Lei do Bem' })}
+                </div>
 
                 <div style={{ background: 'white', borderRadius: '16px', display: 'grid', gridTemplateRows: '0.7fr 6fr', padding: '30px', rowGap: '16px' }}>
 
