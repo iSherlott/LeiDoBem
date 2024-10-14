@@ -2,7 +2,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import { AutoComplete, Input, Table, TableColumnsType, TableProps, Typography } from 'antd';
+import { AutoComplete, Input, Select, Table, TableColumnsType, TableProps, Typography } from 'antd';
 import CardTitleCustom from '@/shared/components/card/title';
 import EmptyResultWithRetry from '@/shared/components/empty/empty';
 import { useApp } from '@/hooks/app';
@@ -11,25 +11,11 @@ import { useAppToast } from '@/hooks/toast';
 import { useRouter } from 'next/navigation';
 
 interface DataType {
+    id: string;
     name: string;
     key: number;
     action: React.ReactNode;
 }
-
-const columns: TableColumnsType<DataType> = [
-    {
-        title: 'Nome da empresa',
-        dataIndex: 'name',
-        showSorterTooltip: { target: 'full-header' },
-        width: '90%',
-    },
-    {
-        title: 'Entrar',
-        dataIndex: 'action',
-        width: '10%',
-        align: 'center',
-    }
-];
 
 export default function ByPass () {
 
@@ -58,11 +44,10 @@ export default function ByPass () {
 
             const mappedTenants = data.items.map((d: TenantModel, i: number) => {
                 return {
-                    name: d.name,
                     key: i,
-                    action: <div onClick={() => goToCompany(d.id)} style={{ width: '100%', height: '100%', cursor: 'pointer', textAlign: 'center' }}>
-                        <img src='/figroup/arrow_right_fi.png' style={{ width: '15px' }} alt='arrow'></img>
-                    </div>
+                    id: d.id,
+                    name: <Typography style={{ color: '#0000A4', textDecoration: 'underline', fontFamily: 'Century Gothic' }}>{d.name}</Typography>,
+                    cnpj: <Typography>12.345.678/0001-00</Typography>
                 }
             })
 
@@ -94,6 +79,34 @@ export default function ByPass () {
         router.push(`/company/${id}/home`)
     }
 
+    const columns: TableColumnsType<DataType> = [
+        {
+            title: 'Nome da empresa',
+            dataIndex: 'name',
+            showSorterTooltip: { target: 'full-header' },
+            width: '80%',
+            onCell: (record, rowIndex) => {
+                return {
+                    onClick: (ev) => {
+                        goToCompany(record.id)
+                    },
+                };
+            },
+        },
+        {
+            title: 'CNPJ',
+            dataIndex: 'cnpj',
+            width: '20%',
+            onCell: (record, rowIndex) => {
+                return {
+                    onClick: (ev) => {
+                        goToCompany(record.id)
+                    },
+                };
+            },
+        }
+    ];
+
     useEffect(() => {
         getCompaniesAvailable();
 
@@ -113,21 +126,25 @@ export default function ByPass () {
         <div style={{ display: 'flex', width: '100%', height: '100%' }}>
             <div style={{ display: 'grid', gridTemplateRows: '0.6fr 5fr', rowGap: '16px' }}>
                 <div style={{ position: 'relative', zIndex: '1', width: '100%' }}>
-                    {CardTitleCustom({ text: 'Bem Vindo a Seleção de Empresas do Lei do Bem' })}
+                    {CardTitleCustom({ text: 'Bem-Vindo a Seleção de Empresas' })}
                 </div>
 
                 <div style={{ background: 'white', borderRadius: '16px', display: 'grid', gridTemplateRows: '0.7fr 6fr', padding: '30px', rowGap: '16px' }}>
 
-                    <div style={{ display: 'grid', gridTemplate: '"a b" auto / 1fr 1fr', alignContent: 'center' }}>
-                        <Typography style={{ fontSize: '20px' }}>Selecione a empresa que deseja trabalhar</Typography>
+                    <div style={{ display: 'grid', gridTemplate: '"a b c" auto / 1.3fr 3fr 1fr', alignContent: 'center' }}>
+                        <Typography style={{ fontSize: '20px', fontFamily: 'Century Gothic', textWrap: 'nowrap' }}>Selecione a empresa que deseja trabalhar</Typography>
                         <AutoComplete
                             popupMatchSelectWidth={true}
                             style={{ width: '100%', paddingRight: '0px' }}
                             onSelect={onSelect}
                             onSearch={(val) => { setSearchText(val === '' ? 'all' : val) }}
                         >
-                            <Input.Search showCount={false} color='#0000A4' loading={loadingSearch} placeholder="Procurar" enterButton />
+                            <Input.Search style={{ padding: '0px 15px' }} showCount={false} color='#0000A4' loading={loadingSearch} placeholder="Procurar" enterButton />
                         </AutoComplete>
+                        <div style={{ display: 'flex', gap: '15px', margin: '0px auto' }}>
+                            <Typography style={{ fontSize: '22px' }}>Ano fiscal:</Typography>
+                            <Select options={[ { value: '2024', label: '2024' } ]} defaultValue={'2024'}></Select>
+                        </div>
                     </div>
 
                     <div style={{ width: '99%' }}>
@@ -144,7 +161,7 @@ export default function ByPass () {
                             locale={{
                                 emptyText: <EmptyResultWithRetry refresh={() => { }} />
                             }}
-                            scroll={{ y: '40vh' }}
+                            scroll={{ y: '43vh' }}
                             onChange={onChange}
                             showSorterTooltip={{ target: 'sorter-icon' }}
                         />

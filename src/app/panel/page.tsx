@@ -2,6 +2,7 @@
 'use client'
 
 import { useApp } from "@/hooks/app";
+import CardTitleCustom from "@/shared/components/card/title";
 import { UnorderedListOutlined } from "@ant-design/icons";
 import { Card, Typography } from "antd";
 import { useRouter } from "next/navigation";
@@ -64,8 +65,13 @@ export default function ControlPanel () {
     }, [])
 
     return (
-        <div style={{ display: 'flex', alignItems: 'center', width: '100%', height: '50vh', background: 'white', justifyContent: 'center', borderRadius: '10px' }}>
-            <div style={{ display: 'grid', width: '75%', columnGap: '16px', gridAutoFlow: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '50vh', justifyContent: 'center', borderRadius: '10px' }}>
+
+            <div style={{ position: 'relative', zIndex: '1', width: '100%', margin: '15px 0px' }}>
+                {CardTitleCustom({ text: 'Bem-Vindo ao Painel de Controle' })}
+            </div>
+
+            <div style={{ display: 'grid', width: '75%', columnGap: '16px', gridAutoFlow: 'column', justifyContent: 'center', background: 'white' }}>
 
                 <Card onClick={redirectBypass} className="anim-pop-up-03" style={sharedCard}>
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '0px 0px 10px 0px' }}>

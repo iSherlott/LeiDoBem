@@ -1,11 +1,15 @@
 import { useApp } from "@/hooks/app"
-import { ArrowUpOutlined, CalendarOutlined, EyeOutlined, ProfileOutlined } from "@ant-design/icons"
-import { Button, Divider, Typography } from "antd"
+import { ArrowUpOutlined, CalendarOutlined, EditOutlined, EyeInvisibleOutlined, EyeOutlined, ProfileOutlined } from "@ant-design/icons"
+import { Button, Divider, Select, Typography } from "antd"
+import Image from "next/image"
+import { useState } from "react"
 
 
 export default function CompanyCard () {
 
     const { layout, updateLayout, company } = useApp()
+
+    const [ hide, setHide ] = useState<boolean>(false)
 
     return (
         <div className={layout.header ? '' : 'hide-company-card'} style={{
@@ -19,35 +23,42 @@ export default function CompanyCard () {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', minWidth: '250px', maxWidth: '250px' }}>
 
-                    <div style={{ height: '160px', background: 'red', borderRadius: '8px' }}></div>
-                    <Button style={{ height: '24px' }}>Editar Empresa</Button>
+                    <Image alt="company_logo" width={250} height={160} src={'/company/logo_placeholder.png'} style={{ borderRadius: '5px' }} />
+                    <Button style={{ height: '24px', color: '#0000A4', border: '1px solid #0000A4' }} icon={<EditOutlined />}>Editar Empresa</Button>
 
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', width: '-webkit-fill-available' }}>
-                    <Typography style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '15px' }}><ProfileOutlined style={{ fontSize: '20px' }} />&nbsp;Companhia:&nbsp;<Typography style={{ fontSize: '18px' }}>{company.name}</Typography></Typography>
+                    <Typography style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '15px', color: '#00000094' }}><ProfileOutlined style={{ fontSize: '20px', color: '#00000094' }} />&nbsp;Companhia:&nbsp;<Typography style={{ fontSize: '18px' }}>{company.nickname}</Typography></Typography>
                     <Divider style={{ margin: '12px 0px' }} />
-                    <Typography style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '15px' }}><ProfileOutlined style={{ fontSize: '20px' }} />&nbsp;CNPJ:&nbsp;<Typography style={{ fontSize: '18px' }}>{company.cnpj}</Typography></Typography>
+                    <Typography style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '15px', color: '#00000094' }}><ProfileOutlined style={{ fontSize: '20px', color: '#00000094' }} />&nbsp;CNPJ:&nbsp;<Typography style={{ fontSize: '18px' }}>{company.cnpj}</Typography></Typography>
                     <Divider style={{ margin: '12px 0px' }} />
 
                     <div style={{ display: 'grid', gridTemplate: ' "a b" auto / 1fr 1fr' }}>
-                        <Typography style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '15px' }}><ProfileOutlined style={{ fontSize: '20px' }} />&nbsp;Gestão:&nbsp;<Typography style={{ fontSize: '18px' }}>{company.name}</Typography></Typography>
-                        <Typography style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '15px' }}><ProfileOutlined style={{ fontSize: '20px' }} />&nbsp;Apuração:&nbsp;<Typography style={{ fontSize: '18px' }}>{company.name}</Typography></Typography>
+                        <Typography style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '15px', color: '#00000094' }}><ProfileOutlined style={{ fontSize: '20px', color: '#00000094' }} />&nbsp;Gestão:&nbsp;<Typography style={{ fontSize: '18px' }}>{company.name}</Typography></Typography>
+                        <Typography style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '15px', color: '#00000094' }}><ProfileOutlined style={{ fontSize: '20px', color: '#00000094' }} />&nbsp;Apuração:&nbsp;<Typography style={{ fontSize: '18px' }}>{company.name}</Typography></Typography>
                     </div>
 
                     <div style={{ display: 'grid', gridTemplate: ' "a b" auto / 1fr 1fr', margin: 'auto 0px', height: '100%' }}>
-                        <Typography style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '15px' }}><CalendarOutlined style={{ fontSize: '20px' }} />&nbsp;Ano Base:&nbsp;<Typography style={{ fontSize: '18px' }}>{company.cnpj}</Typography></Typography>
+                        <Typography style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '15px', color: '#00000094' }}>
+                            <CalendarOutlined style={{ fontSize: '20px', color: '#00000094' }} />&nbsp;Ano Base:&nbsp;
+                            <Select options={[ { value: '2024', label: '2024' } ]} defaultValue={'2024'}></Select>
+                        </Typography>
                         <div style={{ height: '100%', padding: '10px 0px 0px 50px' }}>
-                            <Button style={{ width: '100%', height: '100%' }} onClick={() => updateLayout({ header: !layout.header })}>Minimizar Header <ArrowUpOutlined /></Button>
+                            <Button style={{ width: '100%', height: '100%', color: '#000000A6' }} onClick={() => updateLayout({ header: !layout.header })}>Minimizar Header <ArrowUpOutlined /></Button>
                         </div>
                     </div>
 
                 </div>
 
                 <div style={{ border: '1px solid #00000033', borderRadius: '8px', display: 'flex', flexDirection: 'column', padding: '20px', alignItems: 'center', maxWidth: '380px', minWidth: 'fit-content' }}>
-                    <EyeOutlined style={{ alignSelf: 'end' }} />
+                    {
+                        hide
+                            ? <EyeOutlined onClick={() => setHide(!hide)} style={{ alignSelf: 'end', cursor: 'pointer', height: '20px', width: 'auto' }} />
+                            : <EyeInvisibleOutlined onClick={() => setHide(!hide)} style={{ alignSelf: 'end', cursor: 'pointer', height: '20px', width: 'auto' }} />
+                    }
                     <Typography style={{ marginTop: 'auto', color: '#00000073', fontSize: '16px' }}>Total de Dispêndio</Typography>
-                    <Typography style={{ marginBottom: 'auto', color: '#000000E0', fontSize: '32px', textWrap: 'nowrap' }}>R$ 0</Typography>
+                    <Typography style={{ marginBottom: 'auto', color: '#000000E0', fontSize: '32px', textWrap: 'nowrap', fontWeight: 'bold' }}>R$ {hide ? '●●●●●●●●' : '16.000.000'}</Typography>
                 </div>
 
             </div>

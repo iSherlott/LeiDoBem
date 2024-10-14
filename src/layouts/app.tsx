@@ -6,8 +6,6 @@ import { Button, Layout, Menu, Tooltip, Typography } from 'antd';
 import Sider from 'antd/es/layout/Sider';
 import React, { CSSProperties, ReactNode, useEffect, useRef, useState } from 'react';
 import {
-    ArrowLeftOutlined,
-    ArrowRightOutlined,
     CalendarOutlined,
     CodeOutlined,
     FileSearchOutlined,
@@ -22,16 +20,16 @@ import { useRouter } from "next/navigation";
 import AppBar from "@/shared/components/appbar/appbar";
 import manifest from "@/app/manifest";
 import FooterCustom from "@/shared/components/footer/footer";
-
-import "@styles/reset.css";
-import "@styles/variables.css";
-import "@styles/animations.css";
-import "@styles/globals.css";
 import { appMenusMock } from "./app.mock";
 import { konamiCode, konamiCodeAlt } from "@/shared/shared";
 import Ldm from "@/shared/components/ldm/ldm";
 import { useAppToast } from "@/hooks/toast";
 import CompanyCard from "@/shared/components/company/card/companyCard";
+
+import "@styles/reset.css";
+import "@styles/variables.css";
+import "@styles/animations.css";
+import "@styles/globals.css";
 
 const sharedFixedButtonsExpandedStyle: CSSProperties = {
     background: '#FFFFFF',
@@ -236,11 +234,11 @@ export default function AppLayout ({
     return (
         <Layout style={{ height: '100vh', width: '100vw' }}>
 
-            <Sider ref={navRef as any} className={layout.sider ? '' : 'hide-width'} style={siderStyle} width={'290px'} trigger={null} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+            <Sider ref={navRef as any} className={layout.sider ? collapsed ? 'width-sider' : '' : 'hide-width'} style={siderStyle} width={'290px'} trigger={null} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
                 {collapsed ? <ShrunkMenu /> : <ExpandedMenu />}
             </Sider>
 
-            <Layout style={{ minWidth: '1570px', overflowX: 'auto', overflowY: 'hidden' }}>
+            <Layout style={{ minWidth: '1630px', overflowX: 'auto', overflowY: 'hidden' }}>
 
                 <Layout.Header className={layout.navbar ? '' : 'hide-header'} style={{ padding: '0px', background: '#0000A4', position: 'sticky', top: '0', left: '0', height: '45px', transition: 'transform 500ms ease-in-out' }}>
                     <AppBar />

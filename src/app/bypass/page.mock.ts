@@ -2,7 +2,7 @@
 export const mockBypassCompanies = {
     "data": {
       "totalItems": 33117,
-      "totalItemsInPage": 10,
+      "totalItemsInPage": 7,
       "items": [
         {
           "name": " DHL EXPRESS TARRAGON",
@@ -66,33 +66,6 @@ export const mockBypassCompanies = {
           "companyId": 0,
           "areaName": null,
           "areaId": "00000000-0000-0000-0000-000000000001"
-        },
-        {
-          "name": "(SEVASA) SOC. DE ESTIBA Y DESESTIBA DEL PUERTO DE VALENCIA SA DE GESTION DE ESTIBADORES PORTUARIOS",
-          "crmAccountId": "ad12a4ef-5ac0-e611-80ea-c4346bad6048",
-          "id": "e8a1d6d7-c1e6-4dfc-b73c-1934bfb9e33b",
-          "number": "A46426854",
-          "companyId": 0,
-          "areaName": null,
-          "areaId": "00000000-0000-0000-0000-000000000001"
-        },
-        {
-          "name": "@ 3 SOBROFI-SERIMAR",
-          "crmAccountId": "ec32f845-2358-e711-8105-5065f38a9a01",
-          "id": "d2d9d2bc-e33e-4ce7-89a7-c095cc223868",
-          "number": "732880968",
-          "companyId": 0,
-          "areaName": null,
-          "areaId": "00000000-0000-0000-0000-000000000001"
-        },
-        {
-          "name": "​TECHNISCHE UNIVERSITÄT BERLIN",
-          "crmAccountId": "07621a39-14f6-ed11-8849-6045bd905432",
-          "id": "2a7e1c1b-0010-4e3b-9d0f-63a3f33bee8d",
-          "number": "DE811231089",
-          "companyId": 0,
-          "areaName": null,
-          "areaId": "a131952d-43e6-4e07-8ed5-86160ac7075c"
         }
       ]
     },
