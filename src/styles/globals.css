@@ -1,5 +1,7 @@
-/* SET ONLY CLASS DEFINITIONS OR ID DEFINITIONS ON THIS FILE */
 
+/* 
+  SET ONLY CLASS DEFINITIONS OR ID DEFINITIONS ON THIS FILE
+*/
 
 .ant-layout-sider-trigger {
   width: 268px;
@@ -79,6 +81,10 @@
   overflow: hidden !important;
 }
 
+.ant-btn-primary {
+  background: var(--pl-primary);
+}
+
 /* ______________________________________________ ANTD NOTIFICATION ______________________________________________ */
 
 .ant-notification-topRight {
@@ -130,7 +136,7 @@
 }
 
 .hide-card {
-  transform: translate3d(0px, -80px, 0px);
+  transform: translate3d(0px, -100px, 0px);
 }
 
 .hide-width {
@@ -151,4 +157,111 @@
   max-width: 55px !important;
   min-width: 55px !important;
   width: 55px !important;
+}
+
+/* ___________________________________________________________ GLOBAL LOADING ____________________________________________________________ */
+
+.loading-global {
+  background: var(--pl-fade);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  position: absolute;
+  z-index: 999;
+  opacity: 1;
+  transition: all 250ms ease-in-out;
+}
+
+.loading-global-off {
+  opacity: 0;
+  visibility: hidden;
+}
+
+
+/* ____________________________________________________________ TAGS  ____________________________________________________________ */
+
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-cl {
+  display: flex;
+  flex-direction: column;
+}
+
+.font {
+  font-size: 11px !important;
+  text-wrap: nowrap !important;
+}
+
+.bold {
+  font-weight: bold !important;
+}
+
+.fh {
+  height: 100%;
+}
+
+.fw {
+  width: 100%;
+}
+
+.cmn-margin {
+  margin: var(--cmn-spacing);
+}
+
+.cmn-padding {
+  padding: var(--cmn-spacing);
+}
+
+.scrollable {
+  overflow-y: auto;
+}
+
+.jc-center {
+  justify-content: center;
+}
+
+.transition {
+  transition: all 250ms ease-in-out;
+}
+
+.cmn-border-radius {
+  border-radius: var(--cmn-border-radius);
+}
+
+.cmn-margin-btm {
+  margin-bottom: var(--cmn-spacing);
+}
+
+.cmn-margin-top {
+  margin-top: var(--cmn-spacing);
+}
+
+.cmn-margin-tb {
+  margin: var(--cmn-spacing) 0px var(--cmn-spacing) 0px;
+}
+
+.cmn-margin-lr {
+  margin: 0px var(--cmn-spacing) 0px var(--cmn-spacing);
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.red-marker {
+  color: red;
 }

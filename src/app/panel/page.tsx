@@ -3,56 +3,25 @@
 
 import { useApp } from "@/hooks/app";
 import CardTitleCustom from "@/shared/components/card/title";
-import { UnorderedListOutlined } from "@ant-design/icons";
-import { Card, Typography } from "antd";
+import { SolutionOutlined, UsergroupAddOutlined } from "@ant-design/icons";
+import { Typography } from "antd";
 import { useRouter } from "next/navigation";
-import { CSSProperties, useEffect } from "react";
+import { useEffect } from "react";
 
-const sharedIcons: CSSProperties = {
-    fontSize: '50px',
-    border: '6px solid',
-    padding: '10px',
-    borderRadius: '50px',
-    color: '#0000A4'
-}
-
-const sharedCard: CSSProperties = {
-    border: '3px solid',
-    borderColor: '#0000A4',
-    width: '100%',
-    height: '300px',
-    display: 'flex',
-    padding: '20px',
-    boxShadow: '0px 4px 4px 0px #00000040',
-    cursor: 'pointer',
-    maxWidth: '400px'
-}
-
-const sharedTitles: CSSProperties = {
-    color: '#0000A4',
-    fontSize: '22px',
-    fontWeight: 'bolder',
-    textAlign: 'center',
-    marginBottom: '15px'
-}
-
-const sharedSubtitles: CSSProperties = {
-    color: '#000000A6',
-    fontSize: '14px'
-}
+import './page.css'
 
 export default function ControlPanel () {
 
     const router = useRouter()
-    const { setLoading, updateLayout } = useApp()
+    const { setLoading, updateLayout, clearCompany } = useApp()
 
     const redirectBypass = () => {
         setLoading(true)
         router.push(`/bypass`)
     }
 
-    const redirectFinancialLines = () => {
-        router.push(`/finance/financialLines`)
+    const redirectManagement = () => {
+        router.push(`/management/company`)
     }
 
     useEffect(() => {
@@ -62,24 +31,31 @@ export default function ControlPanel () {
             header: false,
             navbar: true
         })
+
+        setLoading(false)
+        clearCompany()
     }, [])
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '50vh', justifyContent: 'center', borderRadius: '10px' }}>
+        <div className="scrollable" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', justifyContent: 'center', borderRadius: '10px', height: '100%' }}>
 
-            <div style={{ position: 'relative', zIndex: '1', width: '100%', margin: '15px 0px' }}>
+            <div className="title-div">
                 {CardTitleCustom({ text: 'Bem-Vindo ao Painel de Controle' })}
             </div>
 
-            <div style={{ display: 'grid', width: '75%', columnGap: '16px', gridAutoFlow: 'column', justifyContent: 'center', background: 'white' }}>
+            <div className="list cmn-padding cmn-border-radius">
 
-                <Card onClick={redirectBypass} className="anim-pop-up-03" style={sharedCard}>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '0px 0px 10px 0px' }}>
-                        <UnorderedListOutlined style={sharedIcons} />
-                    </div>
-                    <Typography style={sharedTitles}>Seleção de empresa</Typography>
-                    <Typography style={sharedSubtitles}>Aqui te leva de volta para a tela de seleção de empresa</Typography>
-                </Card>
+                <div onClick={redirectBypass} className="anim-pop-forward card-layout flex-center flex-cl transition">
+                    <UsergroupAddOutlined className="card-image transition" />
+                    <Typography className="card-title">Seleção de empresa</Typography>
+                    <Typography className="card-subtitle">Clique para voltar</Typography>
+                </div>
+
+                <div onClick={redirectManagement} className="anim-pop-forward card-layout flex-center flex-cl transition">
+                    <SolutionOutlined className="card-image transition" />
+                    <Typography className="card-title">Gestão de Empresas</Typography>
+                    <Typography className="card-subtitle">Clique para visualizar</Typography>
+                </div>
 
             </div>
         </div>

@@ -1,4 +1,5 @@
 import { useApp } from "@/hooks/app"
+import { getSession, setSession } from "@/utils/sessionStorage"
 import { ArrowUpOutlined, CalendarOutlined, EditOutlined, EyeInvisibleOutlined, EyeOutlined, ProfileOutlined } from "@ant-design/icons"
 import { Button, Divider, Select, Typography } from "antd"
 import Image from "next/image"
@@ -9,10 +10,17 @@ export default function CompanyCard () {
 
     const { layout, updateLayout, company } = useApp()
 
-    const [ hide, setHide ] = useState<boolean>(false)
+    const { preferences } = getSession()
+
+    const [ hide, setHide ] = useState<boolean>(preferences?.header_collapsed ? preferences.header_collapsed : false)
+
+    const setHideHeader = () => {
+        setSession({ preferences: { header_collapsed: true } })
+        updateLayout({ header: !layout.header })
+    }
 
     return (
-        <div className={layout.header ? '' : 'hide-company-card'} style={{
+        <div className={layout.header && !preferences?.header_collapsed ? '' : 'hide-company-card'} style={{
             height: '240px',
             background: 'white',
             borderRadius: '8px',
@@ -45,7 +53,7 @@ export default function CompanyCard () {
                             <Select options={[ { value: '2024', label: '2024' } ]} defaultValue={'2024'}></Select>
                         </Typography>
                         <div style={{ height: '100%', padding: '10px 0px 0px 50px' }}>
-                            <Button style={{ width: '100%', height: '100%', color: '#000000A6' }} onClick={() => updateLayout({ header: !layout.header })}>Minimizar Header <ArrowUpOutlined /></Button>
+                            <Button style={{ width: '100%', height: '100%', color: '#000000A6' }} onClick={setHideHeader}>Minimizar Header <ArrowUpOutlined /></Button>
                         </div>
                     </div>
 

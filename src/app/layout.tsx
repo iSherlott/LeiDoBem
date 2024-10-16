@@ -5,6 +5,7 @@ import React from 'react';
 import { App } from "@/hooks/app";
 
 import "@styles/reset.css";
+import "@styles/palette.css";
 import "@styles/variables.css";
 import "@styles/animations.css";
 import "@styles/globals.css";

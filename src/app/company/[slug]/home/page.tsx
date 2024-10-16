@@ -3,6 +3,7 @@
 
 import { useApp } from "@/hooks/app"
 import { useAppToast } from "@/hooks/toast";
+import { getSession, setSession } from "@/utils/sessionStorage";
 import { Button, Typography } from "antd";
 import { useEffect } from "react"
 
@@ -24,17 +25,25 @@ export default function Home ({ params }: { params: { slug: string } }) {
     }, [])
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '15px', flexDirection: 'column', marginTop: '25px' }}>
+        <div className="flex-cl flex-center" style={{ gap: '15px', marginTop: '25px' }}>
             <Typography style={{ fontFamily: 'monospace' }}>Conectado na empresa&nbsp;{params.slug}</Typography>
-            <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+
+            <div className="flex-center flex-cl">
                 <Typography style={{ fontFamily: 'monospace' }}>Testar Notificações</Typography>
-                <div style={{ display: 'flex' }}>
+
+                <div className="flex">
                     <Button onClick={() => toast.info({ title: 'hey', message: 'teste' })}>info</Button>
                     <Button onClick={() => toast.warn({ title: 'hey', message: 'teste' })}>warn</Button>
                     <Button onClick={() => toast.success({ title: 'hey', message: 'teste' })}>success</Button>
                     <Button onClick={() => toast.error({ title: 'hey', message: 'teste' })}>error</Button>
                 </div>
+
+                <div className="flex">
+                    <Button onClick={() => setSession({ preferences: { sider_collapsed: true } })}>teste set storage</Button>
+                    <Button onClick={() => console.log(getSession())}>teste get storage</Button>
+                </div>
             </div>
+
         </div>
     )
 }

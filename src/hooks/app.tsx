@@ -6,12 +6,13 @@ import Toast from "./toast"
 import Auth from "./auth"
 import { AuthProvider, AuthProviderProps } from "oidc-react"
 import Timeout from "./timeout"
-import React, { createContext, useContext, useEffect, useState } from "react"
+import React, { createContext, useContext, useState } from "react"
 import AppLayout from "@/layouts/app"
-import { useRouter } from "next/navigation"
 import { Spin } from "antd"
+import { getSession, setSession } from "@/utils/sessionStorage"
+import Image from "next/image"
 
-const appContext = createContext<any>({})
+const appContext = createContext<TAppContext>({} as never)
 
 export const useApp = (): TAppContext => {
     return useContext(appContext)
@@ -19,17 +20,9 @@ export const useApp = (): TAppContext => {
 
 export function App ({ children }: { children: React.ReactNode }) {
 
-    const router = useRouter()
+    const sessionStorage = getSession();
 
-    const [ company, setCompany ] = useState<TCompanyContext>({
-        name: '',
-        cnpj: '',
-        id: '',
-        nickname: '',
-        photoUrl: '',
-        sectors: [ '' ],
-        tenantId: ''
-    })
+    const [ company, setCompany ] = useState<TCompanyContext>(sessionStorage.company ? sessionStorage.company : {})
 
     const [ layout, setLayout ] = useState<TLayoutContext>({
         header: false,
@@ -55,23 +48,19 @@ export function App ({ children }: { children: React.ReactNode }) {
     }
 
     const clearCompany = () => {
-        setCompany({
-            name: '',
-            cnpj: '',
-            id: '',
-            nickname: '',
-            photoUrl: '',
-            sectors: [ '' ],
-            tenantId: ''
-        })
-        router.push('/bypass')
+        setSession({ company: {} })
+        setCompany({})
+    }
+
+    const updateLayout = (data: TLayoutContextUpdate) => {
+        setLayout({ ...layout, ...data })
     }
 
     const context = {
         layout,
         company,
         loading: spinning,
-        updateLayout: (data: TLayoutContextUpdate) => setLayout({ ...layout, ...data }),
+        updateLayout,
         updateCompany: (data: TCompanyContextUpdate) => setCompany({ ...company, ...data }),
         clearCompany,
         setLoading: handleSetLoading,
@@ -98,10 +87,12 @@ export function App ({ children }: { children: React.ReactNode }) {
                             <Timeout>
 
                                 <AppLayout>
-                                    <div style={{ background: '#0000004a', top: '0', left: '0', width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', gap: '15px', position: 'absolute', zIndex: '999', visibility: spinning ? 'visible' : 'hidden' }}>
-                                        <img src="/figroup/logo_small.png" alt="imagem_logo"></img>
+
+                                    <div className={`loading-global ${!spinning ? 'loading-global-off' : ''}`}>
+                                        <Image width={25} height={30} src="/figroup/logo_small.png" alt="imagem_logo"></Image>
                                         <Spin style={{ color: 'white' }} percent={percent} />
                                     </div>
+
                                     {children}
                                 </AppLayout>
 

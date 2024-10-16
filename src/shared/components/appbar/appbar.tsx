@@ -1,5 +1,5 @@
-import { AppstoreAddOutlined, BellOutlined, CaretRightOutlined, DownOutlined, QuestionCircleOutlined, SettingOutlined } from "@ant-design/icons"
-import { Button, Divider, Typography } from "antd"
+import { AppstoreAddOutlined, ArrowDownOutlined, BellOutlined, CaretRightOutlined, DownOutlined, QuestionCircleOutlined, SettingOutlined } from "@ant-design/icons"
+import { Button, Typography } from "antd"
 import { CSSProperties, useEffect, useState } from "react";
 import TimeoutAuth from "../timer";
 import { useAppAuth } from "@/hooks/auth";
@@ -7,6 +7,7 @@ import { useApp } from "@/hooks/app";
 import manifest from "@/app/manifest";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { getSession, setSession } from "@/utils/sessionStorage";
 
 const sharedNoWrappableText: CSSProperties = {
     overflow: 'hidden',
@@ -21,6 +22,8 @@ export default function AppBar () {
     const user = useAppAuth()
     const { layout, company, updateLayout } = useApp()
     const router = useRouter()
+
+    const { preferences } = getSession()
 
     const [ notificatios, setNotifications ] = useState([ '', [] ])
 
@@ -42,9 +45,15 @@ export default function AppBar () {
         // FIXME - NOT IMPLEMENTED
         try {
             throw { error: 'error' }
-        } catch (err: any) {
+        } catch (err: unknown) {
+            console.log(err)
             setNotifications([ "ERR", [] ])
         }
+    }
+
+    const updateHeaderVar = () => {
+        setSession({ preferences: { header_collapsed: false } })
+        updateLayout({ header: !layout.header })
     }
 
     useEffect(() => {
@@ -107,10 +116,10 @@ export default function AppBar () {
                 </div>
             </div>
 
-            <div className={company.id && layout.header === false ? 'show-card' : 'hide-card'} style={{
+            <div className={company.id && (layout.header === false || preferences?.header_collapsed) ? 'show-card' : 'hide-card'} style={{
                 background: 'white',
-                height: '70px',
-                padding: '0px 25px',
+                height: '80px',
+                padding: '0px 15px',
                 maxWidth: '460px',
                 minWidth: '325px',
                 width: 'max-content',
@@ -124,14 +133,17 @@ export default function AppBar () {
                 transition: 'transform 500ms ease-in-out',
                 boxShadow: '0px 10px 17px -10px rgba(0,0,0,0.55)'
             }}>
-                <Image alt="company_logo" width={50} height={40} src={'/company/logo_placeholder.png'} style={{ borderRadius: '5px' }} />
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ display: 'flex', height: '18px' }}><Typography style={{ fontSize: '11px', fontWeight: 'bold', textWrap: 'nowrap' }}>Companhia:&nbsp;</Typography><Typography style={{ fontSize: '11px', ...sharedNoWrappableText }}>{company.nickname}</Typography></div>
-                    <div style={{ display: 'flex', height: '18px' }}><Typography style={{ fontSize: '11px', fontWeight: 'bold', textWrap: 'nowrap' }}>CNPJ:&nbsp;</Typography><Typography style={{ fontSize: '11px', ...sharedNoWrappableText }}>{company.cnpj}</Typography></div>
-                    <div style={{ display: 'flex', height: '18px' }}><Typography style={{ fontSize: '11px', fontWeight: 'bold', textWrap: 'nowrap' }}>Gestão:&nbsp;</Typography><Typography style={{ fontSize: '11px', ...sharedNoWrappableText }}>{company.name}</Typography></div>
+                {
+                    company.photoUrl !== ''
+                        ? <Image alt="company_logo" width={60} height={60} src={company.photoUrl!} style={{ borderRadius: '5px' }} />
+                        : <div className="cmn-border-radius" style={{ width: '60px', height: '60px', background: 'var(--pl-fi-gradient)' }}></div>
+                }
+                <div className="flex" style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div className="flex" style={{ height: '18px' }}><Typography className="font bold">CNPJ:&nbsp;</Typography><Typography style={{ fontSize: '11px', ...sharedNoWrappableText }}>{company.cnpj}</Typography></div>
+                    <div className="flex" style={{ height: '18px' }}><Typography className="font bold">Companhia:&nbsp;</Typography><Typography style={{ fontSize: '11px', ...sharedNoWrappableText }}>{company.nickname}</Typography></div>
+                    <div className="flex" style={{ height: '18px' }}><Typography className="font bold">Gestão:&nbsp;</Typography><Typography style={{ fontSize: '11px', ...sharedNoWrappableText }}>{company.name}</Typography></div>
                 </div>
-                <Divider type="vertical" />
-                <Button onClick={() => updateLayout({ header: !layout.header })} icon={<DownOutlined style={{ fontSize: '11px' }} />}></Button>
+                <Button style={{ position: 'absolute', right: '12px', bottom: '8px', width: '110px', height: '22px', color: 'var(--pl-fade)', border: '2px solid #0000002b', fontSize: '10px' }} onClick={updateHeaderVar} icon={<ArrowDownOutlined style={{ fontSize: '10px' }} />}>Expandir Header</Button>
             </div>
         </div>
 

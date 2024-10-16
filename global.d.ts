@@ -37,13 +37,13 @@ declare global {
     }
 
     type TCompanyContext = {
-        id: string
-        name: string
-        nickname: string
-        cnpj: string
-        photoUrl: string
-        sectors: string[]
-        tenantId: string
+        id?: string
+        name?: string
+        nickname?: string
+        cnpj?: string
+        photoUrl?: string
+        sectors?: string[]
+        tenantId?: string
     }
 
     type TLayoutContext = {
@@ -87,11 +87,15 @@ declare global {
         areaId: string
     }
 
+    // GLOBAL LOADER
+
     type TloaderContext = {
         loading: boolean
         setLoading: (value: boolean) => void
         setPercent: (value: number) => void
     }
+
+    // TIMEOUT
 
     type TTimeoutContext = {
         updateTimeout: () => void,
@@ -99,11 +103,25 @@ declare global {
         seconds: number
     }
 
+    // TOAST
+
     type TToastContext = {
         error: ({ message, title }: { message: string, title?: string, err?: unknown }) => void
         warn: ({ message, title }: { message: string, title?: string, err?: unknown }) => void
         info: ({ message, title }: { message: string, title?: string }) => void
         success: ({ message, title }: { message: string, title?: string }) => void
+    }
+
+    // STORAGE
+
+    type UserPreferences = {
+        sider_collapsed?: boolean
+        header_collapsed?: boolean
+    }
+    
+    type UserSession = {
+        preferences?: UserPreferences
+        company?: TCompanyContext
     }
 
 }

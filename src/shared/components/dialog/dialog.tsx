@@ -1,5 +1,5 @@
 import { Divider, DividerProps, Modal, ModalProps } from "antd"
-import React, { Dispatch, SetStateAction } from "react"
+import React, { DetailedHTMLProps, Dispatch, HTMLAttributes, SetStateAction } from "react"
 
 export interface ModalPropsExtended extends ModalProps {
     upperDividerProps?: DividerProps
@@ -57,14 +57,14 @@ export default function AntDialog ({ children, open, setOpen, loading, modalProp
 
 
 // A ORDEM DESTA DEFINIÇÃO IMPORTA
-const Header = (props: { [ key: string ]: any }) => <div>{props.children}</div>;
+const Header = (props: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => <div className={props.className} style={props.style}>{props.children}</div>;
 Header.displayName = 'Header';
 AntDialog.Header = Header;
 
-const Body = (props: { [ key: string ]: any }) => <div>{props.children}</div>;
+const Body = (props: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => <div className={props.className} style={props.style}>{props.children}</div>;
 Body.displayName = 'Body';
 AntDialog.Body = Body;
 
-const Footer = (props: { [ key: string ]: any }) => <div>{props.children}</div>;
+const Footer = (props: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => <div className={props.className} style={props.style}>{props.children}</div>;
 Footer.displayName = 'Footer';
 AntDialog.Footer = Footer;

@@ -1,0 +1,53 @@
+
+
+.cover {
+    background: white;
+}
+
+.back-button {
+    width: 105px;
+    color: #0000A4;
+    border: 1px solid #0000A4;
+}
+
+.title {
+    font-family: 'Century Gothic';
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 32px;
+    text-align: left;
+}
+
+.autocomplete {
+    width: 500px;
+    height: 40px;
+    gap: 0px;
+    border-radius: var(--ComponentsInputGlobalborderRadiusLG);
+    opacity: 0px;
+}
+
+.div1 {
+    margin: 15px 0px 5px 0px;
+    justify-content: space-between;
+}
+
+.button-upload {
+    background: #0000A4;
+    color: white;
+    height: 36px;
+}
+
+.button-upload:hover {
+    background: #0202cc !important;
+    color: white !important;
+}
+
+.button-add {
+    color: #0958D9;
+    font-size: 21px;
+    cursor: pointer;
+}
+
+.button-add:hover {
+    transform: rotate3d(0,0,1, 90deg);
+}

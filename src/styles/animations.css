@@ -1,0 +1,13 @@
+
+@keyframes anim-pop-forward {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.05);
+    }
+}
+
+.anim-pop-forward:hover {
+    animation: anim-pop-forward forwards 250ms;
+}

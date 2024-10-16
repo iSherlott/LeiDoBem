@@ -1,0 +1,6 @@
+
+:root {
+    --pl-fade: #00000073;
+    --pl-fi-gradient: linear-gradient(90deg, rgba(10,146,240,1) 0%, rgba(10,4,168,1) 39%, rgba(10,4,168,1) 65%, rgba(10,146,240,1) 100%);
+    --pl-primary: #0000A4;
+}

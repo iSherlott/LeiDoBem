@@ -71,7 +71,7 @@ export default function ByPass () {
             cnpj: '12.345.678/0001-00',
             name: '2024',
             nickname: 'DHL EXPRESS TARRAGON',
-            photoUrl: 'https://d2r9epyceweg5n.cloudfront.net/apps/2423-pt_BR-2423-es_AR-small-DHL.png',
+            photoUrl: '',
             sectors: [ 'hey', 'hello' ],
             tenantId: 'tenantiddousuario'
         })
