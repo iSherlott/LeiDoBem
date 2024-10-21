@@ -1,5 +1,5 @@
-import { useApp } from "@/hooks/app"
-import { getSession, setSession } from "@/utils/sessionStorage"
+import { useApp } from "@/app/app"
+import { getStorage, setStorage } from "@/utils/sessionStorage"
 import { ArrowUpOutlined, CalendarOutlined, EditOutlined, EyeInvisibleOutlined, EyeOutlined, ProfileOutlined } from "@ant-design/icons"
 import { Button, Divider, Select, Typography } from "antd"
 import Image from "next/image"
@@ -10,12 +10,12 @@ export default function CompanyCard () {
 
     const { layout, updateLayout, company } = useApp()
 
-    const { preferences } = getSession()
+    const { preferences } = getStorage()
 
     const [ hide, setHide ] = useState<boolean>(preferences?.header_collapsed ? preferences.header_collapsed : false)
 
     const setHideHeader = () => {
-        setSession({ preferences: { header_collapsed: true } })
+        setStorage({ preferences: { header_collapsed: true } })
         updateLayout({ header: !layout.header })
     }
 

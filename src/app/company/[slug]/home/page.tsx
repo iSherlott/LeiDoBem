@@ -1,9 +1,9 @@
 
 'use client'
 
-import { useApp } from "@/hooks/app"
+import { useApp } from "@/app/app";
 import { useAppToast } from "@/hooks/toast";
-import { getSession, setSession } from "@/utils/sessionStorage";
+import { getStorage, setStorage } from "@/utils/sessionStorage";
 import { Button, Typography } from "antd";
 import { useEffect } from "react"
 
@@ -39,8 +39,8 @@ export default function Home ({ params }: { params: { slug: string } }) {
                 </div>
 
                 <div className="flex">
-                    <Button onClick={() => setSession({ preferences: { sider_collapsed: true } })}>teste set storage</Button>
-                    <Button onClick={() => console.log(getSession())}>teste get storage</Button>
+                    <Button onClick={() => setStorage({ preferences: { sider_collapsed: true } })}>teste set storage</Button>
+                    <Button onClick={() => console.log(getStorage())}>teste get storage</Button>
                 </div>
             </div>
 

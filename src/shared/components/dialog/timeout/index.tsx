@@ -1,14 +1,11 @@
-import { AuthContextProps } from 'oidc-react';
-import React, { useState } from 'react';
+import React from 'react';
 import AntDialog from '../dialog';
 import { Button, Divider, Typography } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
-import { useAppAuth } from '@/hooks/auth';
 import { useTimeout } from '@/hooks/timeout';
 
 export default function ModalTimeout ({ visible, setVisible }: { visible: boolean, setVisible: (value: boolean) => void }) {
 
-    const auth = useAppAuth();
     const { seconds, minutes, updateTimeout } = useTimeout()
 
     const handleClose = () => {
@@ -17,7 +14,7 @@ export default function ModalTimeout ({ visible, setVisible }: { visible: boolea
     }
 
     const loginHandleClose = () => {
-        auth.signOut();
+        /* auth.signOut(); */
         setVisible(!visible);
     }
 

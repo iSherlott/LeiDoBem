@@ -12,19 +12,16 @@
     display: flex;
     gap: 15px;
     cursor: pointer;
+    color: #0091D5;
 }
 
 .card-layout:hover {
     border: 3px solid #004bd5;
-}
-
-.card-layout:hover span {
     color: #004bd5;
 }
 
-.card-image {
+.card-image-cst {
     font-size: 55px;
-    color: #0091D5;
 }
 
 .card-title {

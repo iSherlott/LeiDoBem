@@ -1,15 +1,15 @@
 
 'use client'
 
-import { useApp } from "@/hooks/app";
 import { useEffect, useState } from "react";
 import { AutoComplete, Button, Input, Table, TableColumnsType, TableProps, Typography } from "antd";
 import { ArrowLeftOutlined, PlusCircleOutlined, UploadOutlined } from "@ant-design/icons";
-
-import './page.css'
 import { mockManagementCompanies } from "./page.mock";
 import EmptyResultWithRetry from "@/shared/components/empty/empty";
 import { useRouter } from "next/navigation";
+
+import './page.css'
+import { useApp } from "@/app/app";
 
 interface DataType {
     id: string

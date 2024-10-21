@@ -18,9 +18,9 @@ import {
 import manifest from '@/app/manifest';
 import { appMenusMock } from '@/layouts/app.mock';
 import { useRouter } from 'next/navigation';
-import { useApp } from '@/hooks/app';
 import Image from 'next/image';
-import { getSession, setSession } from '@/utils/sessionStorage';
+import { useApp } from '@/app/app';
+import { getStorage, setStorage } from '@/utils/sessionStorage';
 
 const sharedFixedButtonsExpandedStyle: CSSProperties = {
     background: '#FFFFFF',
@@ -60,7 +60,7 @@ export default function CustomSider () {
     const router = useRouter()
     const { layout } = useApp()
 
-    const { preferences } = getSession()
+    const { preferences } = getStorage()
 
     const prefCollapsed = preferences?.sider_collapsed
 
@@ -68,7 +68,7 @@ export default function CustomSider () {
     const [ autoCollapse, setAutoCollapse ] = useState<boolean>(prefCollapsed!);
 
     const setPrefAutoCollapse = (val: boolean) => {
-        setSession({ preferences: { sider_collapsed: val } })
+        setStorage({ preferences: { sider_collapsed: val } })
         setAutoCollapse(val)
     }
 

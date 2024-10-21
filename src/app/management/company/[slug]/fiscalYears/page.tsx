@@ -1,16 +1,17 @@
 
 'use client'
 
-import { useApp } from "@/hooks/app";
-import { useEffect, useState } from "react";
-import { AutoComplete, Button, Input, Select, Table, TableColumnsType, TableProps, Typography } from "antd";
-import { ArrowLeftOutlined, PlusCircleOutlined, UploadOutlined } from "@ant-design/icons";
 
-import './page.css'
+import { useEffect, useState } from "react";
+import { Button, Select, Table, TableColumnsType, TableProps, Typography } from "antd";
+import { ArrowLeftOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { mockYearsCompany } from "./page.mock";
 import EmptyResultWithRetry from "@/shared/components/empty/empty";
 import { useRouter } from "next/navigation";
 import AntDialog from "@/shared/components/dialog/dialog";
+import { useApp } from "@/app/app";
+
+import './page.css'
 
 interface DataType {
     id: string
@@ -21,7 +22,6 @@ export default function ManageCompanyFiscalYears ({ params }: { params: { slug: 
     const { updateLayout, setLoading } = useApp()
     const router = useRouter()
 
-    const [ search, setSearch ] = useState<string>('')
     const [ loadingSearch, setLoadingSearch ] = useState<boolean>(false)
     const [ openModal, setOpenModal ] = useState<boolean>(false)
 
@@ -79,11 +79,11 @@ export default function ManageCompanyFiscalYears ({ params }: { params: { slug: 
                 <Button onClick={() => { setLoading(true); router.push(`/management/company`) }} className="back-button" icon={<ArrowLeftOutlined />}>Voltar</Button>
 
                 <div className="flex fw div2 cmn-margin-top">
-                    <Typography className="title">Gestao de Empresas - *Nome da Empresa Selecionada*</Typography>
+                    <Typography className="title">Gestao de Empresas - {params.slug}</Typography>
                 </div>
 
                 <div className="flex-cl cmn-margin-lr">
-                    <Button className="button-upload cmn-margin-tb" onClick={() => setOpenModal(true)} icon={<PlusCircleOutlined />}>Criar Novo Ano Fiscal</Button>
+                    <Button className="dialog-confirm-button cmn-margin-tb" onClick={() => setOpenModal(true)} icon={<PlusCircleOutlined />}>Criar Novo Ano Fiscal</Button>
                     <Table
                         columns={columns}
                         dataSource={list as unknown as DataType[]}

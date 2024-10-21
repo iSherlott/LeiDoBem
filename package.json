@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev -p 44425 --experimental-https",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 44425",
     "lint": "next lint"
   },
   "dependencies": {
@@ -14,9 +14,9 @@
     "antd": "^5.20.6",
     "axios": "^1.7.7",
     "fi-group-lei-do-bem-frontend": "file:",
+    "jose": "^5.9.4",
     "next": "14.2.12",
-    "oidc-client": "^1.11.5",
-    "oidc-react": "^1.5.1",
+    "next-auth": "^4.24.8",
     "react": "^18",
     "react-dom": "^18"
   },

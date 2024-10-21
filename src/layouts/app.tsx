@@ -1,36 +1,17 @@
 
 'use client'
 
-import { useApp } from "../hooks/app";
-import { Button, Layout, Menu, Tooltip, Typography } from 'antd';
-import Sider from 'antd/es/layout/Sider';
-import React, { CSSProperties, ReactNode, useEffect, useRef, useState } from 'react';
-import {
-    CalendarOutlined,
-    CodeOutlined,
-    FileSearchOutlined,
-    FolderOutlined,
-    FundProjectionScreenOutlined,
-    ImportOutlined,
-    MenuFoldOutlined,
-    ProfileOutlined,
-    TeamOutlined
-} from '@ant-design/icons';
-import { useRouter } from "next/navigation";
+import { Layout } from 'antd';
+import React, { useEffect, useState } from 'react';
 import AppBar from "@/shared/components/appbar/appbar";
 import manifest from "@/app/manifest";
 import FooterCustom from "@/shared/components/footer/footer";
-import { appMenusMock } from "./app.mock";
 import { konamiCode, konamiCodeAlt } from "@/shared/shared";
 import Ldm from "@/shared/components/ldm/ldm";
 import { useAppToast } from "@/hooks/toast";
 import CompanyCard from "@/shared/components/company/card/companyCard";
 import CustomSider from "@/shared/components/sider/sider";
-
-import "@styles/reset.css";
-import "@styles/variables.css";
-import "@styles/animations.css";
-import "@styles/globals.css";
+import { useApp } from '@/app/app';
 
 export default function AppLayout ({
     children,

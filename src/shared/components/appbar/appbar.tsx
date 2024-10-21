@@ -1,13 +1,12 @@
-import { AppstoreAddOutlined, ArrowDownOutlined, BellOutlined, CaretRightOutlined, DownOutlined, QuestionCircleOutlined, SettingOutlined } from "@ant-design/icons"
+import { AppstoreAddOutlined, ArrowDownOutlined, BellOutlined, CaretRightOutlined, QuestionCircleOutlined, SettingOutlined } from "@ant-design/icons"
 import { Button, Typography } from "antd"
 import { CSSProperties, useEffect, useState } from "react";
 import TimeoutAuth from "../timer";
-import { useAppAuth } from "@/hooks/auth";
-import { useApp } from "@/hooks/app";
 import manifest from "@/app/manifest";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { getSession, setSession } from "@/utils/sessionStorage";
+import { useApp } from "@/app/app";
+import { getStorage, setStorage } from "@/utils/sessionStorage";
+import { useAuth } from "@/hooks/auth";
 
 const sharedNoWrappableText: CSSProperties = {
     overflow: 'hidden',
@@ -19,15 +18,16 @@ const sharedNoWrappableText: CSSProperties = {
 
 export default function AppBar () {
 
-    const user = useAppAuth()
     const { layout, company, updateLayout } = useApp()
+    const { user } = useAuth()
     const router = useRouter()
 
-    const { preferences } = getSession()
+    const { preferences } = getStorage()
 
     const [ notificatios, setNotifications ] = useState([ '', [] ])
 
-    const finalName = user ? user.name.split(' ').map((e) => e[ 0 ].toUpperCase() + e.slice(1).toLowerCase()).join(' ') : "Não Identificado"
+    // FIXME - REPLACE
+    const finalName = preferences ? { name: user.name }.name.split(' ').map((e) => e[ 0 ].toUpperCase() + e.slice(1).toLowerCase()).join(' ') : "Não Identificado"
 
     const redirectHelpDesk = () => {
         router.push(`https://br-helpdesk.fi-group.com/`)
@@ -44,15 +44,14 @@ export default function AppBar () {
     const getNotifications = () => {
         // FIXME - NOT IMPLEMENTED
         try {
-            throw { error: 'error' }
+            setNotifications([ "ERR", [] ])
         } catch (err: unknown) {
-            console.log(err)
             setNotifications([ "ERR", [] ])
         }
     }
 
     const updateHeaderVar = () => {
-        setSession({ preferences: { header_collapsed: false } })
+        setStorage({ preferences: { header_collapsed: false } })
         updateLayout({ header: !layout.header })
     }
 
@@ -109,14 +108,14 @@ export default function AppBar () {
 
                     <Typography style={{ marginRight: '15px', color: '#000000A6', fontFamily: 'Century Gothic' }}>Olá, {finalName}</Typography>
 
-                    <div onClick={() => user.signOut()} style={{ padding: '0px 0px 0px 10px', width: '65px', background: 'red', height: '55px', borderRadius: '15px 0px 0px 15px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', position: 'relative' }}>
+                    <div onClick={() => 'user.signOut()'} style={{ padding: '0px 0px 0px 10px', width: '65px', background: 'red', height: '55px', borderRadius: '15px 0px 0px 15px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', position: 'relative' }}>
                         <Typography style={{ fontWeight: 'bold', color: 'white' }}>Sair</Typography>
                         <CaretRightOutlined style={{ color: 'white', fontSize: '16px' }} />
                     </div>
                 </div>
             </div>
 
-            <div className={company.id && (layout.header === false || preferences?.header_collapsed) ? 'show-card' : 'hide-card'} style={{
+            <div className={company.id && !location.href.includes('/bypass') && (layout.header === false || preferences?.header_collapsed) ? 'show-card' : 'hide-card'} style={{
                 background: 'white',
                 height: '80px',
                 padding: '0px 15px',
@@ -135,7 +134,8 @@ export default function AppBar () {
             }}>
                 {
                     company.photoUrl !== ''
-                        ? <Image alt="company_logo" width={60} height={60} src={company.photoUrl!} style={{ borderRadius: '5px' }} />
+                        // eslint-disable-next-line @next/next/no-img-element
+                        ? <img alt="company_logo" width={60} height={60} src={company.photoUrl!} style={{ borderRadius: '5px' }} />
                         : <div className="cmn-border-radius" style={{ width: '60px', height: '60px', background: 'var(--pl-fi-gradient)' }}></div>
                 }
                 <div className="flex" style={{ display: 'flex', flexDirection: 'column' }}>

@@ -14,7 +14,7 @@ export function middleware(request: any) {
     object-src 'self';
     base-uri 'self';
     form-action 'self';
-    frame-ancestors 'self';
+    frame-ancestors 'self' https://connect-staging.fi-group.com https://connect.fi-group.com;
     upgrade-insecure-requests;
   `;
 

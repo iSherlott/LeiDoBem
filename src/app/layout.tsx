@@ -2,7 +2,10 @@ import { geistMonoFont, geistSansFont } from "@/shared/shared";
 import { Metadata } from "next";
 import manifest from "./manifest";
 import React from 'react';
-import { App } from "@/hooks/app";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+import Toast from "@/hooks/toast";
+import Auth from "@/hooks/auth";
+import { App } from "./app";
 
 import "@styles/reset.css";
 import "@styles/palette.css";
@@ -24,9 +27,15 @@ export default function RootLayout ({
   return (
     <html lang="ptBR">
       <body className={`${geistSansFont.variable} ${geistMonoFont.variable}`} style={{ overflow: 'auto hidden' }}>
-        <App>
-          {children}
-        </App>
+        <AntdRegistry>
+          <Toast>
+            <Auth>
+              <App>
+                {children}
+              </App>
+            </Auth>
+          </Toast>
+        </AntdRegistry>
       </body>
     </html>
   );

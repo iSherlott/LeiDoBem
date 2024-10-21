@@ -5,10 +5,10 @@ import React, { useEffect, useState } from 'react';
 import { AutoComplete, Input, Select, Table, TableColumnsType, TableProps, Typography } from 'antd';
 import CardTitleCustom from '@/shared/components/card/title';
 import EmptyResultWithRetry from '@/shared/components/empty/empty';
-import { useApp } from '@/hooks/app';
 import { mockBypassCompanies } from './page.mock';
 import { useAppToast } from '@/hooks/toast';
 import { useRouter } from 'next/navigation';
+import { useApp } from '../app';
 
 interface DataType {
     id: string;

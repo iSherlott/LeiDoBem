@@ -32,9 +32,9 @@
 }
 
 .button-upload {
-    background: #0000A4;
-    color: white;
-    height: 36px;
+    background: #0000A4 !important;
+    color: white !important;
+    height: 36px !important;
 }
 
 .button-upload:hover {

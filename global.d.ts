@@ -4,27 +4,17 @@ declare global {
         interface ProcessEnv {
             PORT: number
             ENV: string
-            NEXT_PUBLIC_OAUTH2_ROUTE: string
-            NEXT_PUBLIC_OAUTH2_CLIENTID: string
-            NEXT_PUBLIC_OAUTH2_SCOPE: string
-            NEXT_PUBLIC_OAUTH2_SECRET: string
+            DEBUG_ENABLED: boolean
+            OAUTH2_ISSUER: string
+            OAUTH2_CLIENTID: string
+            OAUTH2_RESPONSE_TYPE: string
+            OAUTH2_SCOPE: string
+            OAUTH2_SECRET: string
+            OAUTH2_REDIRECT: string
         }
     }
 
     type MenuItem = Required<MenuProps>[ 'items' ][ number ];
-
-    type TAuthContext = {
-        email: string,
-        job: string,
-        area: string,
-        language: string,
-        name: string,
-        permitted: string[],
-        token: string,
-        expires_in: number,
-        signOut: () => Promise<void>
-        singOutSilent: () => Promise<void>
-    }
 
     type TCompanyContextUpdate = {
         id?: string
@@ -119,9 +109,35 @@ declare global {
         header_collapsed?: boolean
     }
     
-    type UserSession = {
+    type UserStorage = {
+        user?: oAuthSession
         preferences?: UserPreferences
         company?: TCompanyContext
+    }
+
+    // SESSION
+
+    type User = {
+        exp: number,
+        auth_time: number,
+        name: string,
+        email: string,
+        roles: string[],
+        preferred_language: string,
+        group: string[],
+        groupsAreas: string[],
+        area: string,
+        JobTitle: string,
+        amr: string[]
+    }
+
+    type userSession = {
+        access_token: string
+        expires_in: number
+        scope: string
+        state: string
+        token_type: string
+        user: User
     }
 
 }
