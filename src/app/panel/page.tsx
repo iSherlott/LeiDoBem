@@ -13,7 +13,7 @@ import './page.css'
 export default function ControlPanel () {
 
     const router = useRouter()
-    const { setLoading, updateLayout, clearCompany } = useApp()
+    const { setLoading, updateLayout } = useApp()
 
     const redirectBypass = () => {
         setLoading(true)
@@ -34,7 +34,6 @@ export default function ControlPanel () {
         })
 
         setLoading(false)
-        clearCompany()
     }, [])
 
     return (

@@ -11,36 +11,27 @@ declare global {
             OAUTH2_SCOPE: string
             OAUTH2_SECRET: string
             OAUTH2_REDIRECT: string
+            NEXT_PUBLIC_CONNECT: string
         }
     }
 
     type MenuItem = Required<MenuProps>[ 'items' ][ number ];
 
-    type TCompanyContextUpdate = {
-        id?: string
-        name?: string
-        nickname?: string
-        cnpj?: string
-        photoUrl?: string
-        sectors?: string[]
-        tenantId?: string
+    type Company = {
+        id: string
+        name: string
+        nickname: string
+        cnpj: string
+        photoUrl: string
+        sectors: string[]
+        tenantId: string
     }
 
-    type TCompanyContext = {
-        id?: string
-        name?: string
-        nickname?: string
-        cnpj?: string
-        photoUrl?: string
-        sectors?: string[]
-        tenantId?: string
-    }
-
-    type TLayoutContext = {
-        header: boolean
-        sider: boolean
-        footer: boolean
-        navbar: boolean
+    type Layout = {
+        header?: boolean
+        sider?: boolean
+        footer?: boolean
+        navbar?: boolean
     }
 
     type TLayoutContextUpdate = {
@@ -52,11 +43,8 @@ declare global {
     
     type TAppContext = {
         layout: TLayoutContext
-        company: TCompanyContext
         loading: boolean
         updateLayout: (data: TLayoutContextUpdate) => void
-        updateCompany: (data: TCompanyContextUpdate) => void
-        clearCompany: () => void
         setLoading: (value: boolean) => void
         setLoadingPercent: (value: number) => void
     }
@@ -104,15 +92,21 @@ declare global {
 
     // STORAGE
 
-    type UserPreferences = {
+    type Storages = "Preferences" | "Company"
+
+    type PreferencesStorage = {
         sider_collapsed?: boolean
         header_collapsed?: boolean
     }
-    
-    type UserStorage = {
-        user?: oAuthSession
-        preferences?: UserPreferences
-        company?: TCompanyContext
+
+    type CompanyStorage = {
+        id?: string
+        name?: string
+        nickname?: string
+        cnpj?: string
+        photoUrl?: string
+        sectors?: string[]
+        tenantId?: string
     }
 
     // SESSION
@@ -138,6 +132,10 @@ declare global {
         state: string
         token_type: string
         user: User
+    }
+
+    type authContext = userSession & {
+        signOut: () => void
     }
 
 }

@@ -20,7 +20,7 @@ import { appMenusMock } from '@/layouts/app.mock';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useApp } from '@/app/app';
-import { getStorage, setStorage } from '@/utils/sessionStorage';
+import { getStorage, setStorage } from '@/utils/storage';
 
 const sharedFixedButtonsExpandedStyle: CSSProperties = {
     background: '#FFFFFF',
@@ -48,7 +48,6 @@ const siderStyle: CSSProperties = {
     insetInlineStart: 0,
     top: 0,
     left: 0,
-    zIndex: 800,
     scrollbarWidth: 'thin',
     scrollbarColor: 'unset',
     overflow: 'hidden',
@@ -60,15 +59,20 @@ export default function CustomSider () {
     const router = useRouter()
     const { layout } = useApp()
 
-    const { preferences } = getStorage()
+    const { sider_collapsed } = getStorage<PreferencesStorage>('Preferences')
 
-    const prefCollapsed = preferences?.sider_collapsed
+    let sider_auto_collapsed = sider_collapsed;
 
-    const [ collapsed, setCollapsed ] = useState<boolean>(prefCollapsed!);
-    const [ autoCollapse, setAutoCollapse ] = useState<boolean>(prefCollapsed!);
+    if (sider_auto_collapsed === undefined) {
+        setStorage<PreferencesStorage>({ sider_collapsed: true }, 'Preferences')
+        sider_auto_collapsed = true;
+    }
+
+    const [ collapsed, setCollapsed ] = useState<boolean>(sider_auto_collapsed);
+    const [ autoCollapse, setAutoCollapse ] = useState<boolean>(sider_auto_collapsed);
 
     const setPrefAutoCollapse = (val: boolean) => {
-        setStorage({ preferences: { sider_collapsed: val } })
+        setStorage<PreferencesStorage>({ sider_collapsed: val }, 'Preferences')
         setAutoCollapse(val)
     }
 

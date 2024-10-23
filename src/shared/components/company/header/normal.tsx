@@ -1,26 +1,38 @@
+
+'use client'
+
 import { useApp } from "@/app/app"
-import { getStorage, setStorage } from "@/utils/sessionStorage"
+import { useCompany } from "@/app/company/[slug]/layout"
+import { getStorage, setStorage } from "@/utils/storage"
 import { ArrowUpOutlined, CalendarOutlined, EditOutlined, EyeInvisibleOutlined, EyeOutlined, ProfileOutlined } from "@ant-design/icons"
 import { Button, Divider, Select, Typography } from "antd"
 import Image from "next/image"
 import { useState } from "react"
 
 
-export default function CompanyCard () {
+export default function CompanyHeaderNormal () {
 
-    const { layout, updateLayout, company } = useApp()
+    const { layout, updateLayout } = useApp()
+    const company = useCompany()
 
-    const { preferences } = getStorage()
+    const { header_collapsed } = getStorage<PreferencesStorage>('Preferences')
 
-    const [ hide, setHide ] = useState<boolean>(preferences?.header_collapsed ? preferences.header_collapsed : false)
+    let header_auto_collapsed = header_collapsed;
+
+    if (header_auto_collapsed === undefined) {
+        setStorage<PreferencesStorage>({ header_collapsed: false }, 'Preferences')
+        header_auto_collapsed = false;
+    }
+
+    const [ hide, setHide ] = useState<boolean>(header_auto_collapsed)
 
     const setHideHeader = () => {
-        setStorage({ preferences: { header_collapsed: true } })
+        setStorage({ header_collapsed: true }, "Preferences")
         updateLayout({ header: !layout.header })
     }
 
     return (
-        <div className={layout.header && !preferences?.header_collapsed ? '' : 'hide-company-card'} style={{
+        <div className={layout.header && header_auto_collapsed === false ? '' : 'hide-company-card'} style={{
             height: '240px',
             background: 'white',
             borderRadius: '8px',

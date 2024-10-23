@@ -9,7 +9,6 @@ import FooterCustom from "@/shared/components/footer/footer";
 import { konamiCode, konamiCodeAlt } from "@/shared/shared";
 import Ldm from "@/shared/components/ldm/ldm";
 import { useAppToast } from "@/hooks/toast";
-import CompanyCard from "@/shared/components/company/card/companyCard";
 import CustomSider from "@/shared/components/sider/sider";
 import { useApp } from '@/app/app';
 
@@ -50,13 +49,12 @@ export default function AppLayout ({
 
             <Layout style={{ minWidth: '1530px', overflowX: 'auto', overflowY: 'hidden' }}>
 
-                <Layout.Header className={layout.navbar ? '' : 'hide-header'} style={{ padding: '0px', background: '#0000A4', position: 'sticky', top: '0', left: '0', height: '45px', transition: 'transform 500ms ease-in-out' }}>
+                <Layout.Header className={layout.navbar ? '' : 'hide-header'} style={{ padding: '0px', background: '#0000A4', top: '0', left: '0', height: '45px', transition: 'transform 500ms ease-in-out' }}>
                     <AppBar />
                 </Layout.Header>
 
                 <Layout.Content>
-                    <div style={{ height: '100%', width: '100%', padding: layout.header || layout.footer || layout.sider || layout.navbar ? '16px' : '0px', background: '#F5F5F5', overflowY: 'auto' }}>
-                        <CompanyCard />
+                    <div style={{ height: '100%', width: '100%', padding: layout.header || layout.footer || layout.sider || layout.navbar ? '16px' : '0px', background: '#F5F5F5' }}>
                         {easter ? <Ldm /> : children}
                     </div>
                 </Layout.Content>

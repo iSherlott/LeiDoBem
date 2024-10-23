@@ -19,7 +19,7 @@ interface DataType {
 
 export default function ByPass () {
 
-    const { setLoading, updateCompany, clearCompany, updateLayout } = useApp();
+    const { setLoading, updateLayout } = useApp();
     const toast = useAppToast();
     const router = useRouter()
 
@@ -66,16 +66,6 @@ export default function ByPass () {
     const goToCompany = async (id: string) => {
         setLoading(true)
 
-        updateCompany({
-            id: '6b634130-7ad5-4469-8a71-11d5282d79bb',
-            cnpj: '12.345.678/0001-00',
-            name: '2024',
-            nickname: 'DHL EXPRESS TARRAGON',
-            photoUrl: '',
-            sectors: [ 'hey', 'hello' ],
-            tenantId: 'tenantiddousuario'
-        })
-
         router.push(`/company/${id}/home`)
     }
 
@@ -116,8 +106,6 @@ export default function ByPass () {
             navbar: true,
             footer: true
         })
-
-        clearCompany()
 
         setLoading(false)
     }, [])

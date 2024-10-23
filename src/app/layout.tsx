@@ -6,6 +6,8 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import Toast from "@/hooks/toast";
 import Auth from "@/hooks/auth";
 import { App } from "./app";
+import Timeout from "@/hooks/timeout";
+import AppLayout from "@/layouts/app";
 
 import "@styles/reset.css";
 import "@styles/palette.css";
@@ -29,11 +31,15 @@ export default function RootLayout ({
       <body className={`${geistSansFont.variable} ${geistMonoFont.variable}`} style={{ overflow: 'auto hidden' }}>
         <AntdRegistry>
           <Toast>
-            <Auth>
-              <App>
-                {children}
-              </App>
-            </Auth>
+            <App>
+              <Auth>
+                <Timeout>
+                  <AppLayout>
+                    {children}
+                  </AppLayout>
+                </Timeout>
+              </Auth>
+            </App>
           </Toast>
         </AntdRegistry>
       </body>

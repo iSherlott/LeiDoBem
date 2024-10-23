@@ -1,58 +1,47 @@
-import { AppstoreAddOutlined, ArrowDownOutlined, BellOutlined, CaretRightOutlined, QuestionCircleOutlined, SettingOutlined } from "@ant-design/icons"
+import { AppstoreAddOutlined, BellOutlined, LogoutOutlined, QuestionCircleOutlined, SettingOutlined } from "@ant-design/icons"
 import { Button, Typography } from "antd"
-import { CSSProperties, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TimeoutAuth from "../timer";
 import manifest from "@/app/manifest";
 import { useRouter } from "next/navigation";
 import { useApp } from "@/app/app";
-import { getStorage, setStorage } from "@/utils/sessionStorage";
 import { useAuth } from "@/hooks/auth";
-
-const sharedNoWrappableText: CSSProperties = {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    textWrap: 'nowrap',
-    width: '200px',
-    display: 'block',
-}
 
 export default function AppBar () {
 
-    const { layout, company, updateLayout } = useApp()
-    const { user } = useAuth()
+    const { layout, updateLayout, setLoading } = useApp()
+    const { user, signOut } = useAuth()
     const router = useRouter()
-
-    const { preferences } = getStorage()
 
     const [ notificatios, setNotifications ] = useState([ '', [] ])
 
-    // FIXME - REPLACE
-    const finalName = preferences ? { name: user.name }.name.split(' ').map((e) => e[ 0 ].toUpperCase() + e.slice(1).toLowerCase()).join(' ') : "Não Identificado"
+    const finalName = user.name ? user.name.split(' ').map((e) => e[ 0 ].toUpperCase() + e.slice(1).toLowerCase()).join(' ') : "Não Identificado"
 
     const redirectHelpDesk = () => {
+        setLoading(true)
         router.push(`https://br-helpdesk.fi-group.com/`)
     }
 
     const redirectFiConnect = () => {
+        setLoading(true)
         router.push(`https://connect.fi-group.com/identity/`)
     }
 
     const redirectControlPanel = () => {
+
+        if (!new RegExp(/\/panel$/gm).test(location.href)) {
+            setLoading(true)
+        }
+
         router.push(`/panel`)
     }
 
     const getNotifications = () => {
-        // FIXME - NOT IMPLEMENTED
         try {
             setNotifications([ "ERR", [] ])
         } catch (err: unknown) {
             setNotifications([ "ERR", [] ])
         }
-    }
-
-    const updateHeaderVar = () => {
-        setStorage({ preferences: { header_collapsed: false } })
-        updateLayout({ header: !layout.header })
     }
 
     useEffect(() => {
@@ -108,42 +97,10 @@ export default function AppBar () {
 
                     <Typography style={{ marginRight: '15px', color: '#000000A6', fontFamily: 'Century Gothic' }}>Olá, {finalName}</Typography>
 
-                    <div onClick={() => 'user.signOut()'} style={{ padding: '0px 0px 0px 10px', width: '65px', background: 'red', height: '55px', borderRadius: '15px 0px 0px 15px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', position: 'relative' }}>
-                        <Typography style={{ fontWeight: 'bold', color: 'white' }}>Sair</Typography>
-                        <CaretRightOutlined style={{ color: 'white', fontSize: '16px' }} />
+                    <div onClick={() => 'user.signOut()'} style={{ boxShadow: 'rgba(0, 0, 0, 0.7) 1px 1px 11px 0px', padding: '0px 0px 0px 10px', width: '37px', background: 'red', height: '35px', borderRadius: '15px 0px 0px 15px', display: 'flex', alignItems: 'center', cursor: 'pointer', position: 'relative' }}>
+                        <LogoutOutlined style={{ color: 'white', fontSize: '20px' }} onClick={signOut} />
                     </div>
                 </div>
-            </div>
-
-            <div className={company.id && !location.href.includes('/bypass') && (layout.header === false || preferences?.header_collapsed) ? 'show-card' : 'hide-card'} style={{
-                background: 'white',
-                height: '80px',
-                padding: '0px 15px',
-                maxWidth: '460px',
-                minWidth: '325px',
-                width: 'max-content',
-                gap: '15px',
-                position: 'relative',
-                top: '-50px',
-                left: '160px',
-                borderRadius: '0px 0px 15px 15px',
-                display: 'flex',
-                alignItems: 'center',
-                transition: 'transform 500ms ease-in-out',
-                boxShadow: '0px 10px 17px -10px rgba(0,0,0,0.55)'
-            }}>
-                {
-                    company.photoUrl !== ''
-                        // eslint-disable-next-line @next/next/no-img-element
-                        ? <img alt="company_logo" width={60} height={60} src={company.photoUrl!} style={{ borderRadius: '5px' }} />
-                        : <div className="cmn-border-radius" style={{ width: '60px', height: '60px', background: 'var(--pl-fi-gradient)' }}></div>
-                }
-                <div className="flex" style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div className="flex" style={{ height: '18px' }}><Typography className="font bold">CNPJ:&nbsp;</Typography><Typography style={{ fontSize: '11px', ...sharedNoWrappableText }}>{company.cnpj}</Typography></div>
-                    <div className="flex" style={{ height: '18px' }}><Typography className="font bold">Companhia:&nbsp;</Typography><Typography style={{ fontSize: '11px', ...sharedNoWrappableText }}>{company.nickname}</Typography></div>
-                    <div className="flex" style={{ height: '18px' }}><Typography className="font bold">Gestão:&nbsp;</Typography><Typography style={{ fontSize: '11px', ...sharedNoWrappableText }}>{company.name}</Typography></div>
-                </div>
-                <Button style={{ position: 'absolute', right: '12px', bottom: '8px', width: '110px', height: '22px', color: 'var(--pl-fade)', border: '2px solid #0000002b', fontSize: '10px' }} onClick={updateHeaderVar} icon={<ArrowDownOutlined style={{ fontSize: '10px' }} />}>Expandir Header</Button>
             </div>
         </div>
 

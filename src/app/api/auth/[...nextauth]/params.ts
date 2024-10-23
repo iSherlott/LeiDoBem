@@ -1,7 +1,6 @@
 import OAuthProvider from "next-auth/providers/auth0"
 
 export const authOptions = {
-
     // Configure one or more authentication providers
     providers: [
         OAuthProvider({

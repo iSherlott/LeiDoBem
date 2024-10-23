@@ -1,5 +1,4 @@
-import { api, CommonHeaderProperties } from "@/config/axios";
-
+import { api } from "@/config/axios";
 
 export const PostUserByEmail = async (email: string, access_token: string) => {
     try {

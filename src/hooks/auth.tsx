@@ -1,39 +1,54 @@
 
 'use client'
 
-import { loadSession, saveSession } from '@/utils/cookieStorage';
+import { useApp } from '@/app/app';
+import { loadSession, removeSession, saveSession } from '@/utils/cookies';
 import { SessionProvider, signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
-const AuthContext = createContext<userSession | null>(null);
+const AuthContext = createContext<authContext | null>(null);
 
 export const useAuth = () => {
-    return useContext(AuthContext) as userSession
+    return useContext(AuthContext) as authContext
 }
 
 export default function Auth ({ children }: { children?: ReactNode }) {
 
+    const { setLoading } = useApp()
+    const router = useRouter()
+
     const [ session, setSession ] = useState<userSession | null>(null)
+
+    const signOutUser = async () => {
+        removeSession()
+        router.push(process.env.NEXT_PUBLIC_CONNECT + "/identity/connect/endsession")
+    }
 
     useEffect(() => {
         const loadedSession = loadSession()
 
         if (loadedSession) {
             setSession(loadedSession)
-        }
-
-        if (location.href.includes('#id_token=') && session === null) {
-            setSession(saveSession(location.href))
         } else {
-            if (session === null) {
-                signIn('auth0')
+            if (location.href.includes('#id_token=') && session === null) {
+                setLoading(true)
+                setSession(saveSession(location.href))
+                router.push(location.href.replace(/#id_token=.*/gm, ''))
+            } else {
+                if (session === null) {
+                    signIn('auth0')
+                }
             }
         }
     }, [])
 
     return (
         <SessionProvider>
-            <AuthContext.Provider value={session}>
+            <AuthContext.Provider value={{
+                ...session!,
+                signOut: signOutUser
+            }}>
                 {session === null ? <></> : children}
             </AuthContext.Provider>
         </SessionProvider>
