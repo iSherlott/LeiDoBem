@@ -18,13 +18,13 @@ declare global {
     type MenuItem = Required<MenuProps>[ 'items' ][ number ];
 
     type Company = {
-        id: string
-        name: string
-        nickname: string
-        cnpj: string
-        photoUrl: string
-        sectors: string[]
-        tenantId: string
+        id?: string
+        name?: string
+        nickname?: string
+        cnpj?: string
+        photoUrl?: string
+        sectors?: string[]
+        tenantId?: string
     }
 
     type Layout = {

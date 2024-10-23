@@ -2,7 +2,7 @@
 'use client'
 
 import { useApp } from "@/app/app";
-import { getStorage, setStorage } from "@/utils/storage";
+import { getStorage } from "@/utils/storage";
 import { Button, Typography } from "antd";
 import { useEffect } from "react"
 

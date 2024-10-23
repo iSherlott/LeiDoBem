@@ -2,7 +2,7 @@
 'use client'
 
 import { useApp } from "@/app/app"
-import { useCompany } from "@/app/company/[slug]/layout"
+import { useCompany } from "@/hooks/company"
 import { getStorage, setStorage } from "@/utils/storage"
 import { ArrowUpOutlined, CalendarOutlined, EditOutlined, EyeInvisibleOutlined, EyeOutlined, ProfileOutlined } from "@ant-design/icons"
 import { Button, Divider, Select, Typography } from "antd"
