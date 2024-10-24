@@ -5,16 +5,16 @@ import React, { useEffect, useState } from 'react';
 import { AutoComplete, Input, Select, Table, TableColumnsType, TableProps, Typography } from 'antd';
 import CardTitleCustom from '@/shared/components/card/title';
 import EmptyResultWithRetry from '@/shared/components/empty/empty';
-import { mockBypassCompanies } from './page.mock';
 import { useAppToast } from '@/hooks/toast';
 import { useRouter } from 'next/navigation';
 import { useApp } from '../app';
+import { getCompanies } from '@/services/bypass';
 
 interface DataType {
     id: string;
-    name: string;
+    title: string;
+    taxNumber: number;
     key: number;
-    action: React.ReactNode;
 }
 
 export default function ByPass () {
@@ -24,43 +24,36 @@ export default function ByPass () {
     const router = useRouter()
 
     const [ loadingSearch, setLoadingSearch ] = useState<boolean>(false);
-    const [ searchText, setSearchText ] = useState<string>("all");
+    const [ update, setUpdate ] = useState<number>(0);
+    const [ searchText, setSearchText ] = useState<string>("");
     const [ tenants, setTenants ] = useState<DataType[]>([]);
     const [ totalPages, setTotalPages ] = useState<number>(0);
-
-    const onChange: TableProps<DataType>[ 'onChange' ] = (pagination, filters, sorter, extra) => {
-        console.log('params', pagination, filters, sorter, extra);
-    };
+    const [ fiscalYear, setFiscalYear ] = useState<string>('Todos');
 
     const onSelect = (value: string) => {
         console.log('onSelect', value);
     };
 
     const getCompaniesAvailable = async () => {
-        setLoadingSearch(true)
+        if (!loadingSearch) {
+            setLoadingSearch(true)
 
-        try {
-            const { data }: IResponseProps = mockBypassCompanies
+            try {
+                const data = await getCompanies()
+                const tenantsArray: any[] = data.data.tenants
 
-            const mappedTenants = data.items.map((d: TenantModel, i: number) => {
-                return {
-                    key: i,
-                    id: d.id,
-                    name: <Typography style={{ color: '#0000A4', textDecoration: 'underline', fontFamily: 'Century Gothic' }}>{d.name}</Typography>,
-                    cnpj: <Typography>12.345.678/0001-00</Typography>
-                }
-            })
+                setTenants(tenantsArray.filter((dtenant) => {
+                    return dtenant.title.toLowerCase().includes(searchText.toLowerCase())
+                }))
 
-            setTenants(mappedTenants);
-            var total = data.totalItems;
-            const pages = total / 10;
-            const ceilPages = Math.ceil(pages);
-            setTotalPages(ceilPages);
-        } catch (err: any) {
-            toast.error(err);
+                setTotalPages(data.data.count / 8);
+
+            } catch (err: any) {
+                toast.error(err);
+            }
+
+            setLoadingSearch(false)
         }
-
-        setLoadingSearch(false)
     }
 
     const goToCompany = async (id: string) => {
@@ -72,11 +65,13 @@ export default function ByPass () {
     const columns: TableColumnsType<DataType> = [
         {
             title: 'Nome da empresa',
-            dataIndex: 'name',
+            dataIndex: 'title',
             showSorterTooltip: { target: 'full-header' },
             width: '80%',
+            sorter: (a, b) => a.title.localeCompare(b.title),
             onCell: (record, rowIndex) => {
                 return {
+                    style: { cursor: 'pointer' },
                     onClick: (ev) => {
                         goToCompany(record.id)
                     },
@@ -85,10 +80,14 @@ export default function ByPass () {
         },
         {
             title: 'CNPJ',
-            dataIndex: 'cnpj',
+            dataIndex: 'taxNumber',
             width: '20%',
+            render (value: string, record, index) {
+                return value.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")
+            },
             onCell: (record, rowIndex) => {
                 return {
+                    style: { cursor: 'pointer' },
                     onClick: (ev) => {
                         goToCompany(record.id)
                     },
@@ -98,8 +97,6 @@ export default function ByPass () {
     ];
 
     useEffect(() => {
-        getCompaniesAvailable();
-
         updateLayout({
             sider: false,
             header: false,
@@ -109,6 +106,10 @@ export default function ByPass () {
 
         setLoading(false)
     }, [])
+
+    useEffect(() => {
+        getCompaniesAvailable();
+    }, [ update, searchText, fiscalYear ])
 
     return (
         <div style={{ display: 'flex', width: '100%', height: '100%' }}>
@@ -125,13 +126,13 @@ export default function ByPass () {
                             popupMatchSelectWidth={true}
                             style={{ width: '100%', paddingRight: '0px' }}
                             onSelect={onSelect}
-                            onSearch={(val) => { setSearchText(val === '' ? 'all' : val) }}
+                            onSearch={(val) => { setSearchText(val) }}
                         >
                             <Input.Search style={{ padding: '0px 15px' }} showCount={false} color='#0000A4' loading={loadingSearch} placeholder="Procurar" enterButton />
                         </AutoComplete>
                         <div style={{ display: 'flex', gap: '15px', margin: '0px auto' }}>
                             <Typography style={{ fontSize: '22px' }}>Ano fiscal:</Typography>
-                            <Select options={[ { value: '2024', label: '2024' } ]} defaultValue={'2024'}></Select>
+                            <Select onChange={(y) => setFiscalYear(y)} options={[ { value: '2024', label: '2024' }, { value: '', label: 'Todos' } ]} defaultValue={''}></Select>
                         </div>
                     </div>
 
@@ -141,22 +142,19 @@ export default function ByPass () {
                             dataSource={tenants}
                             loading={loadingSearch}
                             pagination={{
-                                total: totalPages, onChange (page) {
-                                    getCompaniesAvailable()
-                                },
-                                showSizeChanger: false
+                                pageSizeOptions: [ 7, 10, 20, 30 ],
+                                defaultPageSize: 7
                             }}
                             locale={{
-                                emptyText: <EmptyResultWithRetry refresh={() => { }} />
+                                emptyText: <EmptyResultWithRetry refresh={() => { setUpdate(update + 1); }} />
                             }}
-                            scroll={{ y: '43vh' }}
-                            onChange={onChange}
+                            scroll={{ y: '47vh' }}
                             showSorterTooltip={{ target: 'sorter-icon' }}
                         />
                     </div>
 
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

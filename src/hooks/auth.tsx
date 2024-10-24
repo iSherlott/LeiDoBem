@@ -2,8 +2,9 @@
 'use client'
 
 import { useApp } from '@/app/app';
+import { AxiosClient } from '@/config/axios';
 import { loadSession, removeSession, saveSession } from '@/utils/cookies';
-import { SessionProvider, signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
@@ -20,6 +21,11 @@ export default function Auth ({ children }: { children?: ReactNode }) {
 
     const [ session, setSession ] = useState<userSession | null>(null)
 
+    const updateSession = async () => {
+        removeSession()
+        signIn('auth0')
+    }
+
     const signOutUser = async () => {
         removeSession()
         router.push(process.env.NEXT_PUBLIC_CONNECT + "/identity/connect/endsession")
@@ -30,6 +36,7 @@ export default function Auth ({ children }: { children?: ReactNode }) {
 
         if (loadedSession) {
             setSession(loadedSession)
+            AxiosClient.setToken(loadedSession.access_token)
         } else {
             if (location.href.includes('#id_token=') && session === null) {
                 setLoading(true)
@@ -44,13 +51,12 @@ export default function Auth ({ children }: { children?: ReactNode }) {
     }, [])
 
     return (
-        <SessionProvider>
-            <AuthContext.Provider value={{
-                ...session!,
-                signOut: signOutUser
-            }}>
-                {session === null ? <></> : children}
-            </AuthContext.Provider>
-        </SessionProvider>
+        <AuthContext.Provider value={{
+            ...session!,
+            signOut: signOutUser,
+            updateSession
+        }}>
+            {session === null ? <></> : children}
+        </AuthContext.Provider>
     )
 }

@@ -10,7 +10,7 @@ export const useCompany = (): Company => {
     return useContext(CompanyCTX) as Company
 }
 
-export default function CompanyContext ({ children, params }: { children?: ReactNode, params: { [ key: string ]: any } }) {
+export default function CompanyContext ({ children, params }: { children?: ReactNode, params: { [ key: string ]: unknown } }) {
 
     const [ company, setCompany ] = useState<Company>(getStorage('Company'));
 

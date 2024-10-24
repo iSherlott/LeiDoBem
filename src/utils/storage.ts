@@ -37,6 +37,14 @@ export const getStorage = <T>(storage: Storages): T => {
     }
 }
 
+export const removeStorage = (storage: Storages) => {
+    localStorage.removeItem(STORAGES[storage])
+}
+
+export const clearStorage = () => {
+    localStorage.clear()
+}
+
 export const stringifyStorage = <T>(name: string, content: T) => {
     localStorage.setItem(name, Buffer.from(JSON.stringify(content), 'utf-8').toString('base64'))
 }

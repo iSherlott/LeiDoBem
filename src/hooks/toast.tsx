@@ -123,11 +123,11 @@ export default function Toast ({ children }: { children: React.ReactNode }) {
 
     const context: TToastContext = {
         error: (e) => {
-            e.err ?? console.log(e.err)
+            e ?? console.log(e)
             toastError(e)
         },
         warn: (e) => {
-            e.err ?? console.log(e.err)
+            e ?? console.log(e)
             toastWarn(e)
         },
         info: (e) => {

@@ -6,12 +6,13 @@ declare global {
             ENV: string
             DEBUG_ENABLED: boolean
             OAUTH2_ISSUER: string
-            OAUTH2_CLIENTID: string
-            OAUTH2_RESPONSE_TYPE: string
-            OAUTH2_SCOPE: string
             OAUTH2_SECRET: string
-            OAUTH2_REDIRECT: string
+            NEXT_PUBLIC_OAUTH2_CLIENTID: string
+            NEXT_PUBLIC_OAUTH2_RESPONSE_TYPE: string
+            NEXT_PUBLIC_OAUTH2_SCOPE: string
+            NEXT_PUBLIC_OAUTH2_REDIRECT: string
             NEXT_PUBLIC_CONNECT: string
+            NEXT_PUBLIC_BACKEND: string
         }
     }
 
@@ -92,7 +93,7 @@ declare global {
 
     // STORAGE
 
-    type Storages = "Preferences" | "Company"
+    type Storages = "Preferences" | "Company" | 'CompaniesList'
 
     type PreferencesStorage = {
         sider_collapsed?: boolean
@@ -135,7 +136,8 @@ declare global {
     }
 
     type authContext = userSession & {
-        signOut: () => void
+        signOut: () => void,
+        updateSession: () => void
     }
 
 }

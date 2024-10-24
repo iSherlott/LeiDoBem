@@ -12,7 +12,7 @@ export default function EmptyResultWithRetry ({ refresh }: { refresh: () => void
                 </Typography.Text>
             }
         >
-            <Button onClick={() => refresh} type="primary">Refresh</Button>
+            <Button onClick={refresh} type="primary">Refresh</Button>
         </Empty>
     )
 }

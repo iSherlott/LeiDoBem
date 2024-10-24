@@ -1,37 +1,38 @@
 
 
-import axios, { AxiosError, HeadersDefaults } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
-export interface CommonHeaderProperties extends HeadersDefaults {
-    Authorization: string;
-}
+export class AxiosClientClass {
+    client: AxiosInstance
 
-export const api = GetAPIClient();
+    private requestIntercept(value: InternalAxiosRequestConfig<unknown>): InternalAxiosRequestConfig<unknown> {
+        return value
+    }
+    
+    private async responseIntercept(value: AxiosResponse<unknown, unknown>): Promise<AxiosResponse<unknown, unknown>> {
+        return value
+    }
 
-export function GetAPIClient() {
+    private async onError(err: AxiosError) {
+        console.log(err)
+        return Promise.reject(err);
+    }
 
-    const api = axios.create({
-        baseURL: `${process.env.REACT_APP_BASE_URL}/api`
-    });
+    public setToken(token: string) {
+        this.client.defaults.headers.Authorization = `Bearer ${token}`
+    }
 
-    api.interceptors.request.use(request => {
-        return request;
-    }, (error: AxiosError) => {
-        return Promise.reject(error);
-    });
-
-    api.interceptors.response.use(function (response) {
-
-        if (response.data.hasOwnProperty('statusCode')) {
-            if (response.data.statusCode != 200) {
-                response.data.errors.forEach((error: string) => {});
+    constructor() {
+        this.client = axios.create({
+            baseURL: process.env.NEXT_PUBLIC_BACKEND,
+            headers: {
+                "Accept": '*/*'
             }
-        }
+        })
 
-        return response;
-    }, (error: AxiosError) => {
-        return Promise.reject(error);
-    });
-
-    return api;
+        this.client.interceptors.request.use(this.requestIntercept, this.onError);
+        this.client.interceptors.response.use(this.responseIntercept, this.onError);
+    }
 }
+
+export const AxiosClient = new AxiosClientClass();
