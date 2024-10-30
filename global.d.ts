@@ -1,4 +1,6 @@
 
+import '@services/companies.d.ts'
+
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
@@ -18,24 +20,7 @@ declare global {
 
     type MenuItem = Required<MenuProps>[ 'items' ][ number ];
 
-    type Company = {
-        id?: string
-        name?: string
-        nickname?: string
-        cnpj?: string
-        photoUrl?: string
-        sectors?: string[]
-        tenantId?: string
-    }
-
-    type Layout = {
-        header?: boolean
-        sider?: boolean
-        footer?: boolean
-        navbar?: boolean
-    }
-
-    type TLayoutContextUpdate = {
+    type TLayout = {
         header?: boolean
         sider?: boolean
         footer?: boolean
@@ -43,7 +28,7 @@ declare global {
     }
     
     type TAppContext = {
-        layout: TLayoutContext
+        layout: TLayout
         loading: boolean
         updateLayout: (data: TLayoutContextUpdate) => void
         setLoading: (value: boolean) => void
@@ -98,6 +83,7 @@ declare global {
     type PreferencesStorage = {
         sider_collapsed?: boolean
         header_collapsed?: boolean
+        expenses_hide?: boolean
     }
 
     type CompanyStorage = {

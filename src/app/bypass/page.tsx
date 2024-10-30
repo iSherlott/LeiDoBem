@@ -5,10 +5,10 @@ import React, { useEffect, useState } from 'react';
 import { AutoComplete, Input, Select, Table, TableColumnsType, TableProps, Typography } from 'antd';
 import CardTitleCustom from '@/shared/components/card/title';
 import EmptyResultWithRetry from '@/shared/components/empty/empty';
-import { useAppToast } from '@/hooks/toast';
-import { useRouter } from 'next/navigation';
-import { useApp } from '../app';
+import { useToast } from '@/hooks/toast';
+import { useApp } from '../../hooks/app';
 import { getCompanies } from '@/services/bypass';
+import { useRouter } from '@/hooks/router';
 
 interface DataType {
     id: string;
@@ -20,7 +20,8 @@ interface DataType {
 export default function ByPass () {
 
     const { setLoading, updateLayout } = useApp();
-    const toast = useAppToast();
+    const toast = useToast();
+
     const router = useRouter()
 
     const [ loadingSearch, setLoadingSearch ] = useState<boolean>(false);
@@ -29,10 +30,6 @@ export default function ByPass () {
     const [ tenants, setTenants ] = useState<DataType[]>([]);
     const [ totalPages, setTotalPages ] = useState<number>(0);
     const [ fiscalYear, setFiscalYear ] = useState<string>('Todos');
-
-    const onSelect = (value: string) => {
-        console.log('onSelect', value);
-    };
 
     const getCompaniesAvailable = async () => {
         if (!loadingSearch) {
@@ -57,9 +54,7 @@ export default function ByPass () {
     }
 
     const goToCompany = async (id: string) => {
-        setLoading(true)
-
-        router.push(`/company/${id}/home`)
+        router.redirect(`/company/${id}/home`)
     }
 
     const columns: TableColumnsType<DataType> = [
@@ -69,6 +64,9 @@ export default function ByPass () {
             showSorterTooltip: { target: 'full-header' },
             width: '80%',
             sorter: (a, b) => a.title.localeCompare(b.title),
+            render: (value: string) => {
+                return <Typography style={{ textDecoration: 'underline', color: '#0d0dc9' }}>{value}</Typography>
+            },
             onCell: (record, rowIndex) => {
                 return {
                     style: { cursor: 'pointer' },
@@ -121,11 +119,10 @@ export default function ByPass () {
                 <div style={{ background: 'white', borderRadius: '16px', display: 'grid', gridTemplateRows: '0.7fr 6fr', padding: '30px', rowGap: '16px' }}>
 
                     <div style={{ display: 'grid', gridTemplate: '"a b c" auto / 1.3fr 3fr 1fr', alignContent: 'center' }}>
-                        <Typography style={{ fontSize: '20px', fontFamily: 'Century Gothic', textWrap: 'nowrap' }}>Selecione a empresa que deseja trabalhar</Typography>
+                        <Typography style={{ fontSize: '20px', textWrap: 'nowrap' }}>Selecione a empresa que deseja trabalhar</Typography>
                         <AutoComplete
                             popupMatchSelectWidth={true}
                             style={{ width: '100%', paddingRight: '0px' }}
-                            onSelect={onSelect}
                             onSearch={(val) => { setSearchText(val) }}
                         >
                             <Input.Search style={{ padding: '0px 15px' }} showCount={false} color='#0000A4' loading={loadingSearch} placeholder="Procurar" enterButton />
@@ -136,7 +133,7 @@ export default function ByPass () {
                         </div>
                     </div>
 
-                    <div style={{ width: '99%' }}>
+                    <div style={{ width: '100%' }}>
                         <Table
                             columns={columns}
                             dataSource={tenants}
@@ -148,7 +145,7 @@ export default function ByPass () {
                             locale={{
                                 emptyText: <EmptyResultWithRetry refresh={() => { setUpdate(update + 1); }} />
                             }}
-                            scroll={{ y: '47vh' }}
+                            scroll={{ y: '390px' }}
                             showSorterTooltip={{ target: 'sorter-icon' }}
                         />
                     </div>

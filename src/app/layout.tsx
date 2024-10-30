@@ -1,13 +1,14 @@
-import { geistMonoFont, geistSansFont } from "@/shared/shared";
+import { centuryGothic } from "@/shared/shared";
 import { Metadata } from "next";
 import manifest from "./manifest";
 import React from 'react';
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import Toast from "@/hooks/toast";
 import Auth from "@/hooks/auth";
-import { App } from "./app";
+import { AppContext } from "../hooks/app";
 import Timeout from "@/hooks/timeout";
 import AppLayout from "@/layouts/app";
+import RouterContext from "@/hooks/router";
 
 import "@styles/reset.css";
 import "@styles/palette.css";
@@ -28,18 +29,20 @@ export default function RootLayout ({
 }>) {
   return (
     <html lang="ptBR">
-      <body className={`${geistSansFont.variable} ${geistMonoFont.variable}`} style={{ overflow: 'auto hidden' }}>
+      <body className={`${centuryGothic.variable}`} style={{ overflow: 'auto hidden', fontFamily: 'var(--font-century-gothic)' }}>
         <AntdRegistry>
           <Toast>
-            <App>
-              <Auth>
-                <Timeout>
-                  <AppLayout>
-                    {children}
-                  </AppLayout>
-                </Timeout>
-              </Auth>
-            </App>
+            <AppContext>
+              <RouterContext>
+                <Auth>
+                  <Timeout>
+                    <AppLayout>
+                      {children}
+                    </AppLayout>
+                  </Timeout>
+                </Auth>
+              </RouterContext>
+            </AppContext>
           </Toast>
         </AntdRegistry>
       </body>

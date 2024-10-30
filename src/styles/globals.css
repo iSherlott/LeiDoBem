@@ -91,6 +91,43 @@
   top: 60px !important;
 }
 
+.ant-menu-item:active {
+  background: #0c3cc0 !important;
+}
+
+.ant-table-header > table {
+  table-layout: auto !important;
+}
+
+.ant-spin .ant-spin-dot {
+  margin: -20px !important;
+}
+
+.ant-form-item-control-input-content > input {
+  height: 40px;
+}
+
+.ant-form-item-control-input-content > div {
+  height: 40px;
+}
+
+.ant-form-item-required {
+  flex-direction: row-reverse;
+}
+
+.ant-form-item-required::before {
+  margin-left: 4px;
+}
+
+.ant-form-item-required::after {
+  width : 0;
+  margin: 0 !important;
+}
+
+.select-container.ant-form-item-control-wrapper {
+  width: 100%;
+}
+
 .ant-notification-notice-message {
   margin-inline-start: 0px !important;
 }
@@ -183,11 +220,64 @@
   visibility: hidden;
 }
 
+.loading-global-company {
+  background: #000000d6;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  position: absolute;
+  z-index: 999;
+  opacity: 1;
+  transition: all 250ms ease-in-out;
+}
+
+.loading-global-off-company {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* ____________________________________________________________ FONTS  ____________________________________________________________ */
+
+.gothic-a1-regular {
+  font-family: "Gothic A1", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.ant-typography {
+  font-family: var(--font-century-gothic) !important;
+}
+
+article {
+  font-family: var(--font-century-gothic) !important;
+}
+
+p {
+  font-family: var(--font-century-gothic) !important;
+}
 
 /* ____________________________________________________________ TAGS  ____________________________________________________________ */
 
 .flex {
   display: flex;
+}
+
+.greyed {
+  color: #00000073 !important
+}
+
+.color-primary {
+  color: var(--pl-primary);
+}
+
+.bg-primary {
+  background: var(--pl-primary);
 }
 
 .flex-center {

@@ -2,9 +2,9 @@
 'use client'
 
 import { Button, Typography } from 'antd'
-import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import { useApp } from './app'
+import { useApp } from '../hooks/app'
+import { useRouter } from '@/hooks/router'
 
 export default function GlobalError ({
     error,
@@ -15,6 +15,7 @@ export default function GlobalError ({
 }) {
 
     const { updateLayout, setLoading } = useApp()
+
     const router = useRouter()
 
     useEffect(() => {
@@ -108,9 +109,9 @@ export default function GlobalError ({
                             </svg>
                         </div>
 
-                        <Typography style={{ fontFamily: 'Century Gothic', fontSize: '32px', fontWeight: 'bold' }}>500</Typography>
-                        <Typography style={{ fontFamily: 'Century Gothic', fontSize: '18px', color: '#00000073' }}>oOps!... Algo deu errado, Tente novamente mais tarde.</Typography>
-                        <Button onClick={() => router.push('/bypass')} style={{ background: '#0000A4', color: 'white', fontFamily: 'Century Gothic', padding: '18px' }}>Voltar para página inicial</Button>
+                        <Typography style={{ fontSize: '32px', fontWeight: 'bold' }}>500</Typography>
+                        <Typography className="greyed" style={{ fontSize: '18px' }}>oOps!... Algo deu errado, Tente novamente mais tarde.</Typography>
+                        <Button className={'color-primary'} onClick={() => router.redirect('/bypass')} style={{ background: '#0000A4', color: 'white', padding: '18px' }}>Voltar para página inicial</Button>
                     </div>
 
                 </div>

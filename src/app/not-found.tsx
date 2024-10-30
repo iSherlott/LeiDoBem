@@ -2,13 +2,14 @@
 'use client'
 
 import { Button, Typography } from 'antd'
-import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import { useApp } from './app'
+import { useApp } from '../hooks/app'
+import { useRouter } from '@/hooks/router'
 
 export default function NotFound () {
 
     const { updateLayout, setLoading } = useApp()
+
     const router = useRouter()
 
     useEffect(() => {
@@ -96,9 +97,9 @@ export default function NotFound () {
                     </svg>
                 </div>
 
-                <Typography style={{ fontFamily: 'Century Gothic', fontSize: '32px', fontWeight: 'bold' }}>404</Typography>
-                <Typography style={{ fontFamily: 'Century Gothic', fontSize: '18px', color: '#00000073' }}>Desculpe, mas a página que você está tentando acessar está indisponível ou não existe.</Typography>
-                <Button onClick={() => router.push('/bypass')} style={{ background: '#0000A4', color: 'white', fontFamily: 'Century Gothic', padding: '18px' }}>Voltar para página inicial</Button>
+                <Typography style={{ fontSize: '32px', fontWeight: 'bold' }}>404</Typography>
+                <Typography className="greyed" style={{ fontSize: '18px' }}>Desculpe, mas a página que você está tentando acessar está indisponível ou não existe.</Typography>
+                <Button onClick={() => router.redirect('/bypass')} style={{ background: '#0000A4', color: 'white', padding: '18px' }}>Voltar para página inicial</Button>
             </div>
 
 

@@ -1,0 +1,64 @@
+
+
+.ea-card-qty {
+    height: 40px;
+    background: #F6FFED;
+    display: flex;
+    gap: 5px;
+    border: 1px solid #D9D9D9;
+    padding: 4px 10px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    min-width: 180px;
+}
+
+.ea-delete-button {
+    border: 1px solid #D9363E !important;
+    color: #D9363E !important;
+    height: 40px !important;
+    width: 40px !important;
+}
+
+.ea-insert-project-button {
+    background: #0000A4 !important;
+    height: 40px !important;
+    color: white !important;
+    min-width: 160px;
+}
+
+.ea-auto-complete {
+    min-width: 460px;
+    margin-left: auto !important;
+    height: 40px !important;
+}
+
+.ea-auto-complete > div > span > span  {
+    padding: 0px !important;
+}
+
+.ea-auto-complete > div > span > span > span > span > button {
+    height: 40px !important;
+    background: white;
+    color: black;
+    border: 1px solid #D9D9D9;
+}
+
+.ea-auto-complete > div > span > span > span > input {
+    height: 40px;
+}
+
+.ea-custom-select {
+    min-width: 460px;
+    height: 40px !important;
+}
+
+.ea-custom-select div {
+    border-right: 0px !important;
+    border-radius: 6px 0px 0px 6px !important;
+}
+
+.ea-custom-select-text {
+    height: 40px !important;
+    border-radius: 0px 6px 6px 0px !important;
+}

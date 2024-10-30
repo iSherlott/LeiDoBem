@@ -1,0 +1,19 @@
+
+.ea-tabs-pl-grid {
+    display: grid;
+    gap: 15px;
+    grid-template:  "a" auto
+                    "b" auto
+                    "c" auto
+                    "d" auto / 1fr;
+}
+
+.ea-tabs-pl-spacer {
+    margin: 16px;
+}
+
+.ea-tabs-pl-grid-text > div > div > label {
+    font-size: 16px !important;
+    font-family: system-ui;
+    font-weight: 400;
+}

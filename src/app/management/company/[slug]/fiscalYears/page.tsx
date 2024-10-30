@@ -7,11 +7,11 @@ import { Button, Select, Table, TableColumnsType, TableProps, Typography } from 
 import { ArrowLeftOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { mockYearsCompany } from "./page.mock";
 import EmptyResultWithRetry from "@/shared/components/empty/empty";
-import { useRouter } from "next/navigation";
 import AntDialog from "@/shared/components/dialog/dialog";
-import { useApp } from "@/app/app";
+import { useApp } from "@/hooks/app";
 
 import './page.css'
+import { useRouter } from "@/hooks/router";
 
 interface DataType {
     id: string
@@ -20,6 +20,7 @@ interface DataType {
 export default function ManageCompanyFiscalYears ({ params }: { params: { slug: string } }) {
 
     const { updateLayout, setLoading } = useApp()
+
     const router = useRouter()
 
     const [ loadingSearch, setLoadingSearch ] = useState<boolean>(false)
@@ -51,7 +52,7 @@ export default function ManageCompanyFiscalYears ({ params }: { params: { slug: 
 
     const list = mockYearsCompany.data.items.map((e) => {
         let elem = e as any
-        elem.actions = <PlusCircleOutlined className="button-add transition" onClick={() => router.push(`/management/company/${e.id}/fiscalYears`)} />
+        elem.actions = <PlusCircleOutlined className="button-add transition" onClick={() => router.redirect(`/management/company/${e.id}/fiscalYears`)} />
         return elem
     })
 
@@ -76,7 +77,7 @@ export default function ManageCompanyFiscalYears ({ params }: { params: { slug: 
             </AntDialog>
 
             <div className="flex fw fh cover cmn-border-radius flex-cl cmn-padding">
-                <Button onClick={() => { setLoading(true); router.push(`/management/company`) }} className="back-button" icon={<ArrowLeftOutlined />}>Voltar</Button>
+                <Button onClick={() => { router.redirect(`/management/company`) }} className="back-button" icon={<ArrowLeftOutlined />}>Voltar</Button>
 
                 <div className="flex fw div2 cmn-margin-top">
                     <Typography className="title">Gestao de Empresas - {params.slug}</Typography>

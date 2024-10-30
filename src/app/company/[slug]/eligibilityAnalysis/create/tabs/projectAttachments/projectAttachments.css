@@ -1,0 +1,8 @@
+
+
+.ea-tabs-pa-grid {
+    margin: 15px 0px;
+    gap: 15px;
+    display: grid;
+    grid-template: "a b" auto / 1fr 1fr;
+}

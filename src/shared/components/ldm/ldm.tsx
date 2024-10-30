@@ -1,5 +1,5 @@
 
-import { useApp } from "@/app/app"
+import { useApp } from "@/hooks/app"
 import { useEffect } from "react"
 
 export default function Ldm () {

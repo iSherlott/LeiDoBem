@@ -3,9 +3,9 @@ import { Button, Typography } from "antd"
 import { useEffect, useState } from "react";
 import TimeoutAuth from "../timer";
 import manifest from "@/app/manifest";
-import { useRouter } from "next/navigation";
-import { useApp } from "@/app/app";
+import { useApp } from "@/hooks/app";
 import { useAuth } from "@/hooks/auth";
+import { useRouter } from "@/hooks/router";
 
 export default function AppBar () {
 
@@ -18,13 +18,11 @@ export default function AppBar () {
     const finalName = user.name ? user.name.split(' ').map((e) => e[ 0 ].toUpperCase() + e.slice(1).toLowerCase()).join(' ') : "Não Identificado"
 
     const redirectHelpDesk = () => {
-        setLoading(true)
-        router.push(`https://br-helpdesk.fi-group.com/`)
+        router.redirect(`https://br-helpdesk.fi-group.com/`)
     }
 
     const redirectFiConnect = () => {
-        setLoading(true)
-        router.push(`https://connect.fi-group.com/identity/`)
+        router.redirect(`https://connect.fi-group.com/identity/`)
     }
 
     const redirectControlPanel = () => {
@@ -75,8 +73,8 @@ export default function AppBar () {
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', height: '100%', borderRadius: '25px 0px 0px 0px', background: 'white', gap: '15px' }}>
 
-                    <Typography style={{ margin: '0px auto 0px 35px', color: '#00AEFF', fontFamily: 'Hurme Geometric Sans 4', fontSize: '23px', display: 'flex', fontWeight: 'bold' }}>
-                        Lei<Typography style={{ color: '#00AEFF', fontFamily: 'Hurme Geometric Sans 4', fontSize: '23px', fontWeight: 'lighter' }}>do</Typography>Bem
+                    <Typography style={{ margin: '0px auto 0px 35px', color: '#00AEFF', fontSize: '23px', display: 'flex', fontWeight: 'bold' }}>
+                        Lei<Typography style={{ color: '#00AEFF', fontSize: '23px', fontWeight: 'lighter' }}>do</Typography>Bem
                     </Typography>
 
                     <TimeoutAuth />
@@ -95,7 +93,7 @@ export default function AppBar () {
 
                     <CreateBell />
 
-                    <Typography style={{ marginRight: '15px', color: '#000000A6', fontFamily: 'Century Gothic' }}>Olá, {finalName}</Typography>
+                    <Typography style={{ marginRight: '15px', color: '#000000A6' }}>Olá, {finalName}</Typography>
 
                     <div onClick={() => 'user.signOut()'} style={{ boxShadow: 'rgba(0, 0, 0, 0.7) 1px 1px 11px 0px', padding: '0px 0px 0px 10px', width: '37px', background: 'red', height: '35px', borderRadius: '15px 0px 0px 15px', display: 'flex', alignItems: 'center', cursor: 'pointer', position: 'relative' }}>
                         <LogoutOutlined style={{ color: 'white', fontSize: '20px' }} onClick={signOut} />

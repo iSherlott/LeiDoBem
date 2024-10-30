@@ -1,0 +1,23 @@
+
+.ea-tabs-rp-grid {
+    display: grid;
+    gap: 15px;
+    grid-template:  "a a b c" 70px
+                    "d d e e" 70px
+                    "f f f f" 70px
+                    "g h i j" 70px
+                    "k k k k" auto
+                    "l l l l" auto / 1fr 1fr 1fr 1fr;
+}
+
+.ea-tabs-rp-spacer {
+    margin: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ea-tabs-rp-grid-text > div > div > label {
+    font-size: 16px !important;
+    font-family: system-ui;
+    font-weight: 400;
+}

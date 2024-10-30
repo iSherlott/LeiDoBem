@@ -15,7 +15,7 @@ export const getCompanies = async () => {
 
         const cacheData = {
             ...response.data.response,
-            ttl: new Date(Date.now() + (1000 * 60 * 15)).getTime()
+            ttl: new Date(Date.now() + (1000 * 60 * 60)).getTime()
         }
 
         setStorage(cacheData, 'CompaniesList')

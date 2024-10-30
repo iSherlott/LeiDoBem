@@ -8,9 +8,9 @@ import manifest from "@/app/manifest";
 import FooterCustom from "@/shared/components/footer/footer";
 import { konamiCode, konamiCodeAlt } from "@/shared/shared";
 import Ldm from "@/shared/components/ldm/ldm";
-import { useAppToast } from "@/hooks/toast";
+import { useToast } from "@/hooks/toast";
 import CustomSider from "@/shared/components/sider/sider";
-import { useApp } from '@/app/app';
+import { useApp } from '@/hooks/app';
 
 export default function AppLayout ({
     children,
@@ -21,7 +21,7 @@ export default function AppLayout ({
     let inputList: any[] = [];
 
     const { layout } = useApp()
-    const toast = useAppToast()
+    const toast = useToast()
 
     const [ easter, setEaster ] = useState<boolean>(false)
 
@@ -47,14 +47,14 @@ export default function AppLayout ({
 
             <CustomSider />
 
-            <Layout style={{ minWidth: '1530px', overflowX: 'auto', overflowY: 'hidden' }}>
+            <Layout style={{ minWidth: '1530px', overflow: 'hidden', position: 'relative' }}>
 
                 <Layout.Header className={layout.navbar ? '' : 'hide-header'} style={{ padding: '0px', background: '#0000A4', top: '0', left: '0', height: '45px', transition: 'transform 500ms ease-in-out' }}>
                     <AppBar />
                 </Layout.Header>
 
                 <Layout.Content>
-                    <div style={{ height: '100%', width: '100%', padding: layout.header || layout.footer || layout.sider || layout.navbar ? '16px' : '0px', background: '#F5F5F5' }}>
+                    <div style={{ height: '100%', width: '100%', padding: layout.header || layout.footer || layout.sider || layout.navbar ? '16px' : '0px', background: '#F5F5F5', overflowY: 'scroll' }}>
                         {easter ? <Ldm /> : children}
                     </div>
                 </Layout.Content>

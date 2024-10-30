@@ -1,15 +1,18 @@
 import localFont from "next/font/local";
 
-export const geistSansFont = localFont({
-    src: "./fonts/GeistVF.woff",
-    variable: "--font-geist-sans",
-    weight: "100 900",
-});
-
-export const geistMonoFont = localFont({
-    src: "./fonts/GeistMonoVF.woff",
-    variable: "--font-geist-mono",
-    weight: "100 900",
+export const centuryGothic = localFont({
+    src: [
+        {
+            path: "./fonts/centuryGothic.ttf",
+            weight: '100 400'
+        },
+        {
+            path: "./fonts/centuryGothic_bold.ttf",
+            weight: '500 800'
+        }
+    ],
+    variable: "--font-century-gothic",
+    weight: "100 800",
 });
 
 export const konamiCode = [ 'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a' ].reverse()

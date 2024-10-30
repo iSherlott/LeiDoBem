@@ -11,12 +11,12 @@ export const useApp = (): TAppContext => {
     return useContext(appContext)
 }
 
-export function App ({ children }: { children: React.ReactNode }) {
+export function AppContext ({ children }: { children: React.ReactNode }) {
 
     const [ spinning, setSpinning ] = useState(true);
     const [ percent, setPercent ] = useState(0);
 
-    const [ layout, setLayout ] = useState<Layout>({
+    const [ layout, setLayout ] = useState<TLayout>({
         header: false,
         sider: false,
         footer: false,
@@ -36,7 +36,7 @@ export function App ({ children }: { children: React.ReactNode }) {
         }
     }
 
-    const updateLayout = (data: TLayoutContextUpdate) => {
+    const updateLayout = (data: TLayout) => {
         setLayout({ ...layout, ...data })
     }
 

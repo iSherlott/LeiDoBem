@@ -1,8 +1,8 @@
 
 'use client'
 
-import { useApp } from "@/app/app";
-import { useAppToast } from "@/hooks/toast";
+import { useApp } from "@/hooks/app";
+import { useToast } from "@/hooks/toast";
 import { getStorage, setStorage } from "@/utils/storage";
 import { Button, Typography } from "antd";
 import { useEffect } from "react"
@@ -10,7 +10,7 @@ import { useEffect } from "react"
 export default function Home ({ params }: { params: { slug: string } }) {
 
     const { setLoading, updateLayout } = useApp();
-    const toast = useAppToast()
+    const toast = useToast()
 
     useEffect(() => {
         updateLayout({

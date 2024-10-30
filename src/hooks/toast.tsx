@@ -18,7 +18,6 @@ const sharedToastProps: ArgsProps = {
 const sharedTextMessage: CSSProperties = {
     fontSize: '13px',
     lineHeight: '18px',
-    fontFamily: 'Century Gothic',
     fontWeight: '400'
 }
 
@@ -29,7 +28,6 @@ const sharedIcon: CSSProperties = {
 }
 
 const sharedTextTitle: CSSProperties = {
-    fontFamily: 'Century Gothic',
     fontSize: "17px",
     fontWeight: "700",
     lineHeight: "22px",
@@ -50,7 +48,7 @@ const ToastContext = createContext<TToastContext>({
     success: () => null
 })
 
-export const useAppToast = (): TToastContext => {
+export const useToast = (): TToastContext => {
     return useContext(ToastContext)
 }
 

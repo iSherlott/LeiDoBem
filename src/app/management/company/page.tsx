@@ -6,10 +6,10 @@ import { AutoComplete, Button, Input, Table, TableColumnsType, TableProps, Typog
 import { ArrowLeftOutlined, PlusCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import { mockManagementCompanies } from "./page.mock";
 import EmptyResultWithRetry from "@/shared/components/empty/empty";
-import { useRouter } from "next/navigation";
+import { useApp } from "@/hooks/app";
 
 import './page.css'
-import { useApp } from "@/app/app";
+import { useRouter } from "@/hooks/router";
 
 interface DataType {
     id: string
@@ -18,6 +18,7 @@ interface DataType {
 export default function CompaniesManagement () {
 
     const { updateLayout, setLoading } = useApp()
+
     const router = useRouter()
 
     const [ search, setSearch ] = useState<string>('')
@@ -60,13 +61,13 @@ export default function CompaniesManagement () {
 
     const list = mockManagementCompanies.data.items.map((e) => {
         let elem = e as any
-        elem.actions = <PlusCircleOutlined className="button-add transition" onClick={() => { setLoading(true); router.push(`/management/company/${e.id}/fiscalYears`) }} />
+        elem.actions = <PlusCircleOutlined className="button-add transition" onClick={() => router.redirect(`/management/company/${e.id}/fiscalYears`)} />
         return elem
     })
 
     return (
         <div className="flex fw fh cover cmn-border-radius flex-cl cmn-padding">
-            <Button onClick={() => { setLoading(true); router.push(`/panel`) }} className="back-button" icon={<ArrowLeftOutlined />}>Voltar</Button>
+            <Button onClick={() => router.redirect(`/panel`)} className="back-button" icon={<ArrowLeftOutlined />}>Voltar</Button>
 
             <div className="flex fw div1 cmn-margin-top">
                 <Typography className="title">Gestão de Empresas</Typography>

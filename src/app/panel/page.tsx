@@ -4,25 +4,24 @@
 import CardTitleCustom from "@/shared/components/card/title";
 import { SolutionOutlined, UsergroupAddOutlined } from "@ant-design/icons";
 import { Typography } from "antd";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useApp } from "../app";
+import { useApp } from "../../hooks/app";
 
 import './page.css'
+import { useRouter } from "@/hooks/router";
 
 export default function ControlPanel () {
 
-    const router = useRouter()
     const { setLoading, updateLayout } = useApp()
 
+    const router = useRouter()
+
     const redirectBypass = () => {
-        setLoading(true)
-        router.push(`/bypass`)
+        router.redirect(`/bypass`)
     }
 
     const redirectManagement = () => {
-        setLoading(true)
-        router.push(`/management/company`)
+        router.redirect(`/management/company`)
     }
 
     useEffect(() => {

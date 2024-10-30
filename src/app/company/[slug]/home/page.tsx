@@ -1,7 +1,7 @@
 
 'use client'
 
-import { useApp } from "@/app/app";
+import { useApp } from "@/hooks/app";
 import { getStorage } from "@/utils/storage";
 import { Button, Typography } from "antd";
 import { useEffect } from "react"
