@@ -28,7 +28,7 @@ export default function RootLayout ({
 }>) {
   return (
     <html lang="ptBR">
-      <body style={{ overflow: 'auto hidden', fontFamily: 'var(--font-century-gothic)' }}>
+      <body style={{ overflow: 'auto hidden' }}>
         <AntdRegistry>
           <Toast>
             <AppContext>

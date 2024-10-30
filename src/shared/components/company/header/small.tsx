@@ -27,6 +27,8 @@ export default function CompanyHeaderSmall () {
         updateLayout({ header: !layout.header })
     }
 
+    const photo = company ? company.photoUrl !== null ? company.photoUrl : '/company/logo_placeholder.png' : '/company/logo_placeholder.png'
+
     return (
         <div className={company && !location.href.includes('/bypass') && (layout.header === false || header_collapsed) ? 'show-card' : 'hide-card'} style={{
             background: 'white',
@@ -47,7 +49,7 @@ export default function CompanyHeaderSmall () {
             transition: 'transform 500ms ease-in-out',
             boxShadow: '0px 10px 17px -10px #0000004f'
         }}>
-            <img alt="company_logo" width={70} height={60} src={company.photoUrl !== null ? company.photoUrl : '/company/logo_placeholder.png'} style={{ borderRadius: '5px' }} />
+            <img alt="company_logo" width={70} height={60} src={photo} style={{ borderRadius: '5px' }} />
             <div className="flex" style={{ display: 'flex', flexDirection: 'column' }}>
                 <div className="flex" style={{ height: '18px' }}><Typography className="font bold">CNPJ:&nbsp;</Typography><Typography style={{ fontSize: '11px', ...sharedNoWrappableText }}>{company?.cnpj}</Typography></div>
                 <div className="flex" style={{ height: '18px' }}><Typography className="font bold">Companhia:&nbsp;</Typography><Typography style={{ fontSize: '11px', ...sharedNoWrappableText }}>{company?.nickName}</Typography></div>
