@@ -3,11 +3,11 @@ import localFont from "next/font/local";
 export const centuryGothic = localFont({
     src: [
         {
-            path: "./fonts/centuryGothic.ttf",
+            path: "./centuryGothic.ttf",
             weight: '100 400'
         },
         {
-            path: "./fonts/centuryGothic_bold.ttf",
+            path: "./centuryGothic_bold.ttf",
             weight: '500 800'
         }
     ],
