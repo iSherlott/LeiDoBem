@@ -146,11 +146,11 @@ export default function CompanyContext ({ children, params }: { children?: React
                 !location.href.includes('/home') &&
                 <div style={{ background: 'white', padding: '25px 25px 25px 25px', borderRadius: '8px 8px 0px 0px' }}>
                     <Breadcrumb>
-                        <Breadcrumb.Item onClick={() => router.redirect(`/company/${params?.slug}/home`)}><Typography style={{ color: path.length === 0 ? "black" : "#00000073", cursor: 'pointer' }}><HomeOutlined />&nbsp;&nbsp;Homepage</Typography></Breadcrumb.Item>
+                        <Breadcrumb.Item key={1} onClick={() => router.redirect(`/company/${params?.slug}/home`)}><Typography style={{ color: path.length === 0 ? "black" : "#00000073", cursor: 'pointer' }}><HomeOutlined />&nbsp;&nbsp;Homepage</Typography></Breadcrumb.Item>
                         {
                             path.map((e, index) => {
                                 const notLast = path.length - 1 > index;
-                                return <Breadcrumb.Item onClick={() => { if (notLast) { router.redirect(e.path) } }}><Typography style={{ color: notLast ? "#00000073" : "black", cursor: notLast ? 'pointer' : 'default' }}>{e.title}</Typography></Breadcrumb.Item>
+                                return <Breadcrumb.Item key={index + 1} onClick={() => { if (notLast) { router.redirect(e.path) } }}><Typography style={{ color: notLast ? "#00000073" : "black", cursor: notLast ? 'pointer' : 'default' }}>{e.title}</Typography></Breadcrumb.Item>
                             })
                         }
                     </Breadcrumb>

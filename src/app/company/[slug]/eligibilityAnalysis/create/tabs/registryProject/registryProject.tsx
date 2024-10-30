@@ -1,7 +1,7 @@
 
 'use client'
 
-import { Button, DatePicker, Form, Input, Select, Typography } from "antd";
+import { DatePicker, Form, Input, Select, Typography } from "antd";
 
 import './registryProject.css'
 

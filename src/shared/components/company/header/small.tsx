@@ -45,7 +45,7 @@ export default function CompanyHeaderSmall () {
             display: 'flex',
             alignItems: 'center',
             transition: 'transform 500ms ease-in-out',
-            boxShadow: '0px 10px 17px -10px rgba(0,0,0,0.55)'
+            boxShadow: '0px 10px 17px -10px #0000004f'
         }}>
             <img alt="company_logo" width={70} height={60} src={company.photoUrl !== null ? company.photoUrl : '/company/logo_placeholder.png'} style={{ borderRadius: '5px' }} />
             <div className="flex" style={{ display: 'flex', flexDirection: 'column' }}>

@@ -1,4 +1,4 @@
-import { CSSProperties, useContext } from 'react';
+import { CSSProperties } from 'react';
 import AntDialog from '../dialog/dialog';
 import { Divider, Typography } from 'antd';
 

@@ -2,7 +2,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import { AutoComplete, Input, Select, Table, TableColumnsType, TableProps, Typography } from 'antd';
+import { AutoComplete, Input, Select, Table, TableColumnsType, Typography } from 'antd';
 import CardTitleCustom from '@/shared/components/card/title';
 import EmptyResultWithRetry from '@/shared/components/empty/empty';
 import { useToast } from '@/hooks/toast';
@@ -21,7 +21,6 @@ export default function ByPass () {
 
     const { setLoading, updateLayout } = useApp();
     const toast = useToast();
-
     const router = useRouter()
 
     const [ loadingSearch, setLoadingSearch ] = useState<boolean>(false);
@@ -45,8 +44,8 @@ export default function ByPass () {
 
                 setTotalPages(data.data.count / 8);
 
-            } catch (err: any) {
-                toast.error(err);
+            } catch (err: unknown) {
+                toast.error({ message: err as string });
             }
 
             setLoadingSearch(false)
@@ -67,10 +66,10 @@ export default function ByPass () {
             render: (value: string) => {
                 return <Typography style={{ textDecoration: 'underline', color: '#0d0dc9' }}>{value}</Typography>
             },
-            onCell: (record, rowIndex) => {
+            onCell: (record) => {
                 return {
                     style: { cursor: 'pointer' },
-                    onClick: (ev) => {
+                    onClick: () => {
                         goToCompany(record.id)
                     },
                 };
@@ -80,13 +79,13 @@ export default function ByPass () {
             title: 'CNPJ',
             dataIndex: 'taxNumber',
             width: '20%',
-            render (value: string, record, index) {
+            render (value: string) {
                 return value.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")
             },
-            onCell: (record, rowIndex) => {
+            onCell: (record) => {
                 return {
                     style: { cursor: 'pointer' },
-                    onClick: (ev) => {
+                    onClick: () => {
                         goToCompany(record.id)
                     },
                 };

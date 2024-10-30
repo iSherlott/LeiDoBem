@@ -13,11 +13,6 @@ export default function ModalTimeout ({ visible, setVisible }: { visible: boolea
         setVisible(!visible);
     }
 
-    const loginHandleClose = () => {
-        /* auth.signOut(); */
-        setVisible(!visible);
-    }
-
     const expirado = (seconds === 0 && minutes === 0);
 
     return (

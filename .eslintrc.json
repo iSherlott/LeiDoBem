@@ -9,6 +9,7 @@
     "no-var": "warn",
     "@typescript-eslint/no-explicit-any": "warn",
     "prefer-const": "warn",
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
+    "react-hooks/rules-of-hooks": "warn"
   }
 }

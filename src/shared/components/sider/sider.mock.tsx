@@ -1,5 +1,4 @@
 import { HomeOutlined, UnorderedListOutlined } from "@ant-design/icons";
-import { Typography } from "antd";
 import { ReactNode } from "react";
 
 const getCompanyRegExp = new RegExp(/(\/company\/)([^\/]*)/);

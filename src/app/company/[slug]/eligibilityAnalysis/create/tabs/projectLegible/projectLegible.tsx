@@ -1,7 +1,7 @@
 
 'use client'
 
-import { DatePicker, Form, Input, Select, Typography } from "antd";
+import { Form, Input, Select, Typography } from "antd";
 
 import './projectLegible.css'
 import { TextAreaProps } from "antd/es/input";

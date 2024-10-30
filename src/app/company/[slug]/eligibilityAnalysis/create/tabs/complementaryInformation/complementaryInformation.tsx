@@ -1,7 +1,7 @@
 
 'use client'
 
-import { Collapse, CollapseProps, Form, Input, Select, Typography } from "antd";
+import { Collapse, CollapseProps, Form, Input, Typography } from "antd";
 
 import './complementaryInformation.css'
 import { TextAreaProps } from "antd/es/input";
