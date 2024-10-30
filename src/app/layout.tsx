@@ -1,4 +1,3 @@
-import { centuryGothic } from "@/shared/shared";
 import { Metadata } from "next";
 import manifest from "./manifest";
 import React from 'react';
@@ -29,7 +28,7 @@ export default function RootLayout ({
 }>) {
   return (
     <html lang="ptBR">
-      <body className={`${centuryGothic.variable}`} style={{ overflow: 'auto hidden', fontFamily: 'var(--font-century-gothic)' }}>
+      <body style={{ overflow: 'auto hidden', fontFamily: 'var(--font-century-gothic)' }}>
         <AntdRegistry>
           <Toast>
             <AppContext>
