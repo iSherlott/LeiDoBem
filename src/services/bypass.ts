@@ -23,5 +23,6 @@ export const getCompanies = async () => {
         return response.data.response
     } catch (err) {
         console.log(err)
+        return { data: { tenants: [] }}
     }
 }
