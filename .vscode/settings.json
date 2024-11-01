@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/d0ae03f7-2935-451d-bbcf-9eb214cecaad/resourceGroups/APP-ClaimsBR/providers/Microsoft.Web/sites/pro-claims-br/slots/leidobem-front",
+    "appService.deploySubpath": "."
+}
