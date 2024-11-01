@@ -32,12 +32,13 @@ export default function Auth ({ children }: { children?: ReactNode }) {
     useEffect(() => {
         const loadedSession = loadSession()
 
-        if (loadedSession) {
+        if (loadedSession !== null) {
             setSession(loadedSession)
             AxiosClient.setToken(loadedSession.access_token)
         } else {
             if (location.href.includes('#id_token=') && session === null) {
                 setSession(saveSession(location.href))
+                AxiosClient.setToken(loadSession()!.access_token)
                 router.redirect(location.href.replace(/#id_token=.*/gm, ''))
             } else {
                 if (session === null) {
@@ -45,8 +46,6 @@ export default function Auth ({ children }: { children?: ReactNode }) {
                 }
             }
         }
-
-        AxiosClient.setToken(loadSession()!.access_token)
     }, [])
 
     return (

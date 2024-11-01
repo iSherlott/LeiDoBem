@@ -26,6 +26,7 @@ export default function RootLayout ({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="ptBR">
       <body style={{ overflow: 'auto hidden' }}>

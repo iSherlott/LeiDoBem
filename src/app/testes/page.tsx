@@ -5,9 +5,11 @@ import { useApp } from "@/hooks/app";
 import { useToast } from "@/hooks/toast";
 import { getStorage, setStorage } from "@/utils/storage";
 import { Button, Typography } from "antd";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useEffect } from "react"
 
-export default function Home ({ params }: { params: { slug: string } }) {
+
+export default function TestesPage ({ params }: { params: { slug: string } }) {
 
     const { setLoading, updateLayout } = useApp();
     const toast = useToast()
@@ -41,6 +43,10 @@ export default function Home ({ params }: { params: { slug: string } }) {
                 <div style={{ display: 'flex' }}>
                     <Button onClick={() => setStorage({ preferences: { sider_collapsed: true } }, "Preferences")}>teste set storage</Button>
                     <Button onClick={() => console.log(getStorage("Preferences"))}>teste get storage</Button>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <Typography>Server Side Enviroment</Typography>
                 </div>
             </div>
 
